@@ -6,13 +6,24 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+  <ion-refresher (ionRefresh)="getNotices($event)">
+    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
+      ></ion-refresher-content>
+  </ion-refresher>
   <ion-card *ngFor="let notice of notices">
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/img/placeholder.png">
+      </ion-avatar>
+      <h2>{{notice.notice_author}}</h2>
+      <p>{{getDate(notice.notice_valid_till)}}</p>
+    </ion-item>
     <ion-card-header>
-      {{notice.name}}
+      {{notice.notice_name}}
     </ion-card-header>
     <ion-card-content>
-      {{notice.desc}}
+      {{notice.notice_desc}}
     </ion-card-content>
   </ion-card>
 </ion-content>

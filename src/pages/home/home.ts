@@ -6,13 +6,25 @@ import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers : [AllNoticesProvider]
+  providers : [ AllNoticesProvider ]
 })
 export class HomePage {
   notices: any
   constructor(public navCtrl: NavController, private allNotices: AllNoticesProvider) {
-    console.log('Hi')
-    this.notices = allNotices.test()
+    this.getNotices()
+  }
+  getNotices(refresher = null){
+    this.allNotices.getAllNotices()
+    .subscribe(data => {
+      this.notices = data
+      if(!refresher == false)
+      refresher.complete()
+    })
+  }
+
+  getDate(date){
+    let d = new Date(date)
+    return d.toDateString()
   }
 
 }
