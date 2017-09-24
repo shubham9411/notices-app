@@ -7,7 +7,7 @@ export class AllNoticesProvider {
   constructor(public http: Http) {
   }
   getAllNotices(){
-    return this.http.get('http://192.168.43.215:8000/api/')
-      .map(res=> res.json())
+    return this.http.get('http://127.0.0.1:8000/api/')
+      .map( res => res.json() )
   }
 }

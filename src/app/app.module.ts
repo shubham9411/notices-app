@@ -8,13 +8,17 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { WelcomePage } from '../pages/welcome/welcome';
+import { LoginPage } from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
 import { AllNoticesProvider } from '../providers/all-notices/all-notices';
 
 @NgModule({
   declarations: [
     MyApp,
 	HomePage,
-	WelcomePage
+	WelcomePage,
+	LoginPage,
+	SignupPage
   ],
   imports: [
     BrowserModule,
@@ -25,14 +29,15 @@ import { AllNoticesProvider } from '../providers/all-notices/all-notices';
   entryComponents: [
     MyApp,
 	HomePage,
-	WelcomePage
+	WelcomePage,
+	LoginPage,
+	SignupPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-	AllNoticesProvider,
-	WelcomePage
+	AllNoticesProvider
   ]
 })
 export class AppModule {}

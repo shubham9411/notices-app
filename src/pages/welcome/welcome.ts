@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-@IonicPage()
+import { NavController, NavParams } from 'ionic-angular';
+import { LoginPage } from '../login/login';
 @Component({
 	selector: 'page-welcome',
 	templateUrl: 'welcome.html',
@@ -28,6 +28,12 @@ export class WelcomePage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad WelcomePage');
+	}
+
+	continue() {
+		console.log('Continue!')
+		localStorage.setItem('tutorial','1')
+		this.navCtrl.setRoot( LoginPage )
 	}
 
 }
