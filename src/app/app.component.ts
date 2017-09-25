@@ -3,14 +3,13 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
 @Component({
 	templateUrl: 'app.html'
 })
 export class MyApp {
-	rootPage: any = LoginPage;
+	rootPage: any;
 
 	constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
 		platform.ready().then(() => {
@@ -19,11 +18,10 @@ export class MyApp {
 			statusBar.styleDefault();
 			if(!localStorage.getItem( 'tutorial' )) {
 				this.rootPage = WelcomePage;
-				splashScreen.hide();
 			} else {
-				splashScreen.hide();
+				this.rootPage = LoginPage;
 			}
+			splashScreen.hide();
 		});
 	}
 }
-

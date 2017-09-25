@@ -1,7 +1,7 @@
 <ion-content padding style="background:url(assets/img/login-background.jpg) no-repeat center;background-size:cover;" id="signup">
   <form id="signup-form2">
     <div>
-      <img src="assets/img/login.png" style="display:block;width:30%;height:auto;margin-left:auto;margin-right:auto;" />
+      <img src="assets/img/logo.png" style="display:block;width:30%;height:auto;margin-left:auto;margin-right:auto;" />
     </div>
     <div class="spacer" style="width:300px;height:45px;" id="signup-spacer3"></div>
     <ion-list id="signup-list2">
@@ -40,4 +40,7 @@
       Sign up
     </button>
   </form>
+  <button id="login-button2" ion-button clear color="positive" block [navPush]="pushPage">
+		Or Login
+	</button>
 </ion-content>

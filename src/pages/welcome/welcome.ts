@@ -33,7 +33,7 @@ export class WelcomePage {
 	continue() {
 		console.log('Continue!')
 		localStorage.setItem('tutorial','1')
-		this.navCtrl.setRoot( LoginPage )
+		this.navCtrl.setRoot( LoginPage, {}, {animate: true,animation: 'ios-transition', direction: 'forward'} )
 	}
 
 }

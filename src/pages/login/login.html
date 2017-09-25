@@ -3,30 +3,30 @@
     <img src="assets/img/logo.png" id="logo-img"/>
   </div>
   <div class="spacer" style="width:300px;height:48px;" id="login-spacer2"></div>
-  <form id="login-form1">
+  <form id="login-form1" [formGroup]="loginForm" (ngSubmit)="submitForm()">
     <ion-list id="login-list1">
       <ion-item id="login-input1">
         <ion-label floating>
           Email
         </ion-label>
-        <ion-input type="email" placeholder="Email" name="email"></ion-input>
+        <ion-input type="email" placeholder="Email" name="email" formControlName="email"></ion-input>
       </ion-item>
       <ion-item id="login-input2">
         <ion-label floating>
           Password
         </ion-label>
-        <ion-input type="password" placeholder="Password" name="password"></ion-input>
+        <ion-input type="password" placeholder="Password" name="password" formControlName="password"></ion-input>
       </ion-item>
-	  <ion-input type="password" placeholder="Password" name="password" hidden></ion-input>
+	  <ion-input type="text" placeholder="text" name="text" hidden></ion-input>
 	</ion-list>
     <div class="spacer" style="height:40px;" id="login-spacer1"></div>
-    <button id="login-button1" ion-button color="positive" block icon-right>
+    <button id="login-button1" ion-button color="positive" block icon-right type="submit" [disabled]="!loginForm.valid">
       Log in
       <ion-icon name="log-in"></ion-icon>
 	</button>
 	<div class="spacer" style="height:20px;" id="login-spacer2"></div>
-    <button id="login-button2" ion-button clear color="positive" block>
-      Or create an account
-    </button>
-  </form>
+</form>
+	<button id="login-button2" ion-button clear color="positive" block [navPush]="pushPage">
+		Or create an account
+	</button>
 </ion-content>

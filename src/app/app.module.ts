@@ -11,6 +11,8 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { AllNoticesProvider } from '../providers/all-notices/all-notices';
+import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
+import { LoginProvider } from '../providers/login/login';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import { AllNoticesProvider } from '../providers/all-notices/all-notices';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule
+	HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -37,7 +39,9 @@ import { AllNoticesProvider } from '../providers/all-notices/all-notices';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-	AllNoticesProvider
+	AllNoticesProvider,
+    ApiEndpointsProvider,
+    LoginProvider
   ]
 })
 export class AppModule {}

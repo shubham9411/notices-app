@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import { ApiEndpointsProvider } from '../api-endpoints/api-endpoints';
+
 @Injectable()
 export class AllNoticesProvider {
-  constructor(public http: Http) {
+  constructor(public http: Http, private api: ApiEndpointsProvider) {
   }
   getAllNotices(){
-    return this.http.get('http://127.0.0.1:8000/api/')
+    return this.http.get(this.api.getBaseAPI())
       .map( res => res.json() )
   }
 }
