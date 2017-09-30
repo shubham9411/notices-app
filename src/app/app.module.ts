@@ -13,6 +13,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { AllNoticesProvider } from '../providers/all-notices/all-notices';
 import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
 import { LoginProvider } from '../providers/login/login';
+import { ErrorHandlerProvider } from '../providers/error-handler/error-handler';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { LoginProvider } from '../providers/login/login';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
 	AllNoticesProvider,
     ApiEndpointsProvider,
-    LoginProvider
+    LoginProvider,
+    ErrorHandlerProvider
   ]
 })
 export class AppModule {}

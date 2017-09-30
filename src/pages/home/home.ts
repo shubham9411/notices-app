@@ -1,37 +1,28 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
-import { ToastController } from 'ionic-angular';
-
+import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 
 @Component({
 	selector: 'page-home',
 	templateUrl: 'home.html',
-	providers: [ AllNoticesProvider ]
+	providers: [ AllNoticesProvider, ErrorHandlerProvider ]
 })
 export class HomePage {
 	notices: any
-	constructor( public navCtrl: NavController, private allNotices: AllNoticesProvider, public toastCtrl: ToastController ) {
-			this.getNotices()
+	constructor( public navCtrl: NavController, private allNotices: AllNoticesProvider, private errorHandle: ErrorHandlerProvider ) {
+			this.getNotices();
 	}
 	getNotices( refresher = null ) {
 		this.allNotices.getAllNotices()
 			.subscribe( data => {
-				this.notices = data
+				this.notices = data;
 				if( !refresher == false )
-					refresher.complete()
+					refresher.complete();
 			}, error => {
-				this.presentToast('An error Occured!')
+				this.errorHandle.errorCtrl(error);
 				if( !refresher == false )
-					refresher.complete()
+					refresher.complete();
 			})
-	}
-
-	presentToast(message: string = 'Try again!') {
-		let toast = this.toastCtrl.create({
-			message: message,
-			duration: 3000
-		});
-		toast.present();
 	}
 }

@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ToastController } from 'ionic-angular';
 import { LoginProvider } from '../../providers/login/login';
 import { HomePage } from '../../pages/home/home';
 import { SignupPage } from '../../pages/signup/signup';
+import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 
 @Component({
 	selector: 'page-login',
 	templateUrl: 'login.html',
-	providers: [LoginProvider]
+	providers: [ LoginProvider, ErrorHandlerProvider ]
 })
 export class LoginPage {
 
 	private loginForm: FormGroup;
 	pushPage: any;
-	constructor(public navCtrl: NavController, private loginPost: LoginProvider, private formBuilder: FormBuilder, public toastCtrl: ToastController) {
+	constructor(public navCtrl: NavController, private loginPost: LoginProvider, private formBuilder: FormBuilder, private errorHandle: ErrorHandlerProvider) {
 		this.pushPage = SignupPage;
 		this.loginForm = this.formBuilder.group({
 			email: ['', [Validators.required, Validators.email]],
@@ -30,22 +30,13 @@ export class LoginPage {
 				localStorage.setItem('token',data.token);
 				localStorage.setItem('username',data.username);
 				localStorage.setItem('email',data.email);
-				this.presentToast('Welcome back!');
+				this.errorHandle.presentToast('Welcome back!');
 				this.navCtrl.setRoot( HomePage, {}, {animate: true,animation: 'ios-transition', direction: 'forward'})
 			},
 			(err) => {
-				let error = JSON.parse(err['_body'])['non_field_errors'];
-				this.presentToast(error);
+				this.errorHandle.errorCtrl(err);
 			}
 		)
-	}
-
-	presentToast(message: string = 'Try again!') {
-		let toast = this.toastCtrl.create({
-			message: message,
-			duration: 3000
-		});
-		toast.present();
 	}
 
 }
