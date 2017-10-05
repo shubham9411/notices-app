@@ -13,7 +13,7 @@ export class AllNoticesProvider {
 		var headers = new Headers;
 		headers.append( "Accept", "application/json" );
 		headers.append( "Content-Type", "application/json" );
-		headers.append( "Authorization", "jwt " + token );
+		//headers.append( "Authorization", "jwt " + token );
 		let options = new RequestOptions({ headers: headers })
 		console.log(token)
 		return this.http.get(this.api.getAllNoticesAPI(), options)

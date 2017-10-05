@@ -14,6 +14,7 @@ import { AllNoticesProvider } from '../providers/all-notices/all-notices';
 import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
 import { LoginProvider } from '../providers/login/login';
 import { ErrorHandlerProvider } from '../providers/error-handler/error-handler';
+import { SignupProvider } from '../providers/signup/signup';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ErrorHandlerProvider } from '../providers/error-handler/error-handler';
 	AllNoticesProvider,
     ApiEndpointsProvider,
     LoginProvider,
-    ErrorHandlerProvider
+    ErrorHandlerProvider,
+    SignupProvider
   ]
 })
 export class AppModule {}

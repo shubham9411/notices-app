@@ -22,7 +22,9 @@ export class ErrorHandlerProvider {
 		console.log(err['_body'])
 		console.log(typeof(err['_body']))
 		if( typeErr== 'string'){
-			error = JSON.parse(err['_body'])['non_field_errors'];
+			// error = JSON.parse(err['_body'])['non_field_errors'];
+			let ar = JSON.parse(err['_body']);
+			error = ar[Object.keys(ar)[0]];
 		} else if( typeErr == 'object') {
 			error = 'Try Again!';
 		}
