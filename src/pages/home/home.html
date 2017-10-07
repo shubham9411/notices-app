@@ -1,29 +1,58 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>
-      Notices
-    </ion-title>
-  </ion-navbar>
+	<ion-navbar no-border-bottom>
+		<ion-title>
+			Notices
+		</ion-title>
+	</ion-navbar>
+	<ion-toolbar no-border-top class="toolbar-segment">
+		<ion-segment [(ngModel)]="query" (ionChange)="showdata()">
+			<ion-segment-button value="new">
+				New
+			</ion-segment-button>
+			<ion-segment-button value="all">
+				Official
+			</ion-segment-button>
+			<ion-segment-button value="dept">
+				Department
+			</ion-segment-button>
+			<ion-segment-button value="class">
+				Class
+			</ion-segment-button>
+		</ion-segment>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="getNotices($event)">
-    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
-      ></ion-refresher-content>
-  </ion-refresher>
-  <ion-card *ngFor="let notice of notices">
-    <ion-item no-lines>
-      <ion-avatar item-start>
-        <img src="assets/img/placeholder.png">
-      </ion-avatar>
-      <h2>{{ notice.notice_author }}</h2>
-      <p>{{ notice.notice_valid_till | date:"MM/dd/yy"}}</p>
-    </ion-item>
-    <ion-card-header>
-      {{notice.notice_name}}
-    </ion-card-header>
-    <ion-card-content>
-      {{notice.notice_desc}}
-    </ion-card-content>
-  </ion-card>
+	<ion-refresher (ionRefresh)="getNotices($event)">
+		<ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
+			></ion-refresher-content>
+	</ion-refresher>
+	<ion-slides (ionSlideDidChange)="slideChanged()">
+		<ion-slide>
+			Some Content
+		</ion-slide>
+		<ion-slide>
+			<ion-card *ngFor="let notice of notices">
+				<ion-item no-lines>
+					<ion-avatar item-start>
+						<img src="assets/img/placeholder.png">
+					</ion-avatar>
+					<h2>{{ notice.notice_author }}</h2>
+					<p>{{ notice.notice_valid_till | date:"MM/dd/yy"}}</p>
+				</ion-item>
+				<ion-card-header>
+					{{notice.notice_name}}
+				</ion-card-header>
+				<ion-card-content>
+					{{notice.notice_desc}}
+				</ion-card-content>
+			</ion-card>
+		</ion-slide>
+		<ion-slide>
+			Some Content
+		</ion-slide>
+		<ion-slide>
+			Some Content
+		</ion-slide>
+	</ion-slides>
 </ion-content>

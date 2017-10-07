@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
+import { HomePage } from '../pages/home/home';
 @Component({
 	templateUrl: 'app.html'
 })
@@ -18,6 +19,8 @@ export class MyApp {
 			statusBar.styleDefault();
 			if(!localStorage.getItem( 'tutorial' )) {
 				this.rootPage = WelcomePage;
+			} if(localStorage.getItem( 'token' ) && localStorage.getItem( 'username' ) && localStorage.getItem( 'email' )){
+				this.rootPage = HomePage;
 			} else {
 				this.rootPage = LoginPage;
 			}

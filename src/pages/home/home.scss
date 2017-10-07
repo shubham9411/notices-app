@@ -1,3 +1,28 @@
 page-home {
-
+	.swiper-slide {
+		overflow-y: scroll;
+		display: block;
+	}
+	ion-segment {
+		display: block;
+		white-space: nowrap;
+		font-size: 0;
+		overflow: auto;
+		&::-webkit-scrollbar {
+			width: 0;
+			height: 0;
+			display: none;
+		}
+		ion-segment-button.segment-button {
+			display: inline-block!important;
+			min-width: 80px!important;
+			width: auto!important;
+		}
+	}
+	.toolbar-segment {
+		margin-top: -1px;
+	}
+	ion-toolbar .toolbar-content.toolbar-content-md{
+		text-align: center;
+	}
 }
