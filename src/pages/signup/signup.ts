@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Storage } from '@ionic/storage';
 
 import { SignupProvider } from '../../providers/signup/signup';
 import { HomePage } from '../../pages/home/home';
@@ -17,7 +18,13 @@ export class SignupPage {
 	private signupForm: FormGroup;
 	pushPage: any;
 
-	constructor(public navCtrl: NavController, private signup: SignupProvider, private formBuilder: FormBuilder, private errorHandle: ErrorHandlerProvider) {
+	constructor(
+		public navCtrl: NavController,
+		private signup: SignupProvider,
+		private formBuilder: FormBuilder,
+		private errorHandle: ErrorHandlerProvider,
+		public storage: Storage
+	) {
 		this.pushPage = LoginPage;
 		this.signupForm = this.formBuilder.group({
 			email: ['', [Validators.required, Validators.email]],
@@ -35,9 +42,10 @@ export class SignupPage {
 		this.signup.postSignupCred(this.signupForm.value)
 			.subscribe((data) => {
 				console.log(data)
-				localStorage.setItem('token',data.token);
-				localStorage.setItem('username',data.username);
-				localStorage.setItem('email',data.email);
+				this.storage.set('token',data.token);
+				this.storage.set('username',data.username);
+				this.storage.set('email',data.email);
+
 				this.errorHandle.presentToast('Welcome back!');
 				this.navCtrl.setRoot( HomePage, {}, {animate: true,animation: 'ios-transition', direction: 'forward'})
 			},

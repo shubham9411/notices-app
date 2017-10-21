@@ -4,6 +4,8 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { IonicStorageModule } from '@ionic/storage';
+// import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -27,7 +29,8 @@ import { SignupProvider } from '../providers/signup/signup';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-	HttpModule
+	HttpModule,
+	IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

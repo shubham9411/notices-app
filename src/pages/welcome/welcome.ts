@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import { NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 @Component({
@@ -23,7 +24,11 @@ export class WelcomePage {
 			image: "assets/img/ica-slidebox-img-3.png",
 		}
 	];
-	constructor(public navCtrl: NavController, public navParams: NavParams) {
+	constructor(
+		public navCtrl: NavController,
+		public navParams: NavParams,
+		public storage: Storage
+	) {
 	}
 
 	ionViewDidLoad() {
@@ -31,8 +36,8 @@ export class WelcomePage {
 	}
 
 	continue() {
-		console.log('Continue!')
-		localStorage.setItem('tutorial','1')
+		console.log('Continue!');
+		this.storage.set('hasSeenTutorial',true);
 		this.navCtrl.setRoot( LoginPage, {}, {animate: true,animation: 'ios-transition', direction: 'forward'} )
 	}
 
