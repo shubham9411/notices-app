@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Events, Platform, MenuController, Nav } from 'ionic-angular';
+import { Events, Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
+import { JwtHelper } from 'angular2-jwt';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
@@ -12,7 +13,7 @@ import { HomePage } from '../pages/home/home';
 })
 export class MyApp {
 	rootPage: any;
-
+	jwtHelper: JwtHelper = new JwtHelper();
 	constructor(
 		platform: Platform,
 		statusBar: StatusBar,
@@ -32,8 +33,14 @@ export class MyApp {
 						console.log('ss')
 						this.rootPage = WelcomePage;
 					}
-					else if(this.storage.get('token') && this.storage.get('username') && this.storage.get('email') ){
-						this.rootPage = HomePage;
+					else if (this.storage.get('token') && this.storage.get('username') && this.storage.get('email')) {
+						var token = '';
+						this.storage.get('token')
+							.then(token => {
+								if (!this.jwtHelper.isTokenExpired(token)) {
+									this.rootPage = HomePage;
+								}
+							});
 					} else {
 						this.rootPage = LoginPage;
 					}

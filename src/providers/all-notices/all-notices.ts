@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
+
+import { AuthHttp } from 'angular2-jwt';
 
 import { ApiEndpointsProvider } from '../api-endpoints/api-endpoints';
 
 @Injectable()
 export class AllNoticesProvider {
 	constructor(
-		public http: Http,
 		private api: ApiEndpointsProvider,
-		public storage: Storage
+		public storage: Storage,
+		private authHttp: AuthHttp
 	) {
 	}
 	getAllNotices() {
-		let token = this.storage.get('token');
 		var headers = new Headers;
-		headers.append( "Accept", "application/json" );
-		headers.append( "Content-Type", "application/json" );
-		//headers.append( "Authorization", "jwt " + token );
-		let options = new RequestOptions({ headers: headers })
-		console.log(token)
-		return this.http.get(this.api.getAllNoticesAPI(), options)
+		headers.append("Content-Type", "application/json");
+
+		return this.authHttp.get(this.api.getAllNoticesAPI(), { headers: headers })
 			.map(res => res.json());
+
 	}
 }
