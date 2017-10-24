@@ -37,8 +37,8 @@ export class WelcomePage {
 
 	continue() {
 		console.log('Continue!');
-		this.storage.set('hasSeenTutorial',true);
-		this.navCtrl.setRoot( LoginPage, {}, {animate: true,animation: 'ios-transition', direction: 'forward'} )
+		this.storage.set('hasSeenTutorial', true);
+		this.navCtrl.setRoot(LoginPage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
 	}
 
 }

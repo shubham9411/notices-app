@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides } from 'ionic-angular';
+import { MenuController, NavController, Slides } from 'ionic-angular';
 import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 
@@ -10,7 +10,12 @@ import { ErrorHandlerProvider } from '../../providers/error-handler/error-handle
 })
 export class HomePage {
 	notices: any
-	constructor(public navCtrl: NavController, private allNotices: AllNoticesProvider, private errorHandle: ErrorHandlerProvider) {
+	constructor(
+		public navCtrl: NavController,
+		private allNotices: AllNoticesProvider,
+		private errorHandle: ErrorHandlerProvider,
+		private menu: MenuController
+	) {
 		this.getNotices();
 	}
 	getNotices(refresher = null) {
@@ -62,4 +67,9 @@ export class HomePage {
 			this.query = 'class';
 		}
 	}
+
+	ionViewDidEnter() {
+		// the root left menu should be disabled on the tutorial page
+		this.menu.swipeEnable(true);
+	  }
 }

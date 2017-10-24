@@ -11,7 +11,7 @@ import { ErrorHandlerProvider } from '../../providers/error-handler/error-handle
 @Component({
 	selector: 'page-login',
 	templateUrl: 'login.html',
-	providers: [ LoginProvider, ErrorHandlerProvider ]
+	providers: [LoginProvider, ErrorHandlerProvider]
 })
 export class LoginPage {
 
@@ -35,17 +35,17 @@ export class LoginPage {
 		this.loginPost.postLoginCred(this.loginForm.value)
 			.subscribe((data) => {
 				console.log(data)
-				this.storage.set('token',data.token);
-				this.storage.set('username',data.username);
-				this.storage.set('email',data.email);
+				this.storage.set('token', data.token);
+				this.storage.set('username', data.username);
+				this.storage.set('email', data.email);
 
 				this.errorHandle.presentToast('Welcome back!');
-				this.navCtrl.setRoot( HomePage, {}, {animate: true,animation: 'ios-transition', direction: 'forward'})
+				this.navCtrl.setRoot(HomePage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
 			},
 			(err) => {
 				this.errorHandle.errorCtrl(err);
 			}
-		)
+			)
 	}
 
 }

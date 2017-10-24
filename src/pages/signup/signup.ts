@@ -11,7 +11,7 @@ import { LoginPage } from '../../pages/login/login';
 @Component({
 	selector: 'page-signup',
 	templateUrl: 'signup.html',
-	providers: [ SignupProvider, ErrorHandlerProvider ]
+	providers: [SignupProvider, ErrorHandlerProvider]
 })
 export class SignupPage {
 
@@ -42,17 +42,17 @@ export class SignupPage {
 		this.signup.postSignupCred(this.signupForm.value)
 			.subscribe((data) => {
 				console.log(data)
-				this.storage.set('token',data.token);
-				this.storage.set('username',data.username);
-				this.storage.set('email',data.email);
+				this.storage.set('token', data.token);
+				this.storage.set('username', data.username);
+				this.storage.set('email', data.email);
 
 				this.errorHandle.presentToast('Welcome back!');
-				this.navCtrl.setRoot( HomePage, {}, {animate: true,animation: 'ios-transition', direction: 'forward'})
+				this.navCtrl.setRoot(HomePage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
 			},
 			(err) => {
 				this.errorHandle.errorCtrl(err);
 			}
-		)
+			)
 	}
 
 }
