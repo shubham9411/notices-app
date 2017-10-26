@@ -8,6 +8,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
+import { AboutPage } from '../pages/about/about';
 
 export interface PageInterface {
 	title: string;
@@ -27,7 +28,7 @@ export class MyApp {
 		{ title: 'Welcome', name: 'WelcomePage', component: WelcomePage, index: 0, icon: 'calendar' },
 		{ title: 'Home', name: 'HomePage', component: HomePage, index: 1, icon: 'contacts' },
 		{ title: 'Home', name: 'HomePage', component: HomePage, index: 2, icon: 'map' },
-		{ title: 'Help', name: 'HelpPage', component: HomePage, index: 3, icon: 'information-circle' },
+		{ title: 'About', name: 'AboutPage', component: AboutPage, index: 3, icon: 'information-circle' },
 		{ title: 'Logout', name: 'Logout', component: LoginPage, index: 3, icon: 'log-out' }
 	];
 	rootPage: any;
