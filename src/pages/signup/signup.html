@@ -1,4 +1,4 @@
-<ion-content padding style="background:url(assets/img/login-background.jpg) no-repeat center;background-size:cover;" id="signup">
+<ion-content padding id="signup">
   <form id="signup-form1" [formGroup]="signupForm" (ngSubmit)="submitForm()">
     <div>
       <img src="assets/img/logo.png" style="display:block;width:30%;height:auto;margin-left:auto;margin-right:auto;" />
@@ -9,45 +9,45 @@
         <ion-label floating>
           First Name
         </ion-label>
-        <ion-input type="text" placeholder="First Name" name="firstname" formControlName="firstname"></ion-input>
+        <ion-input type="text" name="firstname" formControlName="firstname"></ion-input>
 	  </ion-item>
 	  <ion-item id="signup-input9">
         <ion-label floating>
           Last Name
         </ion-label>
-        <ion-input type="text" placeholder="Last Name" name="lastname" formControlName="lastname"></ion-input>
+        <ion-input type="text" name="lastname" formControlName="lastname"></ion-input>
       </ion-item>
       <ion-item id="signup-input4">
         <ion-label floating>
           Email
         </ion-label>
-        <ion-input type="email" placeholder="Email" name="email" formControlName="email"></ion-input>
+        <ion-input type="email" name="email" formControlName="email"></ion-input>
       </ion-item>
       <ion-item id="signup-input5">
         <ion-label floating>
           Password
         </ion-label>
-        <ion-input type="password" placeholder="Password" name="password" formControlName="password"></ion-input>
+        <ion-input type="password" name="password" formControlName="password"></ion-input>
 	  </ion-item>
 	  <ion-item id="signup-input8">
         <ion-label floating>
           Confirm Password
         </ion-label>
-        <ion-input type="password" placeholder="Confirm Password" name="confirm_password" formControlName="confirm_password"></ion-input>
+        <ion-input type="password" name="confirm_password" formControlName="confirm_password"></ion-input>
       </ion-item>
       <ion-item id="signup-input6">
         <ion-label floating>
           Username
         </ion-label>
-        <ion-input type="text" placeholder="Username" name="username" formControlName="username"></ion-input>
+        <ion-input type="text" name="username" formControlName="username"></ion-input>
       </ion-item>
       <ion-item id="signup-input7">
         <ion-label floating>
           Phone No.
         </ion-label>
-        <ion-input type="tel" placeholder="Phone No." name="phone_no" formControlName="phone_no"></ion-input>
+        <ion-input type="tel" name="phone_no" formControlName="phone_no"></ion-input>
       </ion-item>
-	  <ion-input type="text" placeholder="text" name="text" hidden></ion-input>
+	  <ion-input type="text" name="text" hidden></ion-input>
 	</ion-list>
     <button id="signup-button3" ion-button color="positive" block>
       Sign up
