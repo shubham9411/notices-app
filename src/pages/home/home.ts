@@ -19,17 +19,17 @@ export class HomePage {
 		this.getNotices();
 	}
 	getNotices(refresher = null) {
-		if( this.query == 'all' ) {
-		this.allNotices.getAllNotices()
-			.subscribe(data => {
-				this.notices = data;
-				if (!refresher == false)
-					refresher.complete();
-			}, error => {
-				this.errorHandle.errorCtrl(error);
-				if (!refresher == false)
-					refresher.complete();
-			})
+		if (this.query == 'all') {
+			this.allNotices.getAllNotices()
+				.subscribe(data => {
+					this.notices = data;
+					if (!refresher == false)
+						refresher.complete();
+				}, error => {
+					this.errorHandle.errorCtrl(error);
+					if (!refresher == false)
+						refresher.complete();
+				})
 		} else {
 			if (!refresher == false)
 				refresher.complete();
@@ -71,5 +71,9 @@ export class HomePage {
 	ionViewDidEnter() {
 		// the root left menu should be disabled on the tutorial page
 		this.menu.swipeEnable(true);
-	  }
+	}
+	addNewNotice() {
+		// logic for adding notices
+		console.log('not implemented yet!')
+	}
 }
