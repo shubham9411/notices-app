@@ -1,6 +1,4 @@
 // http://ionicframework.com/docs/theming/
-
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,6 +12,27 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-.has-refresher > .scroll-content{
+.has-refresher>.scroll-content {
 	border-top: none;
+}
+
+.user-profile-sidemenu {
+	background:url(../assets/img/sidemenu-cover.jpg);
+	padding: 1em;
+	background-position: center;
+	background-size: cover;
+	.user-avatar {
+		width: 55px;
+		img {
+			border-radius: 50%;
+		}
+	}
+	.user-info{
+		margin-top: 1em;
+		color: white;
+		padding-left: 10px;
+		p{
+			margin: 5px 0;
+		}
+	}
 }

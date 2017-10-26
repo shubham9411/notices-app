@@ -3,9 +3,16 @@
 	<ion-menu id="menu" [content]="content">
 
 		<ion-header>
-			<ion-toolbar>
-				<ion-title>Menu</ion-title>
-			</ion-toolbar>
+			<div class="user-profile-sidemenu">
+				<div class="user-avatar">
+					<img src="assets/img/placeholder.png" alt="avatar">
+				</div>
+				<div class="user-info">
+					<p><b>{{username}}</b></p>
+					<p>{{email}}</p>
+				</div>
+			</div>
+
 		</ion-header>
 
 		<ion-content class="outer-content">

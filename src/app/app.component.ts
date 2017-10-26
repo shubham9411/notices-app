@@ -24,14 +24,16 @@ export interface PageInterface {
 export class MyApp {
 	@ViewChild(Nav) nav: Nav;
 	appPages: PageInterface[] = [
-		{ title: 'Welcome', name:'WelcomePage', component: WelcomePage, index: 0, icon: 'calendar' },
-		{ title: 'Home', name:'HomePage', component: HomePage, index: 1, icon: 'contacts' },
-		{ title: 'Home', name:'HomePage', component: HomePage, index: 2, icon: 'map' },
-		{ title: 'Help', name:'HelpPage', component: HomePage, index: 3, icon: 'information-circle' },
-		{ title: 'Logout', name:'Logout', component: LoginPage, index: 3, icon: 'log-out' }
+		{ title: 'Welcome', name: 'WelcomePage', component: WelcomePage, index: 0, icon: 'calendar' },
+		{ title: 'Home', name: 'HomePage', component: HomePage, index: 1, icon: 'contacts' },
+		{ title: 'Home', name: 'HomePage', component: HomePage, index: 2, icon: 'map' },
+		{ title: 'Help', name: 'HelpPage', component: HomePage, index: 3, icon: 'information-circle' },
+		{ title: 'Logout', name: 'Logout', component: LoginPage, index: 3, icon: 'log-out' }
 	];
 	rootPage: any;
 	jwtHelper: JwtHelper = new JwtHelper();
+	username: string;
+	email: string;
 	constructor(
 		platform: Platform,
 		statusBar: StatusBar,
@@ -56,8 +58,14 @@ export class MyApp {
 						this.storage.get('token')
 							.then(token => {
 								if (!!token && !this.jwtHelper.isTokenExpired(token)) {
+
 									this.rootPage = HomePage;
-								} else{
+									this.storage.get('username')
+										.then(name => this.username = name);
+									this.storage.get('email')
+										.then(email => this.email = email);
+
+								} else {
 									this.rootPage = LoginPage;
 								}
 							});
@@ -69,7 +77,7 @@ export class MyApp {
 		});
 	}
 	openPage(page: PageInterface) {
-		if(page.component == LoginPage) {
+		if (page.component == LoginPage) {
 			this.menu.swipeEnable(false);
 			this.storage.remove('token');
 			this.storage.remove('username');
