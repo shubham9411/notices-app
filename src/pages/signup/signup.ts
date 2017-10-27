@@ -4,7 +4,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
 import { SignupProvider } from '../../providers/signup/signup';
-import { HomePage } from '../../pages/home/home';
+import { ThanksSignupPage } from '../../pages/thanks-signup/thanks-signup';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { LoginPage } from '../../pages/login/login';
 
@@ -47,7 +47,7 @@ export class SignupPage {
 				this.storage.set('email', data.email);
 
 				this.errorHandle.presentToast('Welcome back!');
-				this.navCtrl.setRoot(HomePage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
+				this.navCtrl.push(ThanksSignupPage)
 			},
 			(err) => {
 				this.errorHandle.errorCtrl(err);
