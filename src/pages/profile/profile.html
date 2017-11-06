@@ -10,7 +10,7 @@
 </ion-header>
 <ion-content padding>
 	<div class="profile-picture">
-		<img alt="Profile Picture" src="{{profilePic}}" (click)="changeProfilePicture">
+		<img (click)="updateProfile()" alt="Profile Picture" src="{{profilePic}}">
 	</div>
 	<ion-list padding-top>
 		<ion-item>

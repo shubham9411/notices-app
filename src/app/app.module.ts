@@ -6,6 +6,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { Camera } from '@ionic-native/camera';
+import { Crop } from '@ionic-native/crop';
+
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { MyApp } from './app.component';
@@ -26,6 +29,7 @@ import { SignupProvider } from '../providers/signup/signup';
 import { ProfileProvider } from '../providers/profile/profile';
 
 import { Storage } from '@ionic/storage';
+import { ProfileCaptureProvider } from '../providers/profile-capture/profile-capture';
 
 let storage = new Storage({});
 
@@ -76,7 +80,10 @@ export function getAuthHttp(http) {
 		ErrorHandlerProvider,
 		SignupProvider,
 		{ provide: AuthHttp, useFactory: getAuthHttp, deps: [Http] },
-    	ProfileProvider
+    	ProfileProvider,
+		ProfileCaptureProvider,
+		Camera,
+		Crop
 	]
 })
 export class AppModule { }

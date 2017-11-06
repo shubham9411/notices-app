@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
+import { ProfileCaptureProvider } from '../../providers/profile-capture/profile-capture'
 @Component({
 	selector: 'page-profile',
 	templateUrl: 'profile.html',
@@ -12,14 +13,12 @@ export class ProfilePage {
 	constructor(
 		public navCtrl: NavController,
 		public storage: Storage,
+		public profile: ProfileCaptureProvider
 	) {
 	}
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad ProfilePage');
-	}
-	changeProfilePicture() {
-		console.log('hi there he wants to change the PP or DP');
 	}
 	changePassword() {
 		console.log('hi there he wants to change the password now');
@@ -35,6 +34,9 @@ export class ProfilePage {
 	}
 	disableField(field: string) {
 		this.fields[field] = true;
+	}
+	updateProfile() {
+		console.log(this.profile.getMedia())
 	}
 }
 class fields {
