@@ -1,0 +1,44 @@
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>Profile</ion-title>
+	</ion-navbar>
+
+</ion-header>
+<ion-content padding>
+	<div class="profile-picture">
+		<img alt="Profile Picture" src="{{profilePic}}" (click)="changeProfilePicture">
+	</div>
+	<ion-list padding-top>
+		<ion-item>
+			<ion-input #fullname type="text" name="fullname" [disabled]="fields.fullname" value="Full Name" (ionBlur)="disableField('fullname')"></ion-input>
+			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(fullname, 'fullname');">
+				<ion-icon name="create"></ion-icon>
+			</button>
+		</ion-item>
+		<ion-item>
+			<ion-input #phoneno type="tel" name="phone_no" [disabled]="fields.phone_no" value="+91 9756283293" (ionBlur)="disableField('phone_no')"></ion-input>
+			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(phoneno, 'phone_no');">
+				<ion-icon name="create"></ion-icon>
+			</button>
+		</ion-item>
+		<ion-item>
+			<ion-input #rollno type="tel" name="roll_no" [disabled]="fields.roll_no" value="140180101051" (ionBlur)="disableField('roll_no')"></ion-input>
+			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(rollno, 'roll_no');">
+				<ion-icon name="create"></ion-icon>
+			</button>
+		</ion-item>
+		<ion-item>
+			<ion-input #branch type="text" name="branch" [disabled]="fields.branch" value="Comp. Science" (ionBlur)="disableField('branch')"></ion-input>
+			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(branch, 'branch');">
+				<ion-icon name="create"></ion-icon>
+			</button>
+		</ion-item>
+		<ion-item>
+			<ion-input #year type="tel" name="year" [disabled]="fields.year" value="Senior" (ionBlur)="disableField('year')"></ion-input>
+			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(year, 'year');">
+				<ion-icon name="create"></ion-icon>
+			</button>
+		</ion-item>
+	</ion-list>
+</ion-content>

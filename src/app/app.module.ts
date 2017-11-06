@@ -16,6 +16,7 @@ import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { AboutPage } from '../pages/about/about';
 import { ThanksSignupPage } from '../pages/thanks-signup/thanks-signup';
+import { ProfilePage } from '../pages/profile/profile';
 
 import { AllNoticesProvider } from '../providers/all-notices/all-notices';
 import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
@@ -44,7 +45,8 @@ export function getAuthHttp(http) {
 		LoginPage,
 		SignupPage,
 		AboutPage,
-		ThanksSignupPage
+		ThanksSignupPage,
+		ProfilePage
 	],
 	imports: [
 		BrowserModule,
@@ -60,7 +62,8 @@ export function getAuthHttp(http) {
 		LoginPage,
 		SignupPage,
 		AboutPage,
-		ThanksSignupPage
+		ThanksSignupPage,
+		ProfilePage
 	],
 	providers: [
 		StatusBar,

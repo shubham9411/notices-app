@@ -30,8 +30,7 @@ export class SignupPage {
 			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
 			confirm_password: ['', [Validators.required, Validators.minLength(6)]],
-			firstname: ['', [Validators.required]],
-			lastname: ['', [Validators.required]],
+			fullname: ['', [Validators.required]],
 			username: ['', [Validators.required]],
 			phone_no: ['', [Validators.required]],
 		});
@@ -39,6 +38,30 @@ export class SignupPage {
 
 	submitForm() {
 		console.log(this.signupForm.value)
+		if (!this.signupForm.value.fullname) {
+			this.errorHandle.presentToast('Name can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.value.username) {
+			this.errorHandle.presentToast('Username can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.value.phone_no) {
+			this.errorHandle.presentToast('Phone Number can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.value.email) {
+			this.errorHandle.presentToast('Email can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.value.password) {
+			this.errorHandle.presentToast('Password can\'t be empty');
+			return;
+		}
+		if (this.signupForm.value.password != this.signupForm.value.confirm_password) {
+			this.errorHandle.presentToast('Password do not match!');
+			return;
+		}
 		this.signup.postSignupCred(this.signupForm.value)
 			.subscribe((data) => {
 				console.log(data)

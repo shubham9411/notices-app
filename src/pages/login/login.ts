@@ -32,6 +32,14 @@ export class LoginPage {
 	}
 	submitForm() {
 		console.log(this.loginForm.value)
+		if (!this.loginForm.value.username) {
+			this.errorHandle.presentToast('Username can\'t be empty');
+			return;
+		}
+		if (!this.loginForm.value.password) {
+			this.errorHandle.presentToast('Password can\'t be empty');
+			return;
+		}
 		this.loginPost.postLoginCred(this.loginForm.value)
 			.subscribe((data) => {
 				console.log(data)
