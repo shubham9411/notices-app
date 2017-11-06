@@ -26,7 +26,7 @@ export class LoginPage {
 	) {
 		this.pushPage = SignupPage;
 		this.loginForm = this.formBuilder.group({
-			email: ['', [Validators.required, Validators.email]],
+			username: ['', [Validators.required, Validators.minLength(4)]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
 		});
 	}

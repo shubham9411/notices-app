@@ -29,7 +29,7 @@ let storage = new Storage({});
 
 export function getAuthHttp(http) {
 	return new AuthHttp(new AuthConfig({
-		headerPrefix: 'Bearer',
+		headerPrefix: 'Authorization: JWT',
 		noJwtError: true,
 		globalHeaders: [{ 'Accept': 'application/json' }],
 		tokenGetter: (() => storage.get('token').then((token: string) => token)),
