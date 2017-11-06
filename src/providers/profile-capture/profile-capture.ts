@@ -7,8 +7,8 @@ export class ProfileCaptureProvider {
 
 	public options: CameraOptions = {
 		quality: 100,
-		sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
-		mediaType: this.camera.MediaType.ALLMEDIA,
+		sourceType: this.camera.PictureSourceType.CAMERA,
+		mediaType: this.camera.MediaType.PICTURE,
 		destinationType: this.camera.DestinationType.FILE_URI
 	}
 
@@ -19,7 +19,10 @@ export class ProfileCaptureProvider {
 	) { }
 
 	// Return a promise to catch errors while loading image
-	getMedia(): Promise<any> {
+	getMedia(source: string): Promise<any> {
+		if(source == 'album'){
+			this.options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+		}
 		// Get Image from ionic-native's built in camera plugin
 		return this.camera.getPicture(this.options)
 			.then((fileUri) => {

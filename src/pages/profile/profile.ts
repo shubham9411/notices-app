@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ActionSheetController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { ProfileCaptureProvider } from '../../providers/profile-capture/profile-capture'
@@ -13,7 +13,9 @@ export class ProfilePage {
 	constructor(
 		public navCtrl: NavController,
 		public storage: Storage,
-		public profile: ProfileCaptureProvider
+		public profile: ProfileCaptureProvider,
+		public actionSheetCtrl: ActionSheetController,
+		public platform: Platform
 	) {
 	}
 
@@ -36,7 +38,27 @@ export class ProfilePage {
 		this.fields[field] = true;
 	}
 	updateProfile() {
-		console.log(this.profile.getMedia())
+		let actionSheet = this.actionSheetCtrl.create({
+			title: 'Select',
+			buttons: [
+				{
+					text: 'Camera',
+					icon: !this.platform.is('ios') ? 'camera' : null,
+					handler: () => {
+						this.profile.getMedia('camera')
+							.then( res => this.profilePic = res );
+					}
+				}, {
+					text: 'Album',
+					icon: !this.platform.is('ios') ? 'albums' : null,
+					handler: () => {
+						this.profile.getMedia('album')
+							.then(res => this.profilePic = res);
+					}
+				}
+			]
+		});
+		actionSheet.present();
 	}
 }
 class fields {
