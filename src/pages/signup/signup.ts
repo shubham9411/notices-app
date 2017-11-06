@@ -54,8 +54,16 @@ export class SignupPage {
 			this.errorHandle.presentToast('Email can\'t be empty');
 			return;
 		}
+		if (!this.signupForm.get('email').valid){
+			this.errorHandle.presentToast('Email entered is invalid');
+			return;
+		}
 		if (!this.signupForm.value.password) {
 			this.errorHandle.presentToast('Password can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.get('password').valid) {
+			this.errorHandle.presentToast('Password must contain 6 characters.');
 			return;
 		}
 		if (this.signupForm.value.password != this.signupForm.value.confirm_password) {

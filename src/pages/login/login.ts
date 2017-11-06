@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Events, NavController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
@@ -22,7 +22,8 @@ export class LoginPage {
 		private loginPost: LoginProvider,
 		private formBuilder: FormBuilder,
 		private errorHandle: ErrorHandlerProvider,
-		public storage: Storage
+		public storage: Storage,
+		private events: Events
 	) {
 		this.pushPage = SignupPage;
 		this.loginForm = this.formBuilder.group({
@@ -45,8 +46,8 @@ export class LoginPage {
 				console.log(data)
 				this.storage.set('token', data.token);
 				this.storage.set('username', data.username);
-				this.storage.set('email', data.email);
-
+				this.storage.set('email', data.email)
+					.then(res => this.events.publish('user:login'));
 				this.errorHandle.presentToast('Welcome back!');
 				this.navCtrl.setRoot(HomePage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
 			},

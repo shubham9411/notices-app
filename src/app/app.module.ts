@@ -23,6 +23,7 @@ import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
 import { LoginProvider } from '../providers/login/login';
 import { ErrorHandlerProvider } from '../providers/error-handler/error-handler';
 import { SignupProvider } from '../providers/signup/signup';
+import { ProfileProvider } from '../providers/profile/profile';
 
 import { Storage } from '@ionic/storage';
 
@@ -74,7 +75,8 @@ export function getAuthHttp(http) {
 		LoginProvider,
 		ErrorHandlerProvider,
 		SignupProvider,
-		{ provide: AuthHttp, useFactory: getAuthHttp, deps: [Http] }
+		{ provide: AuthHttp, useFactory: getAuthHttp, deps: [Http] },
+    	ProfileProvider
 	]
 })
 export class AppModule { }
