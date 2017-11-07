@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MenuController, NavController, Slides } from 'ionic-angular';
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 
@@ -14,7 +16,8 @@ export class HomePage {
 		public navCtrl: NavController,
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
-		private menu: MenuController
+		private menu: MenuController,
+		private socialSharing: SocialSharing
 	) {
 		this.getNotices();
 	}
@@ -75,5 +78,22 @@ export class HomePage {
 	addNewNotice() {
 		// logic for adding notices
 		console.log('not implemented yet!')
+	}
+	shareApp() {
+		var options = {
+			message: 'You can download Notices app from Play Store. [link](https://foobar.com/)', // not supported on some apps (Facebook, Instagram)
+			subject: 'Notices App', // fi. for email
+			files: ['', ''], // an array of filenames either locally or remotely
+			url: 'https://www.foobar.com/#',
+			chooserTitle: 'Share Notices App' // Android only, you can override the default share sheet title
+		}
+		this.socialSharing.shareWithOptions(options)
+			.then( result => {
+				console.log("Share completed? " + result.completed);
+				console.log("Shared to app: " + result.app);
+			})
+			.catch( err=> {
+				console.log("Sharing failed with message: " + err);
+			})
 	}
 }

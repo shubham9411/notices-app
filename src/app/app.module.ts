@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { MyApp } from './app.component';
 
@@ -71,7 +72,8 @@ export function getAuthHttp(http) {
 		LoginProvider,
 		ErrorHandlerProvider,
 		SignupProvider,
-		{ provide: AuthHttp, useFactory: getAuthHttp, deps: [Http] }
+		{ provide: AuthHttp, useFactory: getAuthHttp, deps: [Http] },
+		SocialSharing
 	]
 })
 export class AppModule { }
