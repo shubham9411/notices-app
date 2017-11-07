@@ -27,21 +27,21 @@
 		</ion-item>
 		<ion-item>
 			<ion-input #rollno type="tel" name="roll_no" [disabled]="fields.roll_no" value="140180101051" (ionBlur)="disableField('roll_no')"></ion-input>
-			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(rollno, 'roll_no');">
+			<!-- <button ion-button clear color="dark" type="button" item-right large (click)="enableField(rollno, 'roll_no');">
 				<ion-icon name="create"></ion-icon>
-			</button>
+			</button> -->
 		</ion-item>
 		<ion-item>
 			<ion-input #branch type="text" name="branch" [disabled]="fields.branch" value="Comp. Science" (ionBlur)="disableField('branch')"></ion-input>
-			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(branch, 'branch');">
+			<!-- <button ion-button clear color="dark" type="button" item-right large (click)="enableField(branch, 'branch');">
 				<ion-icon name="create"></ion-icon>
-			</button>
+			</button> -->
 		</ion-item>
 		<ion-item>
 			<ion-input #year type="tel" name="year" [disabled]="fields.year" value="Senior" (ionBlur)="disableField('year')"></ion-input>
-			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(year, 'year');">
+			<!-- <button ion-button clear color="dark" type="button" item-right large (click)="enableField(year, 'year');">
 				<ion-icon name="create"></ion-icon>
-			</button>
+			</button> -->
 		</ion-item>
 	</ion-list>
 </ion-content>

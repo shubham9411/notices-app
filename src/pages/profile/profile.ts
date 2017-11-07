@@ -9,7 +9,7 @@ import { ProfileCaptureProvider } from '../../providers/profile-capture/profile-
 })
 export class ProfilePage {
 	fields: fields = new fields;
-	profilePic: string = 'assets/img/placeholder.png';
+	profilePic: string;
 	constructor(
 		public navCtrl: NavController,
 		public storage: Storage,
@@ -17,6 +17,10 @@ export class ProfilePage {
 		public actionSheetCtrl: ActionSheetController,
 		public platform: Platform
 	) {
+		this.storage.get('profilePicture')
+			.then( res => {
+				this.profilePic = res ? res : 'assets/img/placeholder.png';
+			})
 	}
 
 	ionViewDidLoad() {
