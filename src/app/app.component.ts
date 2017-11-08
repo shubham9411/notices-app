@@ -9,6 +9,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
+import { ProfilePage } from '../pages/profile/profile';
 
 export interface PageInterface {
 	title: string;
@@ -26,8 +27,8 @@ export class MyApp {
 	@ViewChild(Nav) nav: Nav;
 	appPages: PageInterface[] = [
 		{ title: 'Welcome', name: 'WelcomePage', component: WelcomePage, index: 0, icon: 'calendar' },
-		{ title: 'Home', name: 'HomePage', component: HomePage, index: 1, icon: 'contacts' },
-		{ title: 'Home', name: 'HomePage', component: HomePage, index: 2, icon: 'map' },
+		{ title: 'Home', name: 'HomePage', component: HomePage, index: 1, icon: 'home' },
+		{ title: 'Profile', name: 'ProfilePage', component: ProfilePage, index: 2, icon: 'person' },
 		{ title: 'About', name: 'AboutPage', component: AboutPage, index: 3, icon: 'information-circle' },
 		{ title: 'Logout', name: 'Logout', component: LoginPage, index: 3, icon: 'log-out' }
 	];
@@ -59,13 +60,8 @@ export class MyApp {
 						this.storage.get('token')
 							.then(token => {
 								if (!!token && !this.jwtHelper.isTokenExpired(token)) {
-
 									this.rootPage = HomePage;
-									this.storage.get('username')
-										.then(name => this.username = name);
-									this.storage.get('email')
-										.then(email => this.email = email);
-
+									this.events.publish('user:login');
 								} else {
 									this.rootPage = LoginPage;
 								}
@@ -75,6 +71,14 @@ export class MyApp {
 					}
 				});
 			splashScreen.hide();
+			events.subscribe('user:login', () => {
+				console.log('sss')
+				this.storage.get('username')
+					.then(name => { this.username = name; console.log(name); console.log(this.username)});
+				this.storage.get('email')
+					.then(email => this.email = email);
+				console.log(this.username)
+			});
 		});
 	}
 	openPage(page: PageInterface) {
@@ -87,6 +91,7 @@ export class MyApp {
 		this.nav.setRoot(page.component).catch((err: any) => {
 			console.log(`Didn't set nav root: ${err}`);
 		});
+		this.menu.close();
 	}
 	isActive(page: PageInterface) {
 		if (this.nav.getActive() && this.nav.getActive().name === page.name) {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Events, NavController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
@@ -22,23 +22,32 @@ export class LoginPage {
 		private loginPost: LoginProvider,
 		private formBuilder: FormBuilder,
 		private errorHandle: ErrorHandlerProvider,
-		public storage: Storage
+		public storage: Storage,
+		private events: Events
 	) {
 		this.pushPage = SignupPage;
 		this.loginForm = this.formBuilder.group({
-			email: ['', [Validators.required, Validators.email]],
+			username: ['', [Validators.required, Validators.minLength(4)]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
 		});
 	}
 	submitForm() {
 		console.log(this.loginForm.value)
+		if (!this.loginForm.value.username) {
+			this.errorHandle.presentToast('Username can\'t be empty');
+			return;
+		}
+		if (!this.loginForm.value.password) {
+			this.errorHandle.presentToast('Password can\'t be empty');
+			return;
+		}
 		this.loginPost.postLoginCred(this.loginForm.value)
 			.subscribe((data) => {
 				console.log(data)
 				this.storage.set('token', data.token);
 				this.storage.set('username', data.username);
-				this.storage.set('email', data.email);
-
+				this.storage.set('email', data.email)
+					.then(res => this.events.publish('user:login'));
 				this.errorHandle.presentToast('Welcome back!');
 				this.navCtrl.setRoot(HomePage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
 			},

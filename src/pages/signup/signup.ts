@@ -4,7 +4,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
 import { SignupProvider } from '../../providers/signup/signup';
-import { HomePage } from '../../pages/home/home';
+import { ThanksSignupPage } from '../../pages/thanks-signup/thanks-signup';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { LoginPage } from '../../pages/login/login';
 
@@ -30,8 +30,7 @@ export class SignupPage {
 			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
 			confirm_password: ['', [Validators.required, Validators.minLength(6)]],
-			firstname: ['', [Validators.required]],
-			lastname: ['', [Validators.required]],
+			fullname: ['', [Validators.required]],
 			username: ['', [Validators.required]],
 			phone_no: ['', [Validators.required]],
 		});
@@ -39,6 +38,38 @@ export class SignupPage {
 
 	submitForm() {
 		console.log(this.signupForm.value)
+		if (!this.signupForm.value.fullname) {
+			this.errorHandle.presentToast('Name can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.value.username) {
+			this.errorHandle.presentToast('Username can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.value.phone_no) {
+			this.errorHandle.presentToast('Phone Number can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.value.email) {
+			this.errorHandle.presentToast('Email can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.get('email').valid){
+			this.errorHandle.presentToast('Email entered is invalid');
+			return;
+		}
+		if (!this.signupForm.value.password) {
+			this.errorHandle.presentToast('Password can\'t be empty');
+			return;
+		}
+		if (!this.signupForm.get('password').valid) {
+			this.errorHandle.presentToast('Password must contain 6 characters.');
+			return;
+		}
+		if (this.signupForm.value.password != this.signupForm.value.confirm_password) {
+			this.errorHandle.presentToast('Password do not match!');
+			return;
+		}
 		this.signup.postSignupCred(this.signupForm.value)
 			.subscribe((data) => {
 				console.log(data)
@@ -47,7 +78,7 @@ export class SignupPage {
 				this.storage.set('email', data.email);
 
 				this.errorHandle.presentToast('Welcome back!');
-				this.navCtrl.setRoot(HomePage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
+				this.navCtrl.push(ThanksSignupPage)
 			},
 			(err) => {
 				this.errorHandle.errorCtrl(err);

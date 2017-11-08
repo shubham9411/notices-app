@@ -1,0 +1,17 @@
+page-profile {
+	.profile-picture {
+		margin: -16px;
+		background: #4989fc;
+		text-align: center;
+		padding: 2em 0;
+		img {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+		}
+	}
+	.text-input[disabled]{
+		opacity: .7;
+	}
+
+}
