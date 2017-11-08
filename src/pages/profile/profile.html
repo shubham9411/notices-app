@@ -45,15 +45,6 @@
 				</ion-label>
 				<ion-input type="tel" name="roll_no" formControlName="roll_no"></ion-input>
 			</ion-item>
-			<ion-item>
-				<ion-label>Stream</ion-label>
-				<ion-select formControlName="stream" name="stream" interface="popover">
-					<ion-option value="btech" selected selected="true">B. Tech</ion-option>
-					<ion-option value="mtech">M. Tech</ion-option>
-					<ion-option value="mca">MCA</ion-option>
-					<ion-option value="phd">Ph.D.</ion-option>
-				</ion-select>
-			</ion-item>
 			<ion-item id="profile-roll_no" ng-show="profileForm.stream=='btech'">
 				<ion-label>Branch</ion-label>
 				<ion-select formControlName="branch" name="branch" interface="popover">

@@ -4,6 +4,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
 import { ProfileCaptureProvider } from '../../providers/profile-capture/profile-capture'
+import { ProfileProvider } from '../../providers/profile/profile'
 @Component({
 	selector: 'page-profile',
 	templateUrl: 'profile.html',
@@ -14,13 +15,16 @@ export class ProfilePage {
 	profilePic: string;
 	stream: string = "btech";
 	private profileForm: FormGroup;
+	username: string;
+	email: string;
 	constructor(
 		public navCtrl: NavController,
 		public storage: Storage,
 		public profile: ProfileCaptureProvider,
 		public actionSheetCtrl: ActionSheetController,
 		public platform: Platform,
-		private formBuilder: FormBuilder
+		private formBuilder: FormBuilder,
+		private profileInfo: ProfileProvider
 	) {
 		this.showEdit = true;
 		this.storage.get('profilePicture')
@@ -33,19 +37,34 @@ export class ProfilePage {
 			roll_no: ['', [Validators.required, Validators.minLength(10)]],
 			branch: ['', [Validators.required]],
 			year: ['', [Validators.required]],
-			stream: ['', [Validators.required ]]
+			username: [],
+			email: []
 		});
-		this.profileForm.setValue(
-			{
-				fullname: 'spppppp',
-				phone_no: '9756283293',
-				roll_no: '140180101051',
-				stream: 'btech',
-				branch: 'cse',
-				year: '2014'
-			}
-		);
+		this.profileInfo.getProfileInfo()
+			.subscribe(res => {
+				console.log(res)
+				res = res[0]
+				this.profileForm.setValue(
+					{
+						fullname: res.fullname,
+						phone_no: res.phonenumber,
+						roll_no: res.roll_no ? res.roll_no : '140180101051',
+						branch: res.branch ? res.branch : 'cse',
+						year: res.year ? res.year : '2014',
+						username: this.username,
+						email: this.email
+					}
+				);
+			})
 		this.profileForm.disable();
+		this.storage.get('username')
+			.then(res => {
+				this.username = res;
+			})
+		this.storage.get('email')
+			.then(res => {
+				this.email = res;
+			})
 	}
 
 	ionViewDidLoad() {
@@ -81,6 +100,10 @@ export class ProfilePage {
 	}
 	submitForm() {
 		console.log(this.profileForm.value);
+		this.profileInfo.postProfileInfo(this.profileForm.value)
+			.subscribe(res => {
+				console.log(res)
+			})
 	}
 }
 class fields {
