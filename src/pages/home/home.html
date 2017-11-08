@@ -9,11 +9,11 @@
 	</ion-navbar>
 	<ion-toolbar no-border-top class="toolbar-segment">
 		<ion-segment [(ngModel)]="query" (ionChange)="showdata()">
-			<ion-segment-button value="new">
-				New
-			</ion-segment-button>
 			<ion-segment-button value="all">
-				Official
+				All
+			</ion-segment-button>
+			<ion-segment-button value="year">
+				Year
 			</ion-segment-button>
 			<ion-segment-button value="dept">
 				Department
@@ -49,10 +49,7 @@
 	</ion-refresher>
 	<ion-slides (ionSlideDidChange)="slideChanged()">
 		<ion-slide>
-			Some Content
-		</ion-slide>
-		<ion-slide>
-			<ion-card *ngFor="let notice of notices">
+			<ion-card *ngFor="let notice of noticesAll" text-left>
 				<ion-item no-lines>
 					<ion-avatar item-start>
 						<img src="assets/img/placeholder.png">
@@ -69,10 +66,55 @@
 			</ion-card>
 		</ion-slide>
 		<ion-slide>
-			Some Content
+			<ion-card *ngFor="let notice of noticesYear" text-left>
+				<ion-item no-lines>
+					<ion-avatar item-start>
+						<img src="assets/img/placeholder.png">
+					</ion-avatar>
+					<h2>{{ notice.notice_author }}</h2>
+					<p>{{ notice.notice_valid_till | date:"MM/dd/yy"}}</p>
+				</ion-item>
+				<ion-card-header>
+					{{notice.notice_name}}
+				</ion-card-header>
+				<ion-card-content>
+					{{notice.notice_desc}}
+				</ion-card-content>
+			</ion-card>
 		</ion-slide>
 		<ion-slide>
-			Some Content
+			<ion-card *ngFor="let notice of noticesDept" text-left>
+				<ion-item no-lines>
+					<ion-avatar item-start>
+						<img src="assets/img/placeholder.png">
+					</ion-avatar>
+					<h2>{{ notice.notice_author }}</h2>
+					<p>{{ notice.notice_valid_till | date:"MM/dd/yy"}}</p>
+				</ion-item>
+				<ion-card-header>
+					{{notice.notice_name}}
+				</ion-card-header>
+				<ion-card-content>
+					{{notice.notice_desc}}
+				</ion-card-content>
+			</ion-card>
+		</ion-slide>
+		<ion-slide>
+			<ion-card *ngFor="let notice of noticesClass" text-left>
+				<ion-item no-lines>
+					<ion-avatar item-start>
+						<img src="assets/img/placeholder.png">
+					</ion-avatar>
+					<h2>{{ notice.notice_author }}</h2>
+					<p>{{ notice.notice_valid_till | date:"MM/dd/yy"}}</p>
+				</ion-item>
+				<ion-card-header>
+					{{notice.notice_name}}
+				</ion-card-header>
+				<ion-card-content>
+					{{notice.notice_desc}}
+				</ion-card-content>
+			</ion-card>
 		</ion-slide>
 	</ion-slides>
 </ion-content>

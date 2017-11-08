@@ -6,7 +6,11 @@ export class ApiEndpointsProvider {
 	private authLoginAPI:string = this.baseAPI+'auth/login/';
 	private authRegisterAPI:string = this.baseAPI+'auth/register/';
 	private allNoticesAPI: string = this.baseAPI + 'notices/';
-	private profileAPI: string = this.baseAPI +'auth/profile/';
+	private profileAPI: string = this.baseAPI + 'auth/profile/';
+	private noticeYear: string = this.baseAPI + 'notices/year/';
+	private noticeDept: string = this.baseAPI + 'notices/branch/';
+	private noticeClass: string = this.baseAPI + 'notices/branchyear/';
+
 	constructor() {
 		console.log('Hello ApiEndpointsProvider Provider');
 	}
@@ -17,6 +21,18 @@ export class ApiEndpointsProvider {
 
 	getAllNoticesAPI(): string {
 		return this.allNoticesAPI;
+	}
+
+	getYearNoticesAPI(): string {
+		return this.noticeYear;
+	}
+
+	getDeptNoticesAPI(): string {
+		return this.noticeDept;
+	}
+
+	getClassNoticesAPI(): string {
+		return this.noticeClass;
 	}
 
 	getAuthLoginAPI(): string {

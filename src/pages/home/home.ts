@@ -9,20 +9,58 @@ import { ErrorHandlerProvider } from '../../providers/error-handler/error-handle
 	providers: [AllNoticesProvider, ErrorHandlerProvider]
 })
 export class HomePage {
-	notices: any
+	noticesAll: any;
+	noticesYear: any;
+	noticesDept: any;
+	noticesClass: any;
 	constructor(
 		public navCtrl: NavController,
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
 		private menu: MenuController
 	) {
+		this.query = 'all';
 		this.getNotices();
 	}
 	getNotices(refresher = null) {
+		console.log(this.query);
 		if (this.query == 'all') {
 			this.allNotices.getAllNotices()
 				.subscribe(data => {
-					this.notices = data;
+					this.noticesAll = data;
+					if (!refresher == false)
+						refresher.complete();
+				}, error => {
+					this.errorHandle.errorCtrl(error);
+					if (!refresher == false)
+						refresher.complete();
+				})
+		} else if (this.query == 'year') {
+			this.allNotices.getYearNoticesAPI()
+				.subscribe(data => {
+					this.noticesYear = data;
+					if (!refresher == false)
+						refresher.complete();
+				}, error => {
+					this.errorHandle.errorCtrl(error);
+					if (!refresher == false)
+						refresher.complete();
+				})
+		} else if (this.query == 'dept') {
+			this.allNotices.getDeptNoticesAPI()
+				.subscribe(data => {
+					this.noticesDept = data;
+					if (!refresher == false)
+						refresher.complete();
+				}, error => {
+					this.errorHandle.errorCtrl(error);
+					if (!refresher == false)
+						refresher.complete();
+				})
+		} else if (this.query == 'class') {
+			this.allNotices.getClassNoticesAPI()
+				.subscribe(data => {
+					this.noticesClass = data;
 					if (!refresher == false)
 						refresher.complete();
 				}, error => {
@@ -36,13 +74,13 @@ export class HomePage {
 		}
 	}
 	@ViewChild(Slides) slides: Slides;
-	public query: string = 'new';
+	public query: string = 'all';
 
 	showdata() {
-		if (this.query == 'new') {
+		if (this.query == 'all') {
 			this.slides.slideTo(0, 0);
 		}
-		if (this.query == 'all') {
+		if (this.query == 'year') {
 			this.slides.slideTo(1, 0);
 		}
 		if (this.query == 'dept') {
@@ -55,16 +93,20 @@ export class HomePage {
 
 	slideChanged() {
 		if (this.slides._activeIndex == 0) {
-			this.query = 'new';
+			this.query = 'all';
+			this.getNotices();
 		}
 		if (this.slides._activeIndex == 1) {
-			this.query = 'all';
+			this.query = 'year';
+			this.getNotices();
 		}
 		if (this.slides._activeIndex == 2) {
 			this.query = 'dept';
+			this.getNotices();
 		}
 		if (this.slides._activeIndex == 3) {
 			this.query = 'class';
+			this.getNotices();
 		}
 	}
 
