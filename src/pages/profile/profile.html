@@ -5,6 +5,19 @@
 			<ion-icon name="menu"></ion-icon>
 		</button>
 		<ion-title>Profile</ion-title>
+		<ion-buttons end>
+			<button ion-button icon-only color="light" (click)="editFields()" *ngIf="showEdit">
+				<ion-icon name="create"></ion-icon>
+			</button>
+			<button id="profile-submit"
+					ion-button btn color="positive"
+					*ngIf="!showEdit"
+					 form="profile-form"
+					[disabled]="!profileForm.valid">
+				Submit
+			</button>
+		</ion-buttons>
+
 	</ion-navbar>
 
 </ion-header>
@@ -12,36 +25,57 @@
 	<div class="profile-picture">
 		<img (click)="updateProfile()" alt="Profile Picture" src="{{profilePic}}">
 	</div>
-	<ion-list padding-top>
-		<ion-item>
-			<ion-input #fullname type="text" name="fullname" [disabled]="fields.fullname" value="Full Name" (ionBlur)="disableField('fullname')"></ion-input>
-			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(fullname, 'fullname');">
-				<ion-icon name="create"></ion-icon>
-			</button>
-		</ion-item>
-		<ion-item>
-			<ion-input #phoneno type="tel" name="phone_no" [disabled]="fields.phone_no" value="+91 9756283293" (ionBlur)="disableField('phone_no')"></ion-input>
-			<button ion-button clear color="dark" type="button" item-right large (click)="enableField(phoneno, 'phone_no');">
-				<ion-icon name="create"></ion-icon>
-			</button>
-		</ion-item>
-		<ion-item>
-			<ion-input #rollno type="tel" name="roll_no" [disabled]="fields.roll_no" value="140180101051" (ionBlur)="disableField('roll_no')"></ion-input>
-			<!-- <button ion-button clear color="dark" type="button" item-right large (click)="enableField(rollno, 'roll_no');">
-				<ion-icon name="create"></ion-icon>
-			</button> -->
-		</ion-item>
-		<ion-item>
-			<ion-input #branch type="text" name="branch" [disabled]="fields.branch" value="Comp. Science" (ionBlur)="disableField('branch')"></ion-input>
-			<!-- <button ion-button clear color="dark" type="button" item-right large (click)="enableField(branch, 'branch');">
-				<ion-icon name="create"></ion-icon>
-			</button> -->
-		</ion-item>
-		<ion-item>
-			<ion-input #year type="tel" name="year" [disabled]="fields.year" value="Senior" (ionBlur)="disableField('year')"></ion-input>
-			<!-- <button ion-button clear color="dark" type="button" item-right large (click)="enableField(year, 'year');">
-				<ion-icon name="create"></ion-icon>
-			</button> -->
-		</ion-item>
-	</ion-list>
+	<form id="profile-form" [formGroup]="profileForm" (ngSubmit)="submitForm()" disabled="true" padding-top>
+		<ion-list id="profile-list">
+			<ion-item id="profile-fullname">
+				<ion-label fixed>
+					Full Name
+				</ion-label>
+				<ion-input type="text" name="fullname" formControlName="fullname"></ion-input>
+			</ion-item>
+			<ion-item id="profile-phone_no">
+				<ion-label fixed>
+					Phone Number
+				</ion-label>
+				<ion-input type="tel" name="phone_no" formControlName="phone_no"></ion-input>
+			</ion-item>
+			<ion-item id="profile-roll_no">
+				<ion-label fixed>
+					Roll Number
+				</ion-label>
+				<ion-input type="tel" name="roll_no" formControlName="roll_no"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Stream</ion-label>
+				<ion-select formControlName="stream" name="stream" interface="popover">
+					<ion-option value="btech" selected selected="true">B. Tech</ion-option>
+					<ion-option value="mtech">M. Tech</ion-option>
+					<ion-option value="mca">MCA</ion-option>
+					<ion-option value="phd">Ph.D.</ion-option>
+				</ion-select>
+			</ion-item>
+			<ion-item id="profile-roll_no" ng-show="profileForm.stream=='btech'">
+				<ion-label>Branch</ion-label>
+				<ion-select formControlName="branch" name="branch" interface="popover">
+					<ion-option value="cse">Computer Science Engineering</ion-option>
+					<ion-option value="ce">Civil Engineering</ion-option>
+					<ion-option value="me">Mechanical Engineering</ion-option>
+					<ion-option value="bce">Bio-Chemical Engineering</ion-option>
+					<ion-option value="ece">Electronics and Comm. Engineering</ion-option>
+					<ion-option value="ee">Electrical Engineering</ion-option>
+					<ion-option value="asd">Dept. of Applied Science</ion-option>
+					<ion-option value="che">Chemical Engineering</ion-option>
+				</ion-select>
+			</ion-item>
+			<ion-item id="profile-year">
+				<ion-label>Year of Joining</ion-label>
+				<ion-select formControlName="year" name="year" interface="popover">
+					<ion-option checked="true">2014</ion-option>
+					<ion-option>2015</ion-option>
+					<ion-option>2016</ion-option>
+					<ion-option>2017</ion-option>
+				</ion-select>
+			</ion-item>
+		</ion-list>
+	</form>
 </ion-content>
