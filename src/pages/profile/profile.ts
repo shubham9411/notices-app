@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ActionSheetController, Platform } from 'ionic-angular';
+import { NavController, ActionSheetController, Platform, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
@@ -24,7 +24,8 @@ export class ProfilePage {
 		public actionSheetCtrl: ActionSheetController,
 		public platform: Platform,
 		private formBuilder: FormBuilder,
-		private profileInfo: ProfileProvider
+		private profileInfo: ProfileProvider,
+		private navParams: NavParams
 	) {
 		this.showEdit = true;
 		this.storage.get('profilePicture')
@@ -57,6 +58,10 @@ export class ProfilePage {
 				);
 			})
 		this.profileForm.disable();
+		if (this.navParams.data.setEdit == true) {
+			this.profileForm.enable();
+			this.showEdit = false;
+		}
 		this.storage.get('username')
 			.then(res => {
 				this.username = res;
