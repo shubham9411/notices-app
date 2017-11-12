@@ -21,6 +21,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { AboutPage } from '../pages/about/about';
 import { ThanksSignupPage } from '../pages/thanks-signup/thanks-signup';
 import { ProfilePage } from '../pages/profile/profile';
+import { CreateNewPage } from '../pages/create-new/create-new';
 
 import { AllNoticesProvider } from '../providers/all-notices/all-notices';
 import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
@@ -31,6 +32,7 @@ import { ProfileProvider } from '../providers/profile/profile';
 
 import { Storage } from '@ionic/storage';
 import { ProfileCaptureProvider } from '../providers/profile-capture/profile-capture';
+import { AddNoticesProvider } from '../providers/add-notices/add-notices';
 
 let storage = new Storage({});
 
@@ -52,7 +54,8 @@ export function getAuthHttp(http) {
 		SignupPage,
 		AboutPage,
 		ThanksSignupPage,
-		ProfilePage
+		ProfilePage,
+		CreateNewPage
 	],
 	imports: [
 		BrowserModule,
@@ -69,7 +72,8 @@ export function getAuthHttp(http) {
 		SignupPage,
 		AboutPage,
 		ThanksSignupPage,
-		ProfilePage
+		ProfilePage,
+		CreateNewPage
 	],
 	providers: [
 		StatusBar,
@@ -81,11 +85,12 @@ export function getAuthHttp(http) {
 		ErrorHandlerProvider,
 		SignupProvider,
 		{ provide: AuthHttp, useFactory: getAuthHttp, deps: [Http] },
-    	ProfileProvider,
+		ProfileProvider,
 		ProfileCaptureProvider,
 		Camera,
 		Crop,
-		Transfer
+		Transfer,
+		AddNoticesProvider
 	]
 })
 export class AppModule { }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ApiEndpointsProvider {
 
-	private baseAPI: string = 'http://192.168.1.35:8000/api/v1/';
+	private baseAPI: string = 'http://localhost:8000/api/v1/';
 	private authLoginAPI:string = this.baseAPI+'auth/login/';
 	private authRegisterAPI:string = this.baseAPI+'auth/register/';
 	private allNoticesAPI: string = this.baseAPI + 'notices/';
@@ -10,6 +10,7 @@ export class ApiEndpointsProvider {
 	private noticeYear: string = this.baseAPI + 'notices/year/';
 	private noticeDept: string = this.baseAPI + 'notices/branch/';
 	private noticeClass: string = this.baseAPI + 'notices/branchyear/';
+	private addNotices: string = this.baseAPI + 'addnotices/';
 
 	constructor() {
 		console.log('Hello ApiEndpointsProvider Provider');
@@ -43,7 +44,11 @@ export class ApiEndpointsProvider {
 		return this.authRegisterAPI;
 	}
 
-	getProfileAPI(): string{
+	getProfileAPI(): string {
 		return this.profileAPI;
+	}
+
+	getAddNoticesAPI(): string {
+		return this.addNotices;
 	}
 }

@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MenuController, NavController, Slides } from 'ionic-angular';
 import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
+import { CreateNewPage } from '../../pages/create-new/create-new';
 
 @Component({
 	selector: 'page-home',
@@ -116,6 +117,6 @@ export class HomePage {
 	}
 	addNewNotice() {
 		// logic for adding notices
-		console.log('not implemented yet!')
+		this.navCtrl.push(CreateNewPage);
 	}
 }
