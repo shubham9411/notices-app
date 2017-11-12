@@ -7,10 +7,11 @@ import { Storage } from '@ionic/storage'
 export class ProfileCaptureProvider {
 
 	public options: CameraOptions = {
-		quality: 100,
+		quality: 50,
 		sourceType: this.camera.PictureSourceType.CAMERA,
 		mediaType: this.camera.MediaType.PICTURE,
-		destinationType: this.camera.DestinationType.FILE_URI
+		destinationType: this.camera.DestinationType.FILE_URI,
+
 	}
 
 	constructor(
@@ -30,15 +31,14 @@ export class ProfileCaptureProvider {
 		return this.camera.getPicture(this.options)
 			.then((fileUri) => {
 				if (this.platform.is('ios')) {
-					this.storage.set('profilePicture', fileUri);
 					return fileUri;
 				} else if (this.platform.is('android')) {
 					fileUri = 'file://' + fileUri;
-					this.storage.set('profilePicture', fileUri);
-					return this.crop.crop(fileUri, { quality: 100 });
+					return this.crop.crop(fileUri, { quality: 50 });
 				}
 			})
 			.then((path) => {
+				this.storage.set('profilePicture', path);
 				console.log('Cropped Image Path!: ' + path);
 				return path;
 			})

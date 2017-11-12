@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { NavController, ActionSheetController, Platform, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
+import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 
 import { ProfileCaptureProvider } from '../../providers/profile-capture/profile-capture'
 import { ProfileProvider } from '../../providers/profile/profile'
+import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints'
 @Component({
 	selector: 'page-profile',
 	templateUrl: 'profile.html',
@@ -25,7 +27,9 @@ export class ProfilePage {
 		public platform: Platform,
 		private formBuilder: FormBuilder,
 		private profileInfo: ProfileProvider,
-		private navParams: NavParams
+		private navParams: NavParams,
+		private transfer: Transfer,
+		private api: ApiEndpointsProvider
 	) {
 		this.showEdit = true;
 		this.storage.get('profilePicture')
@@ -89,14 +93,20 @@ export class ProfilePage {
 					icon: !this.platform.is('ios') ? 'camera' : null,
 					handler: () => {
 						this.profile.getMedia('camera')
-							.then(res => this.profilePic = res);
+							.then(res => {
+								this.profilePic = res;
+								this.upload();
+							});
 					}
 				}, {
 					text: 'Album',
 					icon: !this.platform.is('ios') ? 'albums' : null,
 					handler: () => {
 						this.profile.getMedia('album')
-							.then(res => this.profilePic = res);
+							.then(res => {
+								this.profilePic = res;
+								this.upload(res);
+							});
 					}
 				}
 			]
@@ -109,6 +119,25 @@ export class ProfilePage {
 			.subscribe(res => {
 				console.log(res)
 			})
+	}
+	upload(imageData: any = this.profilePic) {
+		const fileTransfer: TransferObject = this.transfer.create();
+		this.storage.get('token').then( token => {
+			let options: FileUploadOptions = {
+				fileKey: 'image',
+				fileName: 'image.jpg',
+				headers: {'Authorization':'jwt '+token}
+			}
+			console.log(imageData);
+			console.log('imageData');
+			console.log(this.api.getProfileAPI())
+			fileTransfer.upload(imageData, this.api.getProfileAPI(), options)
+				.then((data) => {
+					console.log('success',data)
+				}, (err) => {
+					console.log("error" + JSON.stringify(err));
+				});
+		});
 	}
 }
 class fields {
