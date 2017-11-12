@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MenuController, NavController, Slides } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+
 import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { CreateNewPage } from '../../pages/create-new/create-new';
@@ -14,14 +16,20 @@ export class HomePage {
 	noticesYear: any;
 	noticesDept: any;
 	noticesClass: any;
+	is_admin: boolean;
 	constructor(
 		public navCtrl: NavController,
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
-		private menu: MenuController
+		private menu: MenuController,
+		private storage: Storage
 	) {
 		this.query = 'all';
 		this.getNotices();
+		this.storage.get('is_admin')
+			.then(res => {
+				this.is_admin = res;
+			})
 	}
 	getNotices(refresher = null) {
 		console.log(this.query);
