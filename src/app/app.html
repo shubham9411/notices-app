@@ -4,10 +4,10 @@
 
 		<ion-header>
 			<div class="user-profile-sidemenu">
-				<div class="user-avatar" (click)="openPage(appPages[2])">
+				<div class="user-avatar" (click)="openPage(appPages[1])">
 					<img src="assets/img/placeholder.png" alt="avatar">
 				</div>
-				<div class="user-info" (click)="openPage(appPages[2])">
+				<div class="user-info" (click)="openPage(appPages[1])">
 					<p><b [innerHTML]="username"></b></p>
 					<p [innerHTML]="email"></p>
 				</div>
@@ -16,13 +16,22 @@
 		</ion-header>
 
 		<ion-content class="outer-content">
+			<ion-list *ngIf="is_admin">
+				<ion-list-header>
+					Admin
+				</ion-list-header>
+				<button ion-item menuClose *ngFor="let p of adminPages" (click)="openPage(p)">
+					<ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+					{{p.title}}
+				</button>
+			</ion-list>
 			<ion-list>
 				<!-- <ion-list-header>
 				  Menu
 				</ion-list-header> -->
-				<button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)">
-				  <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
-				  {{p.title}}
+				<button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)" >
+				<ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+				{{p.title}}
 				</button>
 			  </ion-list>
 		</ion-content>

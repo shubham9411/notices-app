@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+	<button ion-button menuToggle>
+		<ion-icon name="menu"></ion-icon>
+	</button>
+    <ion-title>My Notices</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+	<ion-refresher (ionRefresh)="getNotices($event)">
+		<ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
+			></ion-refresher-content>
+	</ion-refresher>
+	<ion-card *ngFor="let notice of notices">
+		<ion-item no-lines>
+			<ion-avatar item-start>
+				<img src="assets/img/placeholder.png">
+			</ion-avatar>
+			<h2>{{ notice.notice_author }}</h2>
+			<p>{{ notice.notice_valid_till | date:"MM/dd/yy"}}</p>
+		</ion-item>
+		<ion-card-header>
+			{{notice.notice_name}}
+		</ion-card-header>
+		<ion-card-content>
+			{{notice.notice_desc}}
+		</ion-card-content>
+	</ion-card>
+</ion-content>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Events, NavController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
+import { JwtHelper } from 'angular2-jwt';
 
 import { LoginProvider } from '../../providers/login/login';
 import { HomePage } from '../../pages/home/home';
@@ -11,7 +12,7 @@ import { ErrorHandlerProvider } from '../../providers/error-handler/error-handle
 @Component({
 	selector: 'page-login',
 	templateUrl: 'login.html',
-	providers: [LoginProvider, ErrorHandlerProvider]
+	providers: [LoginProvider, ErrorHandlerProvider, JwtHelper]
 })
 export class LoginPage {
 
@@ -23,7 +24,8 @@ export class LoginPage {
 		private formBuilder: FormBuilder,
 		private errorHandle: ErrorHandlerProvider,
 		public storage: Storage,
-		private events: Events
+		private events: Events,
+		private jwtHelper: JwtHelper
 	) {
 		this.pushPage = SignupPage;
 		this.loginForm = this.formBuilder.group({
@@ -43,6 +45,9 @@ export class LoginPage {
 		}
 		this.loginPost.postLoginCred(this.loginForm.value)
 			.subscribe((data) => {
+				let decodeToken = this.jwtHelper.decodeToken(data.token);
+				console.log(decodeToken);
+				this.storage.set('is_admin', decodeToken.is_admin);
 				console.log(data)
 				this.storage.set('token', data.token);
 				this.storage.set('username', data.username);

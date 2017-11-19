@@ -24,7 +24,10 @@ export class ErrorHandlerProvider {
 		if( typeErr== 'string'){
 			// error = JSON.parse(err['_body'])['non_field_errors'];
 			let ar = JSON.parse(err['_body']);
-			error = ar[Object.keys(ar)[0]];
+			let ermsg:string = ar.errors[0];
+			let index:number = ermsg.indexOf(':');
+			error = ermsg.slice(index+1,ermsg.length);
+			// error = ar[Object.keys(ar)[0]];
 		} else if( typeErr == 'object') {
 			error = 'Try Again!';
 		}

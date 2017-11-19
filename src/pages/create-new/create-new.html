@@ -1,0 +1,64 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			Create New
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content padding id="page8">
+	<form id="createNew-form7" (ngSubmit)="submitForm()">
+		<ion-item id="createNew-input12">
+			<ion-label floating>
+				Name
+			</ion-label>
+			<ion-input type="text" [(ngModel)]="createForm.notice_name" name="notice_name"></ion-input>
+		</ion-item>
+		<ion-item id="createNew-textarea-head">
+			<ion-label>Description</ion-label>
+		</ion-item>
+		<ion-item id="createNew-textarea3">
+			<ion-textarea [(ngModel)]="createForm.notice_desc" name="notice_desc"></ion-textarea>
+		</ion-item>
+		<ion-item id="createNew-select6">
+			<ion-label>
+				Notice for
+			</ion-label>
+			<ion-select [(ngModel)]="createForm.choices" name="choices" interface="popover">
+				<ion-option value="all">All</ion-option>
+				<ion-option value="year">Year</ion-option>
+				<ion-option value="dept">Department</ion-option>
+				<ion-option value="class">Class</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item id="createNew-branch" *ngIf="createForm.choices != 'all'">
+			<ion-label>
+				Department
+			</ion-label>
+			<ion-select [(ngModel)]="createForm.branch" name="branch" interface="popover">
+				<ion-option value="cse">Computer Science Engineering</ion-option>
+				<ion-option value="ce">Civil Engineering</ion-option>
+				<ion-option value="me">Mechanical Engineering</ion-option>
+				<ion-option value="bce">Bio-Chemical Engineering</ion-option>
+				<ion-option value="ece">Electronics and Comm. Engineering</ion-option>
+				<ion-option value="ee">Electrical Engineering</ion-option>
+				<ion-option value="asd">Dept. of Applied Science</ion-option>
+				<ion-option value="che">Chemical Engineering</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item id="createNew-year" *ngIf="createForm.choices != 'all'">
+			<ion-label>Year</ion-label>
+			<ion-datetime displayFormat="YYYY" name="year" [(ngModel)]="createForm.year"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label>Valid till</ion-label>
+			<ion-datetime displayFormat="MMM DD YYYY" name="valid_till" min="{{createForm.valid_till}}" [(ngModel)]="createForm.valid_till"></ion-datetime>
+		</ion-item>
+		<div class="spacer"></div>
+		<button id="createNew-submit" ion-button type="submit" color="vibrent" block round>
+			Create
+		</button>
+	</form>
+</ion-content>

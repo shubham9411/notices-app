@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { HomePage } from '../../pages/home/home';
+import { ProfilePage } from '../../pages/profile/profile';
 
 @Component({
 	selector: 'page-thanks-signup',
@@ -16,8 +16,8 @@ export class ThanksSignupPage {
 		console.log('ionViewDidLoad ThanksSignupPage');
 	}
 
-	goToHomePage() {
-		this.navCtrl.setRoot(HomePage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
+	goToProfilePage() {
+		this.navCtrl.setRoot(ProfilePage, {setEdit: true}, { animate: true, animation: 'ios-transition', direction: 'forward' })
 	}
 
 }

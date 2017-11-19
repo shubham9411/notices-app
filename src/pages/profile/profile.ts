@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, ActionSheetController, Platform } from 'ionic-angular';
+import { NavController, ActionSheetController, Platform, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
+import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 
 import { ProfileCaptureProvider } from '../../providers/profile-capture/profile-capture'
 import { ProfileProvider } from '../../providers/profile/profile'
+import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints'
 @Component({
 	selector: 'page-profile',
 	templateUrl: 'profile.html',
@@ -24,7 +26,10 @@ export class ProfilePage {
 		public actionSheetCtrl: ActionSheetController,
 		public platform: Platform,
 		private formBuilder: FormBuilder,
-		private profileInfo: ProfileProvider
+		private profileInfo: ProfileProvider,
+		private navParams: NavParams,
+		private transfer: Transfer,
+		private api: ApiEndpointsProvider
 	) {
 		this.showEdit = true;
 		this.storage.get('profilePicture')
@@ -49,14 +54,18 @@ export class ProfilePage {
 						fullname: res.fullname,
 						phone_no: res.phonenumber,
 						roll_no: res.roll_no ? res.roll_no : '140180101051',
-						branch: res.branch ? res.branch : 'cse',
-						year: res.year ? res.year : '2014',
+						branch: res.profile.branch ? res.profile.branch : 'cse',
+						year: res.profile.year ? res.profile.year : '2014',
 						username: this.username,
 						email: this.email
 					}
 				);
 			})
 		this.profileForm.disable();
+		if (this.navParams.data.setEdit == true) {
+			this.profileForm.enable();
+			this.showEdit = false;
+		}
 		this.storage.get('username')
 			.then(res => {
 				this.username = res;
@@ -84,14 +93,20 @@ export class ProfilePage {
 					icon: !this.platform.is('ios') ? 'camera' : null,
 					handler: () => {
 						this.profile.getMedia('camera')
-							.then(res => this.profilePic = res);
+							.then(res => {
+								this.profilePic = res;
+								this.upload();
+							});
 					}
 				}, {
 					text: 'Album',
 					icon: !this.platform.is('ios') ? 'albums' : null,
 					handler: () => {
 						this.profile.getMedia('album')
-							.then(res => this.profilePic = res);
+							.then(res => {
+								this.profilePic = res;
+								this.upload(res);
+							});
 					}
 				}
 			]
@@ -104,6 +119,25 @@ export class ProfilePage {
 			.subscribe(res => {
 				console.log(res)
 			})
+	}
+	upload(imageData: any = this.profilePic) {
+		const fileTransfer: TransferObject = this.transfer.create();
+		this.storage.get('token').then( token => {
+			let options: FileUploadOptions = {
+				fileKey: 'image',
+				fileName: 'image.jpg',
+				headers: {'Authorization':'jwt '+token}
+			}
+			console.log(imageData);
+			console.log('imageData');
+			console.log(this.api.getProfileAPI())
+			fileTransfer.upload(imageData, this.api.getProfileAPI(), options)
+				.then((data) => {
+					console.log('success',data)
+				}, (err) => {
+					console.log("error" + JSON.stringify(err));
+				});
+		});
 	}
 }
 class fields {

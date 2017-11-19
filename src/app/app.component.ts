@@ -10,13 +10,14 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
 import { ProfilePage } from '../pages/profile/profile';
+import { CreateNewPage } from '../pages/create-new/create-new';
+import { MyNoticesPage } from '../pages/my-notices/my-notices';
 
 export interface PageInterface {
 	title: string;
 	name: string;
 	component: any;
 	icon: string;
-	logsOut?: boolean;
 	index?: number;
 }
 
@@ -25,12 +26,16 @@ export interface PageInterface {
 })
 export class MyApp {
 	@ViewChild(Nav) nav: Nav;
+	is_admin: boolean;
+	adminPages: PageInterface[] = [
+		{ title: 'Create New', name: 'CreateNewPage', component: CreateNewPage, index: 1, icon: 'create' },
+		{ title: 'My Notices', name: 'MyNoticesPage', component: MyNoticesPage, index: 2, icon: 'list' },
+	];
 	appPages: PageInterface[] = [
-		{ title: 'Welcome', name: 'WelcomePage', component: WelcomePage, index: 0, icon: 'calendar' },
-		{ title: 'Home', name: 'HomePage', component: HomePage, index: 1, icon: 'home' },
-		{ title: 'Profile', name: 'ProfilePage', component: ProfilePage, index: 2, icon: 'person' },
-		{ title: 'About', name: 'AboutPage', component: AboutPage, index: 3, icon: 'information-circle' },
-		{ title: 'Logout', name: 'Logout', component: LoginPage, index: 3, icon: 'log-out' }
+		{ title: 'Home', name: 'HomePage', component: HomePage, index: 0, icon: 'home'},
+		{ title: 'Profile', name: 'ProfilePage', component: ProfilePage, index: 1, icon: 'person'},
+		{ title: 'About', name: 'AboutPage', component: AboutPage, index: 2, icon: 'information-circle'},
+		{ title: 'Logout', name: 'Logout', component: LoginPage, index: 3, icon: 'log-out'}
 	];
 	rootPage: any;
 	jwtHelper: JwtHelper = new JwtHelper();
@@ -72,9 +77,13 @@ export class MyApp {
 				});
 			splashScreen.hide();
 			events.subscribe('user:login', () => {
+				this.storage.get('is_admin')
+					.then(res => {
+						this.is_admin = res;
+					})
 				console.log('sss')
 				this.storage.get('username')
-					.then(name => { this.username = name; console.log(name); console.log(this.username)});
+					.then(name => { this.username = name; console.log(name); console.log(this.username) });
 				this.storage.get('email')
 					.then(email => this.email = email);
 				console.log(this.username)

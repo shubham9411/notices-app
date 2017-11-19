@@ -77,7 +77,7 @@ export class SignupPage {
 				this.storage.set('username', data.username);
 				this.storage.set('email', data.email);
 
-				this.errorHandle.presentToast('Welcome back!');
+				this.errorHandle.presentToast('Welcome to the Notices!');
 				this.navCtrl.push(ThanksSignupPage)
 			},
 			(err) => {
