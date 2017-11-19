@@ -34,7 +34,6 @@ export class AllNoticesProvider {
 	}
 
 	getYearNoticesAPI() {
-		console.log('nototot')
 		var headers = new Headers;
 		headers.append("Content-Type", "application/json");
 
@@ -44,7 +43,6 @@ export class AllNoticesProvider {
 	}
 
 	getDeptNoticesAPI() {
-		console.log('nototot')
 		var headers = new Headers;
 		headers.append("Content-Type", "application/json");
 		console.log(this.dept);
@@ -54,12 +52,19 @@ export class AllNoticesProvider {
 	}
 
 	getClassNoticesAPI() {
-		console.log('nototot')
 		var headers = new Headers;
 		headers.append("Content-Type", "application/json");
 
 		return this.authHttp.post(this.api.getClassNoticesAPI(), this.class, { headers: headers })
 			.map(res => res.json());
 
+	}
+
+	getMyNotices() {
+		var headers = new Headers;
+		headers.append("Content-Type", "application/json");
+
+		return this.authHttp.get(this.api.getMyNotices(), { headers: headers })
+			.map(res => res.json());
 	}
 }

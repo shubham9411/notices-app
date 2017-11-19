@@ -11,6 +11,7 @@ import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
 import { ProfilePage } from '../pages/profile/profile';
 import { CreateNewPage } from '../pages/create-new/create-new';
+import { MyNoticesPage } from '../pages/my-notices/my-notices';
 
 export interface PageInterface {
 	title: string;
@@ -27,7 +28,8 @@ export class MyApp {
 	@ViewChild(Nav) nav: Nav;
 	is_admin: boolean;
 	adminPages: PageInterface[] = [
-		{ title: 'Create New', name: 'CreateNewPage', component: CreateNewPage, index: 2, icon: 'create' },
+		{ title: 'Create New', name: 'CreateNewPage', component: CreateNewPage, index: 1, icon: 'create' },
+		{ title: 'My Notices', name: 'MyNoticesPage', component: MyNoticesPage, index: 2, icon: 'list' },
 	];
 	appPages: PageInterface[] = [
 		{ title: 'Home', name: 'HomePage', component: HomePage, index: 0, icon: 'home'},

@@ -22,7 +22,7 @@ export class CreateNewPage {
 			notice_desc: "",
 			notice_name: "",
 			valid_till: date.toISOString().split('T')[0],
-			year: date.getFullYear()
+			year: '',
 		}
 	}
 

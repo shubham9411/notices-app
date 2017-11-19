@@ -43,6 +43,7 @@
     "ionic-angular": "3.6.1",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
+    "node-sass": "^4.7.1",
     "rxjs": "5.4.0",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.12"
@@ -66,8 +67,6 @@
       "cordova-plugin-file": {},
       "cordova-plugin-compat": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }

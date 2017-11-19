@@ -54,8 +54,8 @@ export class ProfilePage {
 						fullname: res.fullname,
 						phone_no: res.phonenumber,
 						roll_no: res.roll_no ? res.roll_no : '140180101051',
-						branch: res.branch ? res.branch : 'cse',
-						year: res.year ? res.year : '2014',
+						branch: res.profile.branch ? res.profile.branch : 'cse',
+						year: res.profile.year ? res.profile.year : '2014',
 						username: this.username,
 						email: this.email
 					}
