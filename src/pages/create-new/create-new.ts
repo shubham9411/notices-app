@@ -1,28 +1,25 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { AddNoticesProvider } from '../../providers/add-notices/add-notices';
+import { UploadFilesProvider } from '../../providers/upload-files/upload-files';
 
 @Component({
 	selector: 'page-create-new',
 	templateUrl: 'create-new.html',
-	providers: [AddNoticesProvider]
+	providers: [UploadFilesProvider]
 })
 export class CreateNewPage {
 	createForm = {};
+	file: string;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		private addNotice: AddNoticesProvider
+		private addNotice: UploadFilesProvider
 	) {
 		let date = new Date;
 		this.createForm = {
-			branch: "cse",
-			choices: "dept",
-			notice_desc: "",
-			notice_name: "",
+			choices: "all",
 			valid_till: date.toISOString().split('T')[0],
-			year: '',
 		}
 	}
 
@@ -30,12 +27,12 @@ export class CreateNewPage {
 		console.log('ionViewDidLoad CreateNewPage');
 	}
 
-	submitForm() {
-		console.log(this.createForm);
-		this.addNotice.postNewNotices(this.createForm)
-			.subscribe(res => {
-				console.log(res);
-			})
+	pickFile() {
+		console.log('user wants to upload a file')
 	}
 
+	submitForm() {
+		console.log(this.createForm);
+		this.addNotice.createNewNotice(this.createForm, this.file)
+	}
 }

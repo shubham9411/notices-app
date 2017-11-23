@@ -33,7 +33,7 @@ import { ProfileProvider } from '../providers/profile/profile';
 
 import { Storage } from '@ionic/storage';
 import { ProfileCaptureProvider } from '../providers/profile-capture/profile-capture';
-import { AddNoticesProvider } from '../providers/add-notices/add-notices';
+import { UploadFilesProvider } from '../providers/upload-files/upload-files';
 
 let storage = new Storage({});
 
@@ -63,7 +63,7 @@ export function getAuthHttp(http) {
 		BrowserModule,
 		IonicModule.forRoot(MyApp),
 		HttpModule,
-		IonicStorageModule.forRoot()
+		IonicStorageModule.forRoot(),
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -93,7 +93,7 @@ export function getAuthHttp(http) {
 		Camera,
 		Crop,
 		Transfer,
-		AddNoticesProvider
+		UploadFilesProvider,
 	]
 })
 export class AppModule { }

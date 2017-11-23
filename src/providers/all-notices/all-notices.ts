@@ -17,7 +17,7 @@ export class AllNoticesProvider {
 		public storage: Storage,
 		private authHttp: AuthHttp
 	) {
-		this.year = 2014;
+		this.year = 2017;
 		this.dept = 'cse';
 		this.class = {
 			branch: this.dept,
