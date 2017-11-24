@@ -12,7 +12,7 @@
 	<form id="createNew-form7" (ngSubmit)="submitForm()">
 		<ion-item id="createNew-input12">
 			<ion-label floating>
-				Name
+				Title
 			</ion-label>
 			<ion-input type="text" [(ngModel)]="createForm.notice_name" name="notice_name"></ion-input>
 		</ion-item>
@@ -23,12 +23,12 @@
 		<ion-item>
 			<input type="file" [(ngModel)]="createForm.notice_file" name="notice_file" (change)="updated($event);">
 		</ion-item>
-
 		<ion-item id="createNew-select6">
 			<ion-label>
 				Notice for
 			</ion-label>
-			<ion-select [(ngModel)]="createForm.choices" name="choices" interface="popover">
+<ion-select [(ngModel)]="createForm.choices" name="choices" interface="popover" (ionChange)="updateNoticeFor()">
+
 				<ion-option value="all">All</ion-option>
 				<ion-option value="year">Year</ion-option>
 				<ion-option value="dept">Department</ion-option>
@@ -36,7 +36,6 @@
 			</ion-select>
 		</ion-item>
 		<ion-item id="createNew-branch" *ngIf="(createForm.choices == 'dept' || createForm.choices == 'class')">
-
 			<ion-label>
 				Department
 			</ion-label>
@@ -52,7 +51,6 @@
 			</ion-select>
 		</ion-item>
 		<ion-item id="createNew-year" *ngIf="(createForm.choices == 'class' || createForm.choices == 'year')">
-
 			<ion-label>Year</ion-label>
 			<ion-datetime displayFormat="YYYY" name="year" [(ngModel)]="createForm.year"></ion-datetime>
 		</ion-item>
