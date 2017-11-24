@@ -12,6 +12,7 @@ import { AboutPage } from '../pages/about/about';
 import { ProfilePage } from '../pages/profile/profile';
 import { CreateNewPage } from '../pages/create-new/create-new';
 import { MyNoticesPage } from '../pages/my-notices/my-notices';
+import { ErrorHandlerProvider } from '../providers/error-handler/error-handler';
 
 export interface PageInterface {
 	title: string;
@@ -32,28 +33,49 @@ export class MyApp {
 		{ title: 'My Notices', name: 'MyNoticesPage', component: MyNoticesPage, index: 2, icon: 'list' },
 	];
 	appPages: PageInterface[] = [
-		{ title: 'Home', name: 'HomePage', component: HomePage, index: 0, icon: 'home'},
-		{ title: 'Profile', name: 'ProfilePage', component: ProfilePage, index: 1, icon: 'person'},
-		{ title: 'About', name: 'AboutPage', component: AboutPage, index: 2, icon: 'information-circle'},
-		{ title: 'Logout', name: 'Logout', component: LoginPage, index: 3, icon: 'log-out'}
+		{ title: 'Home', name: 'HomePage', component: HomePage, index: 0, icon: 'home' },
+		{ title: 'Profile', name: 'ProfilePage', component: ProfilePage, index: 1, icon: 'person' },
+		{ title: 'About', name: 'AboutPage', component: AboutPage, index: 2, icon: 'information-circle' },
+		{ title: 'Logout', name: 'Logout', component: LoginPage, index: 3, icon: 'log-out' }
 	];
 	rootPage: any;
 	jwtHelper: JwtHelper = new JwtHelper();
 	username: string;
 	email: string;
+	warnedExit: boolean = false;
 	constructor(
 		platform: Platform,
 		statusBar: StatusBar,
 		public storage: Storage,
 		public events: Events,
 		public menu: MenuController,
-		splashScreen: SplashScreen
+		splashScreen: SplashScreen,
+		private error: ErrorHandlerProvider
 	) {
 		platform.ready().then(() => {
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.
 			statusBar.styleDefault();
-			this.menu.swipeEnable(false)
+			this.menu.swipeEnable(false);
+			platform.registerBackButtonAction(() => {
+				if (this.menu.isOpen()) {
+					this.menu.close()
+				} else if (this.nav.canGoBack()) {
+					this.nav.pop();
+				} else {
+					console.log(this.warnedExit);
+					if (!this.warnedExit) {
+						this.warnedExit = true;
+						this.error.presentToast('Press back again to exit.');
+						setTimeout(() => {
+							this.warnedExit = false;
+							console.log('3 sec poorse hue')
+						}, 3000)
+					} else {
+						platform.exitApp();
+					}
+				}
+			});
 			this.storage.get('hasSeenTutorial')
 				.then((hasSeenTutorial) => {
 					console.log(hasSeenTutorial);
