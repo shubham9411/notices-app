@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, ActionSheetController, Platform, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
-import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 
-import { ProfileCaptureProvider } from '../../providers/profile-capture/profile-capture'
-import { ProfileProvider } from '../../providers/profile/profile'
-import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints'
+import { ProfileCaptureProvider } from '../../providers/profile-capture/profile-capture';
+import { ProfileProvider } from '../../providers/profile/profile';
+import { UploadFilesProvider } from '../../providers/upload-files/upload-files';
 @Component({
 	selector: 'page-profile',
 	templateUrl: 'profile.html',
@@ -28,9 +27,20 @@ export class ProfilePage {
 		private formBuilder: FormBuilder,
 		private profileInfo: ProfileProvider,
 		private navParams: NavParams,
-		private transfer: Transfer,
-		private api: ApiEndpointsProvider
+		private uploadFile: UploadFilesProvider
 	) {
+		if (this.navParams.data.setEdit == true) {
+			this.profileForm.enable();
+			this.showEdit = false;
+		}
+		this.storage.get('username')
+			.then(res => {
+				this.username = res;
+			})
+		this.storage.get('email')
+			.then(res => {
+				this.email = res;
+			})
 		this.showEdit = true;
 		this.storage.get('profilePicture')
 			.then(res => {
@@ -62,18 +72,6 @@ export class ProfilePage {
 				);
 			})
 		this.profileForm.disable();
-		if (this.navParams.data.setEdit == true) {
-			this.profileForm.enable();
-			this.showEdit = false;
-		}
-		this.storage.get('username')
-			.then(res => {
-				this.username = res;
-			})
-		this.storage.get('email')
-			.then(res => {
-				this.email = res;
-			})
 	}
 
 	ionViewDidLoad() {
@@ -117,27 +115,11 @@ export class ProfilePage {
 		console.log(this.profileForm.value);
 		this.profileInfo.postProfileInfo(this.profileForm.value)
 			.subscribe(res => {
-				console.log(res)
+				console.log(res);
 			})
 	}
 	upload(imageData: any = this.profilePic) {
-		const fileTransfer: TransferObject = this.transfer.create();
-		this.storage.get('token').then( token => {
-			let options: FileUploadOptions = {
-				fileKey: 'image',
-				fileName: 'image.jpg',
-				headers: {'Authorization':'jwt '+token}
-			}
-			console.log(imageData);
-			console.log('imageData');
-			console.log(this.api.getProfileAPI())
-			fileTransfer.upload(imageData, this.api.getProfileAPI(), options)
-				.then((data) => {
-					console.log('success',data)
-				}, (err) => {
-					console.log("error" + JSON.stringify(err));
-				});
-		});
+		this.uploadFile.uploadProfile(imageData);
 	}
 }
 class fields {
