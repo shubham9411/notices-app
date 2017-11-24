@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AuthHttp } from 'angular2-jwt';
-import { NgModel, DefaultValueAccessor, NgControl } from '@angular/forms';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Headers, RequestOptions } from '@angular/http';
 
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 
 @Component({
 	selector: 'page-create-new',
 	templateUrl: 'create-new.html',
-	providers: [UploadFilesProvider]
 })
 export class CreateNewPage {
 	createForm = {};
