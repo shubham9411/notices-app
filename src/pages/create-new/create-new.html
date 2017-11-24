@@ -17,15 +17,11 @@
 			<ion-input type="text" [(ngModel)]="createForm.notice_name" name="notice_name"></ion-input>
 		</ion-item>
 		<ion-item id="createNew-textarea-head">
-			<ion-label>Description</ion-label>
-		</ion-item>
-		<ion-item id="createNew-textarea3">
+			<ion-label floating>Description</ion-label>
 			<ion-textarea [(ngModel)]="createForm.notice_desc" name="notice_desc"></ion-textarea>
 		</ion-item>
 		<ion-item>
-			<button id="notice_file" ion-button type="button" color="primary" block (click)="pickFile()">
-				Upload File
-			</button>
+			<input type="file" [(ngModel)]="createForm.notice_file" name="notice_file" (change)="updated($event);">
 		</ion-item>
 
 		<ion-item id="createNew-select6">

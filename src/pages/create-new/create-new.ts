@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { AuthHttp } from 'angular2-jwt';
+import { NgModel, DefaultValueAccessor, NgControl } from '@angular/forms';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
-import { UploadFilesProvider } from '../../providers/upload-files/upload-files';
+import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 
 @Component({
 	selector: 'page-create-new',
@@ -11,10 +14,12 @@ import { UploadFilesProvider } from '../../providers/upload-files/upload-files';
 export class CreateNewPage {
 	createForm = {};
 	file: string;
+	formData = new FormData();
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		private addNotice: UploadFilesProvider
+		private authHttp: AuthHttp,
+		private api: ApiEndpointsProvider
 	) {
 		let date = new Date;
 		this.createForm = {
@@ -27,12 +32,23 @@ export class CreateNewPage {
 		console.log('ionViewDidLoad CreateNewPage');
 	}
 
-	pickFile() {
-		console.log('user wants to upload a file')
-	}
-
 	submitForm() {
-		console.log(this.createForm);
-		this.addNotice.createNewNotice(this.createForm, this.file)
+		for (let key in this.createForm) {
+			console.log(key)
+			this.formData.append(key, this.createForm[key]);
+			console.log(this.createForm[key]);
+		}
+		const headers = new Headers({});
+		let options = new RequestOptions({ headers });
+		this.authHttp.post(this.api.getAddNoticesAPI(), this.formData, options)
+			.subscribe(res => {
+				let body = res.json();
+				console.log(body)
+			});
+	}
+	updated($event) {
+		const files = $event.target.files || $event.srcElement.files;
+		const file = files[0];
+		this.formData.append('notice_file', file);
 	}
 }
