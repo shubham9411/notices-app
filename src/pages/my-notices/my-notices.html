@@ -9,8 +9,8 @@
 
 </ion-header>
 
-<ion-content padding>
-	<ion-refresher (ionRefresh)="getNotices($event)">
+<ion-content>
+	<ion-refresher (ionRefresh)="getMyNotices($event)">
 		<ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
 			></ion-refresher-content>
 	</ion-refresher>

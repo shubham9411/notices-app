@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
+import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 
 @Component({
 	selector: 'page-my-notices',
@@ -13,7 +14,8 @@ export class MyNoticesPage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		private allNotices: AllNoticesProvider
+		private allNotices: AllNoticesProvider,
+		private errorHandle: ErrorHandlerProvider
 	) {
 	}
 
@@ -22,14 +24,16 @@ export class MyNoticesPage {
 		this.getMyNotices();
 	}
 
-	getMyNotices() {
+	getMyNotices(refresher = null) {
 		this.allNotices.getMyNotices()
-			.subscribe(res => {
-				this.notices = res;
+			.subscribe(data => {
+				this.notices = data;
+				if (!refresher == false)
+					refresher.complete();
+			}, error => {
+				this.errorHandle.errorCtrl(error);
+				if (!refresher == false)
+					refresher.complete();
 			})
 	}
-	getNotices(refresher) {
-		refresher.hide();
-	}
-
 }
