@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuController, NavController, Slides } from 'ionic-angular';
+import { MenuController, NavController, Slides, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { FabContainer } from 'ionic-angular';
 
 import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
@@ -17,7 +18,10 @@ export class HomePage {
 	noticesDept: any;
 	noticesClass: any;
 	is_admin: boolean;
+	isFab: boolean = false;
+	@ViewChild('fab') fab: FabContainer;
 	constructor(
+		platform: Platform,
 		public navCtrl: NavController,
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
@@ -30,6 +34,14 @@ export class HomePage {
 			.then(res => {
 				this.is_admin = res;
 			})
+		platform.registerBackButtonAction(() => {
+			if (this.isFab) {
+				this.fab.close();
+				return;
+			} else{
+				platform.exitApp();
+			}
+		});
 	}
 	getNotices(refresher = null) {
 		console.log(this.query);
@@ -123,8 +135,12 @@ export class HomePage {
 		// the root left menu should be disabled on the tutorial page
 		this.menu.swipeEnable(true);
 	}
-	addNewNotice() {
+	addNewNotice(fab: FabContainer) {
 		// logic for adding notices
+		fab.close();
 		this.navCtrl.push(CreateNewPage);
+	}
+	toggleFab() {
+		this.isFab = !this.isFab;
 	}
 }

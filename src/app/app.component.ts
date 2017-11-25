@@ -63,8 +63,9 @@ export class MyApp {
 				} else if (this.nav.canGoBack()) {
 					this.nav.pop();
 				} else {
-					console.log(this.warnedExit);
-					if (!this.warnedExit) {
+					if (this.nav.getActive() && this.nav.getActive().name !== 'HomePage') {
+						this.nav.setRoot(HomePage, {}, { animate: true })
+					} else if (!this.warnedExit) {
 						this.warnedExit = true;
 						this.error.presentToast('Press back again to exit.');
 						setTimeout(() => {
