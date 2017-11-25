@@ -29,10 +29,6 @@ export class ProfilePage {
 		private navParams: NavParams,
 		private uploadFile: UploadFilesProvider
 	) {
-		if (this.navParams.data.setEdit == true) {
-			this.profileForm.enable();
-			this.showEdit = false;
-		}
 		this.storage.get('username')
 			.then(res => {
 				this.username = res;
@@ -63,15 +59,19 @@ export class ProfilePage {
 					{
 						fullname: res.fullname,
 						phone_no: res.phonenumber,
-						roll_no: res.roll_no ? res.roll_no : '140180101051',
-						branch: res.profile.branch ? res.profile.branch : 'cse',
-						year: res.profile.year ? res.profile.year : '2014',
+						roll_no: res.roll_no ? res.roll_no : '',
+						branch: res.profile.branch ? res.profile.branch : '',
+						year: res.profile.year ? res.profile.year : '',
 						username: this.username,
 						email: this.email
 					}
 				);
 			})
 		this.profileForm.disable();
+		if (this.navParams.data.setEdit == true) {
+			this.profileForm.enable();
+			this.showEdit = false;
+		}
 	}
 
 	ionViewDidLoad() {
