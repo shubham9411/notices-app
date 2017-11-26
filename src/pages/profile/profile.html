@@ -23,29 +23,29 @@
 </ion-header>
 <ion-content padding>
 	<div class="profile-picture">
-		<img (click)="updateProfile()" alt="Profile Picture" src="{{profilePic}}">
+		<img (click)="updateProfile()" alt="Profile Picture" [src]="profilePic" (error)="profilePic='assets/img/placeholder.png'">
 	</div>
-	<form id="profile-form" [formGroup]="profileForm" (ngSubmit)="submitForm()" disabled="true" padding-top>
+	<form id="profile-form" [formGroup]="profileForm" (ngSubmit)="submitForm()" disabled="true">
 		<ion-list id="profile-list">
 			<ion-item id="profile-fullname">
-				<ion-label fixed>
+				<ion-label floating>
 					Full Name
 				</ion-label>
 				<ion-input type="text" name="fullname" formControlName="fullname"></ion-input>
 			</ion-item>
 			<ion-item id="profile-phone_no">
-				<ion-label fixed>
+				<ion-label floating>
 					Phone Number
 				</ion-label>
 				<ion-input type="tel" name="phone_no" formControlName="phone_no"></ion-input>
 			</ion-item>
 			<ion-item id="profile-roll_no">
-				<ion-label fixed>
+				<ion-label floating>
 					Roll Number
 				</ion-label>
 				<ion-input type="tel" name="roll_no" formControlName="roll_no"></ion-input>
 			</ion-item>
-			<ion-item id="profile-roll_no" ng-show="profileForm.stream=='btech'">
+			<ion-item id="profile-roll_no">
 				<ion-label>Branch</ion-label>
 				<ion-select formControlName="branch" name="branch" interface="popover">
 					<ion-option value="cse">Computer Science Engineering</ion-option>
@@ -59,13 +59,8 @@
 				</ion-select>
 			</ion-item>
 			<ion-item id="profile-year">
-				<ion-label>Year of Joining</ion-label>
-				<ion-select formControlName="year" name="year" interface="popover">
-					<ion-option checked="true">2014</ion-option>
-					<ion-option>2015</ion-option>
-					<ion-option>2016</ion-option>
-					<ion-option>2017</ion-option>
-				</ion-select>
+				<ion-label>Year</ion-label>
+				<ion-datetime formControlName="year" name="year" displayFormat="YYYY"></ion-datetime>
 			</ion-item>
 		</ion-list>
 	</form>

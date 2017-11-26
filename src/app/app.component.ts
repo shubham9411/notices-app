@@ -106,24 +106,10 @@ export class MyApp {
 				});
 			splashScreen.hide();
 			events.subscribe('user:login', () => {
-				this.storage.get('is_admin')
-					.then(res => {
-						this.is_admin = res;
-					})
-				console.log('sss');
-				this.storage.get('username')
-					.then(name => { this.username = name; console.log(name); console.log(this.username) });
-				this.storage.get('email')
-					.then(email => this.email = email);
-				console.log(this.username);
-				this.profile.getProfileInfo()
-					.subscribe(res=>{
-						console.log(res);
-						let profileData = JSON.stringify(res);
-						this.storage.set('profileData',profileData);
-						this.avatar = this.api.getStaticMedia() + res[0].profile.image;
-						this.full_name = res[0].fullname;
-					})
+				this.updateProfileChange();
+			});
+			events.subscribe('user:update', () => {
+				this.updateProfileChange();
 			});
 		});
 	}
@@ -144,5 +130,25 @@ export class MyApp {
 			return 'primary';
 		}
 		return;
+	}
+	updateProfileChange() {
+		this.storage.get('is_admin')
+			.then(res => {
+				this.is_admin = res;
+			})
+		console.log('sss');
+		this.storage.get('username')
+			.then(name => { this.username = name; console.log(name); console.log(this.username) });
+		this.storage.get('email')
+			.then(email => this.email = email);
+		console.log(this.username);
+		this.profile.getProfileInfo()
+			.subscribe(res => {
+				console.log(res);
+				let profileData = res[0];
+				this.storage.set('profileData', profileData);
+				this.avatar = this.api.getStaticMedia() + res[0].profile.image;
+				this.full_name = res[0].fullname;
+			})
 	}
 }
