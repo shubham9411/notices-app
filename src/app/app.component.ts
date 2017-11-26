@@ -13,6 +13,8 @@ import { ProfilePage } from '../pages/profile/profile';
 import { CreateNewPage } from '../pages/create-new/create-new';
 import { MyNoticesPage } from '../pages/my-notices/my-notices';
 import { ErrorHandlerProvider } from '../providers/error-handler/error-handler';
+import { ProfileProvider } from '../providers/profile/profile';
+import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
 
 export interface PageInterface {
 	title: string;
@@ -43,6 +45,8 @@ export class MyApp {
 	username: string;
 	email: string;
 	warnedExit: boolean = false;
+	full_name: string;
+	avatar: string = 'assets/img/placeholder.png';
 	constructor(
 		platform: Platform,
 		statusBar: StatusBar,
@@ -50,7 +54,9 @@ export class MyApp {
 		public events: Events,
 		public menu: MenuController,
 		splashScreen: SplashScreen,
-		private error: ErrorHandlerProvider
+		private error: ErrorHandlerProvider,
+		private profile: ProfileProvider,
+		private api: ApiEndpointsProvider
 	) {
 		platform.ready().then(() => {
 			// Okay, so the platform is ready and our plugins are available.
@@ -104,12 +110,20 @@ export class MyApp {
 					.then(res => {
 						this.is_admin = res;
 					})
-				console.log('sss')
+				console.log('sss');
 				this.storage.get('username')
 					.then(name => { this.username = name; console.log(name); console.log(this.username) });
 				this.storage.get('email')
 					.then(email => this.email = email);
-				console.log(this.username)
+				console.log(this.username);
+				this.profile.getProfileInfo()
+					.subscribe(res=>{
+						console.log(res);
+						let profileData = JSON.stringify(res);
+						this.storage.set('profileData',profileData);
+						this.avatar = this.api.getStaticMedia() + res[0].profile.image;
+						this.full_name = res[0].fullname;
+					})
 			});
 		});
 	}
