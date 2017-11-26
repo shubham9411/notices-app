@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
+import { Events } from 'ionic-angular';
 
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 
@@ -12,6 +13,7 @@ export class UploadFilesProvider {
 		public storage: Storage,
 		private transfer: Transfer,
 		private api: ApiEndpointsProvider,
+		private events: Events
 	) {
 		console.log('Hello UploadFilesProvider Provider');
 	}
@@ -30,6 +32,7 @@ export class UploadFilesProvider {
 			fileTransfer.upload(fileData, this.api.getProfileAPI(), options)
 				.then((data) => {
 					console.log('success', data);
+					this.events.publish('user:login');
 				}, (err) => {
 					console.log(err);
 				});

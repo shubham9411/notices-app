@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ActionSheetController, Platform, NavParams, AlertController, Events } from 'ionic-angular';
+import { NavController, ActionSheetController, Platform, NavParams, AlertController, Events, LoadingController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
@@ -7,6 +7,8 @@ import { ProfileCaptureProvider } from '../../providers/profile-capture/profile-
 import { ProfileProvider } from '../../providers/profile/profile';
 import { UploadFilesProvider } from '../../providers/upload-files/upload-files';
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
+import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
+
 @Component({
 	selector: 'page-profile',
 	templateUrl: 'profile.html',
@@ -14,11 +16,14 @@ import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoint
 export class ProfilePage {
 	showEdit: boolean;
 	fields: fields = new fields;
-	profilePic: string;
+	profilePic: string = '';
 	stream: string = "btech";
 	private profileForm: FormGroup;
 	username: string;
 	email: string;
+	profileData: any;
+	loader: any;
+	setEdit: boolean = false;
 	constructor(
 		public navCtrl: NavController,
 		public storage: Storage,
@@ -31,7 +36,9 @@ export class ProfilePage {
 		private uploadFile: UploadFilesProvider,
 		public alertCtrl: AlertController,
 		public events: Events,
-		private api: ApiEndpointsProvider
+		private api: ApiEndpointsProvider,
+		public loadingCtrl: LoadingController,
+		private error: ErrorHandlerProvider
 	) {
 		this.setDefault();
 		this.profileForm = this.formBuilder.group({
@@ -45,24 +52,22 @@ export class ProfilePage {
 		});
 		this.profileForm.disable();
 		if (this.navParams.data.setEdit == true) {
+			this.setEdit = true;
 			this.editFields();
 		}
+	}
+	setDefault() {
 		this.storage.get('profileData')
 			.then(res => {
+				this.profileData = res;
+				this.username = res.username;
+				this.email = res.email;
+				this.profilePic = this.api.getStaticMedia() + res.profile.image;
 				if (res.id > 0) {
 					this.setForm(res);
 				} else {
 					this.getProfile();
 				}
-			})
-	}
-	setDefault() {
-		this.storage.get('profileData')
-			.then(res => {
-				this.username = res.username;
-				this.email = res.email;
-				this.profilePic = this.api.getStaticMedia() + res.profile.image;
-
 			})
 		this.showEdit = true;
 	}
@@ -73,6 +78,12 @@ export class ProfilePage {
 	editFields() {
 		this.showEdit = false;
 		this.profileForm.enable();
+		if ( this.setEdit ){
+		} else if(this.profileData.profile.year && this.profileData.profile.branch) {
+			this.profileForm.get('year').disable();
+			this.profileForm.get('branch').disable();
+		}
+		this.error.presentToast('Now you can edit profile :)')
 	}
 	disableFields() {
 		this.showEdit = true;
@@ -109,30 +120,38 @@ export class ProfilePage {
 		actionSheet.present();
 	}
 	submitForm() {
+		this.profileForm.get('year').enable();
+		this.profileForm.get('branch').enable();
 		console.log(this.profileForm.value);
-		let year:string = this.profileForm.value.year;
+		let year: string = this.profileForm.value.year;
 		year = year.split('-')[0];
 		this.profileForm.value.year = year;
-		this.profileInfo.postProfileInfo(this.profileForm.value)
-			.subscribe(res => {
-				console.log(res);
-				let alert = this.alertCtrl.create({
-					title: 'Updated',
-					subTitle: 'Your profile has been updated!',
-					buttons: [{
-						text: 'Ok',
-						handler: data => {
-							console.log('OK clicked');
-							this.storage.set('profileData', res[0]);
-							this.profileForm.reset();
-							this.setForm(res[0]);
-							this.disableFields();
-							this.events.publish('user:login');
-						}
-					}]
-				});
-				alert.present();
-			})
+		this.createLoader();
+		this.loader.present().then(() => {
+			this.profileInfo.postProfileInfo(this.profileForm.value)
+				.finally(() => {
+					this.loader.dismiss();
+				})
+				.subscribe(res => {
+					console.log(res);
+					let alert = this.alertCtrl.create({
+						title: 'Updated',
+						subTitle: 'Your profile has been updated!',
+						buttons: [{
+							text: 'Ok',
+							handler: data => {
+								console.log('OK clicked');
+								this.storage.set('profileData', res[0]);
+								this.profileForm.reset();
+								this.setForm(res[0]);
+								this.disableFields();
+								this.events.publish('user:login');
+							}
+						}]
+					});
+					alert.present();
+				})
+		});
 	}
 	upload(imageData: any = this.profilePic) {
 		this.uploadFile.uploadProfile(imageData);
@@ -162,6 +181,11 @@ export class ProfilePage {
 				email: this.email
 			}
 		);
+	}
+	createLoader() {
+		this.loader = this.loadingCtrl.create({
+			content: "Please wait...",
+		});
 	}
 }
 class fields {

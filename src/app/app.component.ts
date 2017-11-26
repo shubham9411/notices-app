@@ -138,7 +138,7 @@ export class MyApp {
 			})
 		console.log('sss');
 		this.storage.get('username')
-			.then(name => { this.username = name; console.log(name); console.log(this.username) });
+			.then(name => this.username = name);
 		this.storage.get('email')
 			.then(email => this.email = email);
 		console.log(this.username);
@@ -149,6 +149,7 @@ export class MyApp {
 				this.storage.set('profileData', profileData);
 				this.avatar = this.api.getStaticMedia() + res[0].profile.image;
 				this.full_name = res[0].fullname;
+				this.events.publish('user:updated', profileData);
 			})
 	}
 }

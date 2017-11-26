@@ -27,18 +27,22 @@ export class LoginPage {
 		public storage: Storage,
 		private events: Events,
 		private jwtHelper: JwtHelper,
-		public loadingCtrl: LoadingController
+		public loadingCtrl: LoadingController,
 	) {
 		this.pushPage = SignupPage;
 		this.loginForm = this.formBuilder.group({
-			username: ['', [Validators.required, Validators.minLength(4)]],
+			username: ['', [Validators.required, Validators.minLength(2)]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
 		});
 	}
 	submitForm() {
 		console.log(this.loginForm.value)
 		if (!this.loginForm.value.username) {
-			this.errorHandle.presentToast('Username can\'t be empty');
+			this.errorHandle.presentToast('Username can\'t be empty!');
+			return;
+		}
+		if (!this.loginForm.get('username').valid) {
+			this.errorHandle.presentToast('Username not valid!');
 			return;
 		}
 		if (!this.loginForm.value.password) {
