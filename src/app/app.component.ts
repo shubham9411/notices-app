@@ -130,9 +130,9 @@ export class MyApp {
 	openPage(page: PageInterface) {
 		if (page.component == LoginPage) {
 			this.menu.swipeEnable(false);
-			this.storage.remove('token');
-			this.storage.remove('username');
-			this.storage.remove('email');
+			this.storage.clear();
+			this.storage.set('hasSeenTutorial',true);
+			this.error.presentToast('You have successfully logged out!');
 		}
 		this.nav.setRoot(page.component).catch((err: any) => {
 			console.log(`Didn't set nav root: ${err}`);

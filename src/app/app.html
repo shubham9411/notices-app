@@ -5,7 +5,7 @@
 		<ion-header>
 			<div class="user-profile-sidemenu">
 				<div class="user-avatar" (click)="openPage(appPages[1])">
-					<img [src]="avatar" alt="avatar">
+					<img [src]="avatar" (error)="avatar='assets/img/placeholder.png'" alt="avatar">
 				</div>
 				<div class="user-info" (click)="openPage(appPages[1])">
 					<p><b [innerHTML]="full_name"></b></p>
