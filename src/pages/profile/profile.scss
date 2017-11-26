@@ -5,13 +5,15 @@ page-profile {
 		text-align: center;
 		padding: 2em 0;
 		img {
-			width: 100px;
-			height: 100px;
+			width: 150px;
+			height: 150px;
 			border-radius: 50%;
 		}
 	}
-	.text-input[disabled]{
+	.text-input[disabled] {
 		opacity: .7;
 	}
-
+	#profile-form {
+		padding-top: 20px;
+	}
 }

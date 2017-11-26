@@ -13,6 +13,8 @@ import { ProfilePage } from '../pages/profile/profile';
 import { CreateNewPage } from '../pages/create-new/create-new';
 import { MyNoticesPage } from '../pages/my-notices/my-notices';
 import { ErrorHandlerProvider } from '../providers/error-handler/error-handler';
+import { ProfileProvider } from '../providers/profile/profile';
+import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
 
 export interface PageInterface {
 	title: string;
@@ -43,6 +45,8 @@ export class MyApp {
 	username: string;
 	email: string;
 	warnedExit: boolean = false;
+	full_name: string;
+	avatar: string = 'assets/img/placeholder.png';
 	constructor(
 		platform: Platform,
 		statusBar: StatusBar,
@@ -50,7 +54,9 @@ export class MyApp {
 		public events: Events,
 		public menu: MenuController,
 		splashScreen: SplashScreen,
-		private error: ErrorHandlerProvider
+		private error: ErrorHandlerProvider,
+		private profile: ProfileProvider,
+		private api: ApiEndpointsProvider
 	) {
 		platform.ready().then(() => {
 			// Okay, so the platform is ready and our plugins are available.
@@ -63,8 +69,9 @@ export class MyApp {
 				} else if (this.nav.canGoBack()) {
 					this.nav.pop();
 				} else {
-					console.log(this.warnedExit);
-					if (!this.warnedExit) {
+					if (this.nav.getActive() && this.nav.getActive().name !== 'HomePage') {
+						this.nav.setRoot(HomePage, {}, { animate: true })
+					} else if (!this.warnedExit) {
 						this.warnedExit = true;
 						this.error.presentToast('Press back again to exit.');
 						setTimeout(() => {
@@ -99,25 +106,19 @@ export class MyApp {
 				});
 			splashScreen.hide();
 			events.subscribe('user:login', () => {
-				this.storage.get('is_admin')
-					.then(res => {
-						this.is_admin = res;
-					})
-				console.log('sss')
-				this.storage.get('username')
-					.then(name => { this.username = name; console.log(name); console.log(this.username) });
-				this.storage.get('email')
-					.then(email => this.email = email);
-				console.log(this.username)
+				this.updateProfileChange();
+			});
+			events.subscribe('user:update', () => {
+				this.updateProfileChange();
 			});
 		});
 	}
 	openPage(page: PageInterface) {
 		if (page.component == LoginPage) {
 			this.menu.swipeEnable(false);
-			this.storage.remove('token');
-			this.storage.remove('username');
-			this.storage.remove('email');
+			this.storage.clear();
+			this.storage.set('hasSeenTutorial',true);
+			this.error.presentToast('You have successfully logged out!');
 		}
 		this.nav.setRoot(page.component).catch((err: any) => {
 			console.log(`Didn't set nav root: ${err}`);
@@ -129,5 +130,26 @@ export class MyApp {
 			return 'primary';
 		}
 		return;
+	}
+	updateProfileChange() {
+		this.storage.get('is_admin')
+			.then(res => {
+				this.is_admin = res;
+			})
+		console.log('sss');
+		this.storage.get('username')
+			.then(name => this.username = name);
+		this.storage.get('email')
+			.then(email => this.email = email);
+		console.log(this.username);
+		this.profile.getProfileInfo()
+			.subscribe(res => {
+				console.log(res);
+				let profileData = res[0];
+				this.storage.set('profileData', profileData);
+				this.avatar = this.api.getStaticMedia() + res[0].profile.image;
+				this.full_name = res[0].fullname;
+				this.events.publish('user:updated', profileData);
+			})
 	}
 }

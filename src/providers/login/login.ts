@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/finally';
 
 import { ApiEndpointsProvider } from '../api-endpoints/api-endpoints';
 

@@ -30,32 +30,32 @@ export class SignupPage {
 			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
 			confirm_password: ['', [Validators.required, Validators.minLength(6)]],
-			fullname: ['', [Validators.required]],
-			username: ['', [Validators.required]],
-			phone_no: ['', [Validators.required]],
+			fullname: ['', [Validators.required, Validators.minLength(4)]],
+			username: ['', [Validators.required, Validators.minLength(2)]],
+			phonenumber: ['', [Validators.required, Validators.minLength(10)]],
 		});
 	}
 
 	submitForm() {
 		console.log(this.signupForm.value)
-		if (!this.signupForm.value.fullname) {
-			this.errorHandle.presentToast('Name can\'t be empty');
+		if (!this.signupForm.get('fullname').valid) {
+			this.errorHandle.presentToast('Name must have 4 characters!');
 			return;
 		}
-		if (!this.signupForm.value.username) {
-			this.errorHandle.presentToast('Username can\'t be empty');
+		if (!this.signupForm.get('username').valid) {
+			this.errorHandle.presentToast('Username must have 2 characters!');
 			return;
 		}
-		if (!this.signupForm.value.phone_no) {
-			this.errorHandle.presentToast('Phone Number can\'t be empty');
+		if (!this.signupForm.get('phonenumber').valid) {
+			this.errorHandle.presentToast('Phone Number must have 10 digits!');
 			return;
 		}
 		if (!this.signupForm.value.email) {
 			this.errorHandle.presentToast('Email can\'t be empty');
 			return;
 		}
-		if (!this.signupForm.get('email').valid){
-			this.errorHandle.presentToast('Email entered is invalid');
+		if (!this.signupForm.get('email').valid) {
+			this.errorHandle.presentToast('Invalid Email!');
 			return;
 		}
 		if (!this.signupForm.value.password) {
@@ -70,15 +70,19 @@ export class SignupPage {
 			this.errorHandle.presentToast('Password do not match!');
 			return;
 		}
+		if (!this.signupForm.valid) {
+			this.errorHandle.presentToast('');
+			return;
+		}
 		this.signup.postSignupCred(this.signupForm.value)
 			.subscribe((data) => {
 				console.log(data)
 				this.storage.set('token', data.token);
 				this.storage.set('username', data.username);
 				this.storage.set('email', data.email);
-
+				this.storage.set('profileData', data);
 				this.errorHandle.presentToast('Welcome to the Notices!');
-				this.navCtrl.push(ThanksSignupPage)
+				this.navCtrl.push(ThanksSignupPage);
 			},
 			(err) => {
 				this.errorHandle.errorCtrl(err);

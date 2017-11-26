@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuController, NavController, Slides } from 'ionic-angular';
+import { MenuController, NavController, Slides, Platform, FabContainer } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
@@ -17,7 +17,11 @@ export class HomePage {
 	noticesDept: any;
 	noticesClass: any;
 	is_admin: boolean;
+	isFab: boolean = false;
+	warnedExit: boolean = false;
+	@ViewChild('fab') fab: FabContainer;
 	constructor(
+		platform: Platform,
 		public navCtrl: NavController,
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
@@ -30,6 +34,30 @@ export class HomePage {
 			.then(res => {
 				this.is_admin = res;
 			})
+		platform.registerBackButtonAction(() => {
+			if (this.menu.isOpen()) {
+				this.menu.close()
+			} else if (this.isFab) {
+				this.toggleFab();
+				this.fab.close();
+				return;
+			} else if (this.navCtrl.canGoBack()) {
+				this.navCtrl.pop();
+			} else {
+				if (this.navCtrl.getActive() && this.navCtrl.getActive().name !== 'HomePage') {
+					this.navCtrl.setRoot(HomePage, {}, { animate: true })
+				} else if (!this.warnedExit) {
+					this.warnedExit = true;
+					this.errorHandle.presentToast('Press back again to exit.');
+					setTimeout(() => {
+						this.warnedExit = false;
+						console.log('3 sec poorse hue')
+					}, 3000)
+				} else {
+					platform.exitApp();
+				}
+			}
+		});
 	}
 	getNotices(refresher = null) {
 		console.log(this.query);
@@ -122,9 +150,14 @@ export class HomePage {
 	ionViewDidEnter() {
 		// the root left menu should be disabled on the tutorial page
 		this.menu.swipeEnable(true);
+		console.log('hey yo!')
 	}
-	addNewNotice() {
+	addNewNotice(fab: FabContainer) {
 		// logic for adding notices
+		fab.close();
 		this.navCtrl.push(CreateNewPage);
+	}
+	toggleFab() {
+		this.isFab = !this.isFab;
 	}
 }
