@@ -174,7 +174,7 @@ export class ProfilePage {
 			{
 				fullname: res.fullname,
 				phone_no: res.phonenumber,
-				roll_no: res.roll_no ? res.roll_no : '',
+				roll_no: res.profile.roll_no ? res.profile.roll_no : '',
 				branch: res.profile.branch ? res.profile.branch : '',
 				year: res.profile.year ? res.profile.year.toString() : year,
 				username: this.username,
