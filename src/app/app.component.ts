@@ -7,11 +7,11 @@ import { JwtHelper } from 'angular2-jwt';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
-import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
 import { ProfilePage } from '../pages/profile/profile';
 import { CreateNewPage } from '../pages/create-new/create-new';
 import { MyNoticesPage } from '../pages/my-notices/my-notices';
+import { TabsPage } from '../pages/tabs/tabs';
 import { ErrorHandlerProvider } from '../providers/error-handler/error-handler';
 import { ProfileProvider } from '../providers/profile/profile';
 import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
@@ -35,7 +35,7 @@ export class MyApp {
 		{ title: 'My Notices', name: 'MyNoticesPage', component: MyNoticesPage, index: 2, icon: 'list' },
 	];
 	appPages: PageInterface[] = [
-		{ title: 'Home', name: 'HomePage', component: HomePage, index: 0, icon: 'home' },
+		{ title: 'Home', name: 'TabsPage', component: TabsPage, index: 0, icon: 'home' },
 		{ title: 'Profile', name: 'ProfilePage', component: ProfilePage, index: 1, icon: 'person' },
 		{ title: 'About', name: 'AboutPage', component: AboutPage, index: 2, icon: 'information-circle' },
 		{ title: 'Logout', name: 'Logout', component: LoginPage, index: 3, icon: 'log-out' }
@@ -70,7 +70,7 @@ export class MyApp {
 					this.nav.pop();
 				} else {
 					if (this.nav.getActive() && this.nav.getActive().name !== 'HomePage') {
-						this.nav.setRoot(HomePage, {}, { animate: true })
+						this.nav.setRoot(TabsPage, {}, { animate: true })
 					} else if (!this.warnedExit) {
 						this.warnedExit = true;
 						this.error.presentToast('Press back again to exit.');
@@ -94,7 +94,7 @@ export class MyApp {
 						this.storage.get('token')
 							.then(token => {
 								if (!!token && !this.jwtHelper.isTokenExpired(token)) {
-									this.rootPage = HomePage;
+									this.rootPage = TabsPage;
 									this.events.publish('user:login');
 								} else {
 									this.rootPage = LoginPage;
@@ -110,6 +110,9 @@ export class MyApp {
 			});
 			events.subscribe('user:update', () => {
 				this.updateProfileChange();
+			});
+			events.subscribe('user:signup', (data) => {
+				this.userSignup(data);
 			});
 		});
 	}
@@ -132,6 +135,7 @@ export class MyApp {
 		return;
 	}
 	updateProfileChange() {
+		this.menu.swipeEnable(true);
 		this.storage.get('is_admin')
 			.then(res => {
 				this.is_admin = res;
@@ -151,5 +155,19 @@ export class MyApp {
 				this.full_name = res[0].fullname;
 				this.events.publish('user:updated', profileData);
 			})
+	}
+	userSignup(profileData: any) {
+		this.menu.swipeEnable(true);
+		this.storage.get('is_admin')
+			.then(res => {
+				this.is_admin = res;
+			})
+		this.storage.get('username')
+			.then(name => this.username = name);
+		this.storage.get('email')
+			.then(email => this.email = email);
+		this.avatar = this.api.getStaticMedia() + profileData.profile.image;
+		this.full_name = profileData.fullname;
+		this.events.publish('user:updated', profileData);
 	}
 }
