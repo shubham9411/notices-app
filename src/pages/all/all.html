@@ -1,12 +1,78 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>All</ion-title>
-  </ion-navbar>
-
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>All</ion-title>
+	</ion-navbar>
 </ion-header>
-
-
-<ion-content padding>
-
+<ion-content>
+	<ion-fab right bottom #fab>
+		<button ion-fab color="secondary" (click)='toggleFab()'>
+			<ion-icon name="add"></ion-icon>
+		</button>
+		<ion-fab-list side="top">
+			<button ion-fab (click)='addNewNotice(fab)' *ngIf="is_admin">
+				<ion-icon name="create"></ion-icon>
+				<ion-label>Create new</ion-label>
+			</button>
+			<button ion-fab>
+				<ion-icon name="paper-plane"></ion-icon>
+				<ion-label>Send feedback</ion-label>
+			</button>
+			<button ion-fab>
+				<ion-icon name="share"></ion-icon>
+				<ion-label>Share App</ion-label>
+			</button>
+		</ion-fab-list>
+	</ion-fab>
+	<ion-refresher (ionRefresh)="getNotices($event)">
+		<ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
+			></ion-refresher-content>
+	</ion-refresher>
+	<ion-card *ngFor="let notice of notices">
+		<ion-item>
+			<ion-avatar item-start>
+				<img src="assets/img/placeholder.png">
+			</ion-avatar>
+			<ion-row>
+				<ion-col>
+					<h2>{{ notice.notice_author }}</h2>
+					<p>{{ notice.notice_publish_date | date:"dd MMM, yyyy"}}</p>
+				</ion-col>
+				<ion-col>
+					<button ion-button clear icon-start float-right *ngIf="notice.notice_file" class="attachment-icon">
+						<ion-icon name="attach"></ion-icon>
+					</button>
+				</ion-col>
+			</ion-row>
+		</ion-item>
+		<ion-card-content>
+			<ion-card-title>
+				{{notice.notice_name}}
+			</ion-card-title>
+			<p>
+				{{notice.notice_desc}}
+			</p>
+		</ion-card-content>
+		<ion-row>
+			<ion-col>
+				<button ion-button clear small icon-start>
+					<ion-icon name="star"></ion-icon>
+					<div>Favorite</div>
+				</button>
+			</ion-col>
+			<ion-col>
+				<button ion-button clear small icon-start>
+					<ion-icon name='share-alt'></ion-icon>
+					Share
+				</button>
+			</ion-col>
+			<ion-col center text-center class="time">
+				<ion-note>
+					11h ago
+				</ion-note>
+			</ion-col>
+		</ion-row>
+	</ion-card>
 </ion-content>
