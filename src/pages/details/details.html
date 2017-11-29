@@ -1,36 +1,10 @@
 <ion-header>
 	<ion-navbar>
-		<button ion-button menuToggle>
-			<ion-icon name="menu"></ion-icon>
-		</button>
-		<ion-title>All</ion-title>
+		<ion-title>Details</ion-title>
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<ion-fab right bottom #fab>
-		<button ion-fab color="secondary" (click)='toggleFab()'>
-			<ion-icon name="add"></ion-icon>
-		</button>
-		<ion-fab-list side="top">
-			<button ion-fab (click)='addNewNotice(fab)' *ngIf="is_admin">
-				<ion-icon name="create"></ion-icon>
-				<ion-label>Create new</ion-label>
-			</button>
-			<button ion-fab>
-				<ion-icon name="paper-plane"></ion-icon>
-				<ion-label>Send feedback</ion-label>
-			</button>
-			<button ion-fab>
-				<ion-icon name="share"></ion-icon>
-				<ion-label>Share App</ion-label>
-			</button>
-		</ion-fab-list>
-	</ion-fab>
-	<ion-refresher (ionRefresh)="getNotices($event)">
-		<ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
-			></ion-refresher-content>
-	</ion-refresher>
-	<ion-card *ngFor="let notice of notices" (click)="datailsPage(notice)">
+	<ion-card>
 		<ion-item>
 			<ion-avatar item-start>
 				<img src="assets/img/placeholder.png">
@@ -54,6 +28,7 @@
 			<p>
 				{{notice.notice_desc}}
 			</p>
+			<img [src]="staticMedia + notice.notice_file" />
 		</ion-card-content>
 		<ion-row>
 			<ion-col>

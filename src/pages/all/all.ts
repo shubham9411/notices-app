@@ -6,6 +6,7 @@ import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 import { CreateNewPage } from '../../pages/create-new/create-new';
+import { DetailsPage } from '../../pages/details/details';
 
 @Component({
 	selector: 'page-all',
@@ -54,5 +55,7 @@ export class AllPage {
 	toggleFab() {
 		this.isFab = !this.isFab;
 	}
-
+	datailsPage(notice: any) {
+		this.navCtrl.push(DetailsPage, { data: notice });
+	}
 }

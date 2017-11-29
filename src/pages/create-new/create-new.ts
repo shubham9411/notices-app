@@ -16,6 +16,7 @@ export class CreateNewPage {
 	createForm = {};
 	file: string;
 	formData = new FormData();
+	fileTypes = [];
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -31,6 +32,18 @@ export class CreateNewPage {
 			choices: "all",
 			valid_till: date.toISOString().split('T')[0],
 		}
+		this.fileTypes = [
+			'image/jpeg',
+			'image/jpg',
+			'image/png',
+			'application/pdf',
+			'application/msword',
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			'application/vnd.ms-excel',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+			'application/vnd.ms-powerpoint',
+			'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+		]
 	}
 
 	ionViewDidLoad() {
@@ -86,7 +99,16 @@ export class CreateNewPage {
 	updated($event) {
 		const files = $event.target.files || $event.srcElement.files;
 		const file = files[0];
-		this.formData.append('notice_file', file);
+		let ifFile = this.fileTypes.filter((val) => {
+			if (file && file.type)
+				return val == file.type
+		})
+		if (!ifFile.length) {
+			$event.target.value = '';
+			this.errorHandle.presentToast('This file type is not allowed!')
+		} else {
+			this.formData.append('notice_file', file);
+		}
 	}
 	updateNoticeFor() {
 		let choice = this.createForm['choices'];

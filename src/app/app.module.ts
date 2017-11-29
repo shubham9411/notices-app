@@ -28,6 +28,7 @@ import { AllPage } from '../pages/all/all';
 import { YearPage } from '../pages/year/year';
 import { DepartmentPage } from '../pages/department/department';
 import { ClassPage } from '../pages/class/class';
+import { DetailsPage } from '../pages/details/details';
 
 import { AllNoticesProvider } from '../providers/all-notices/all-notices';
 import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
@@ -67,7 +68,8 @@ export function getAuthHttp(http) {
 		AllPage,
 		YearPage,
 		DepartmentPage,
-		ClassPage
+		ClassPage,
+		DetailsPage
 	],
 	imports: [
 		BrowserModule,
@@ -91,7 +93,8 @@ export function getAuthHttp(http) {
 		AllPage,
 		YearPage,
 		DepartmentPage,
-		ClassPage
+		ClassPage,
+		DetailsPage
 	],
 	providers: [
 		StatusBar,
