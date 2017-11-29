@@ -9,7 +9,7 @@ import { CreateNewPage } from '../../pages/create-new/create-new';
 
 @Component({
 	selector: 'page-department',
-	templateUrl: 'department.html',
+	templateUrl: '../all/all.html',
 })
 export class DepartmentPage {
 	is_admin: boolean;

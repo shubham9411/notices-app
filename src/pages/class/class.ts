@@ -1,24 +1,52 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, FabContainer } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
-/**
- * Generated class for the ClassPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
+import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
+import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
+import { CreateNewPage } from '../../pages/create-new/create-new';
 
 @Component({
-  selector: 'page-class',
-  templateUrl: 'class.html',
+	selector: 'page-class',
+	templateUrl: '../all/all.html',
 })
 export class ClassPage {
+	is_admin: boolean;
+	notices: any;
+	staticMedia: string;
+	constructor(
+		public navCtrl: NavController,
+		private storage: Storage,
+		private allNotices: AllNoticesProvider,
+		private errorHandle: ErrorHandlerProvider,
+		private api: ApiEndpointsProvider
+	) {
+		this.storage.get('is_admin')
+			.then(res => {
+				this.is_admin = res;
+			})
+		this.getNotices();
+		this.staticMedia = this.api.getStaticMedia();
+	}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ClassPage');
-  }
-
+	ionViewDidLoad() {
+		console.log('ionViewDidLoad ClassPage');
+	}
+	getNotices(refresher = null) {
+		this.allNotices.getClassNoticesAPI()
+			.subscribe(data => {
+				this.notices = data;
+				if (!refresher == false)
+					refresher.complete();
+			}, error => {
+				this.errorHandle.errorCtrl(error);
+				if (!refresher == false)
+					refresher.complete();
+			})
+	}
+	addNewNotice(fab: FabContainer) {
+		fab.close();
+		this.navCtrl.push(CreateNewPage);
+	}
 }

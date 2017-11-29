@@ -9,7 +9,7 @@ import { CreateNewPage } from '../../pages/create-new/create-new';
 
 @Component({
 	selector: 'page-year',
-	templateUrl: 'year.html',
+	templateUrl: '../all/all.html',
 })
 export class YearPage {
 	is_admin: boolean;
