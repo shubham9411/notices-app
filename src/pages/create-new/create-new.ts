@@ -17,6 +17,11 @@ export class CreateNewPage {
 	file: string;
 	formData = new FormData();
 	fileTypes = [];
+	id: number = 0;
+	alertMsg= {
+		successTitle: 'Published',
+		successSubtitle : 'A new notice has been published! Hurrey!'
+	}
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -26,11 +31,24 @@ export class CreateNewPage {
 		private errorHandle: ErrorHandlerProvider,
 	) {
 		let date = new Date;
+		let notice = this.navParams.get('notice');
 		this.createForm = {
 			notice_name: "",
 			notice_desc: "",
 			choices: "all",
 			valid_till: date.toISOString().split('T')[0],
+		}
+		console.log(notice);
+		if (notice) {
+			this.createForm = notice;
+			this.id = notice.id;
+			if (!this.createForm['notice_file']) {
+				delete this.createForm['notice_file'];
+			}
+			this.alertMsg = {
+				successTitle: 'Updated',
+				successSubtitle: 'Your notice has been Updated! Hurrey!'
+			};
 		}
 		this.fileTypes = [
 			'image/jpeg',
@@ -71,6 +89,7 @@ export class CreateNewPage {
 			else
 				this.formData.append(key, this.createForm[key]);
 		}
+		this.formData.append('id', this.id.toString());
 		console.log(this.createForm);
 		console.log(this.formData);
 		const headers = new Headers({});
@@ -80,8 +99,8 @@ export class CreateNewPage {
 				let body = res.json();
 				console.log(body)
 				let alert = this.alertCtrl.create({
-					title: 'Published',
-					subTitle: 'A new notice has been published! Hurrey!',
+					title: this.alertMsg.successTitle,
+					subTitle: this.alertMsg.successSubtitle,
 					buttons: [{
 						text: 'Ok',
 						handler: data => {

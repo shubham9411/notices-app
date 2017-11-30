@@ -6,6 +6,7 @@ import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 import { CreateNewPage } from '../../pages/create-new/create-new';
+import { DetailsPage } from '../../pages/details/details';
 
 @Component({
 	selector: 'page-class',
@@ -48,5 +49,8 @@ export class ClassPage {
 	addNewNotice(fab: FabContainer) {
 		fab.close();
 		this.navCtrl.push(CreateNewPage);
+	}
+	datailsPage(notice: any) {
+		this.navCtrl.push(DetailsPage, { data: notice });
 	}
 }

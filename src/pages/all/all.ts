@@ -13,7 +13,6 @@ import { DetailsPage } from '../../pages/details/details';
 	templateUrl: 'all.html',
 })
 export class AllPage {
-	isFab: boolean = false;
 	is_admin: boolean;
 	notices: any;
 	staticMedia: string;
@@ -51,9 +50,6 @@ export class AllPage {
 	addNewNotice(fab: FabContainer) {
 		fab.close();
 		this.navCtrl.push(CreateNewPage);
-	}
-	toggleFab() {
-		this.isFab = !this.isFab;
 	}
 	datailsPage(notice: any) {
 		this.navCtrl.push(DetailsPage, { data: notice });

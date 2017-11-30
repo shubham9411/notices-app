@@ -73,4 +73,9 @@ export class AllNoticesProvider {
 		return this.authHttp.get(this.api.getMyNotices(), { headers: this.headers })
 			.map(res => res.json());
 	}
+
+	deleteNotice(id: number) {
+		return this.authHttp.post(this.api.getDeleteNoticeAPI(), {id: id}, { headers: this.headers })
+			.map(res => res.json());
+	}
 }

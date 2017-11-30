@@ -23,19 +23,19 @@
 				</ion-col>
 				<ion-col>
 					<span>
-						<button ion-button clear icon-start class="attachment-icon">
+						<button ion-button clear icon-start class="attachment-icon" (click)="updateNotice(notice)">
 							<ion-icon name="create"></ion-icon>
 						</button>
 					</span>
 					<span>
-						<button ion-button clear icon-start *ngIf="notice.notice_file" class="attachment-icon">
-							<ion-icon name="attach"></ion-icon>
+						<button ion-button clear icon-start class="attachment-icon" (click)="deleteNotice(notice.id)">
+							<ion-icon name="trash"></ion-icon>
 						</button>
 					</span>
 				</ion-col>
 			</ion-row>
 		</ion-item>
-		<ion-card-content>
+		<ion-card-content (click)="datailsPage(notice)">
 			<ion-card-title>
 				{{notice.notice_name}}
 			</ion-card-title>

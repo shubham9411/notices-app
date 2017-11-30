@@ -69,7 +69,7 @@ export class MyApp {
 				} else if (this.nav.canGoBack()) {
 					this.nav.pop();
 				} else {
-					if (this.nav.getActive() && this.nav.getActive().name !== 'HomePage') {
+					if (this.nav.getActive() && this.nav.getActive().name !== 'TabsPage') {
 						this.nav.setRoot(TabsPage, {}, { animate: true })
 					} else if (!this.warnedExit) {
 						this.warnedExit = true;

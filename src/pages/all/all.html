@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content>
 	<ion-fab right bottom #fab>
-		<button ion-fab color="secondary" (click)='toggleFab()'>
+		<button ion-fab color="secondary">
 			<ion-icon name="add"></ion-icon>
 		</button>
 		<ion-fab-list side="top">
@@ -30,7 +30,7 @@
 		<ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
 			></ion-refresher-content>
 	</ion-refresher>
-	<ion-card *ngFor="let notice of notices" (click)="datailsPage(notice)">
+	<ion-card *ngFor="let notice of notices">
 		<ion-item>
 			<ion-avatar item-start>
 				<img src="assets/img/placeholder.png">
@@ -47,7 +47,7 @@
 				</ion-col>
 			</ion-row>
 		</ion-item>
-		<ion-card-content>
+		<ion-card-content (click)="datailsPage(notice)">
 			<ion-card-title>
 				{{notice.notice_name}}
 			</ion-card-title>
