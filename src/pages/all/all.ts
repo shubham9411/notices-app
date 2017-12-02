@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, FabContainer } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
@@ -24,7 +25,8 @@ export class AllPage {
 		private storage: Storage,
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
-		private api: ApiEndpointsProvider
+		private api: ApiEndpointsProvider,
+		private socialSharing: SocialSharing
 	) {
 		this.storage.get('is_admin')
 			.then(res => {
@@ -46,7 +48,7 @@ export class AllPage {
 					refresher.complete();
 			}, error => {
 				this.errorHandle.errorCtrl(error);
-				if(!this.notices){
+				if (!this.notices) {
 					this.is_notices = true;
 				}
 				if (!refresher == false)
@@ -59,5 +61,24 @@ export class AllPage {
 	}
 	datailsPage(notice: any) {
 		this.navCtrl.push(DetailsPage, { data: notice });
+	}
+	shareNotice(notice: any = null) {
+		let options = {};
+		if (!notice) {
+			options = {
+				'message': 'Get all the college notices directly to your phone. Download the Notices app from Play Store!',
+			}
+		} else{
+			options = {
+				'message': notice.notice_name + ' - ' + notice.notice_desc + '- Download Notices app to get more updates.',
+			}
+		}
+		this.socialSharing.shareWithOptions(options)
+			.then(res=>{
+				console.log(res);
+			})
+			.catch(err=>{
+				this.errorHandle.presentToast('An error occured!');
+			})
 	}
 }

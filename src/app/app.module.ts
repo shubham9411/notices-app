@@ -9,8 +9,7 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { Camera } from '@ionic-native/camera';
 import { Crop } from '@ionic-native/crop';
 import { Transfer } from '@ionic-native/transfer';
-
-// import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { MyApp } from './app.component';
 
@@ -114,6 +113,7 @@ export function getAuthHttp(http) {
 		Crop,
 		Transfer,
 		UploadFilesProvider,
+		SocialSharing
 	]
 })
 export class AppModule { }
