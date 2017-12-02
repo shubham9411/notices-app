@@ -1,5 +1,4 @@
 <ion-split-pane>
-	<!-- logged in menu -->
 	<ion-menu id="menu" [content]="content">
 
 		<ion-header>
@@ -26,9 +25,9 @@
 				</button>
 			</ion-list>
 			<ion-list>
-				<!-- <ion-list-header>
-				  Menu
-				</ion-list-header> -->
+				<ion-list-header>
+				  Dashboard
+				</ion-list-header>
 				<button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)" >
 				<ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
 				{{p.title}}

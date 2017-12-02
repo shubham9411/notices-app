@@ -20,7 +20,7 @@
 				<ion-icon name="paper-plane"></ion-icon>
 				<ion-label>Send feedback</ion-label>
 			</button>
-			<button ion-fab>
+			<button ion-fab (click)='shareNotice()'>
 				<ion-icon name="share"></ion-icon>
 				<ion-label>Share App</ion-label>
 			</button>
@@ -73,7 +73,7 @@
 				</button>
 			</ion-col>
 			<ion-col>
-				<button ion-button clear small icon-start>
+				<button ion-button clear small icon-start (click)='shareNotice(notice)'>
 					<ion-icon name='share-alt'></ion-icon>
 					Share
 				</button>

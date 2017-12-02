@@ -7,6 +7,7 @@ import { ErrorHandlerProvider } from '../../providers/error-handler/error-handle
 import { CreateNewPage } from '../create-new/create-new';
 import { DetailsPage } from '../details/details';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 @Component({
 	selector: 'page-my-notices',
@@ -23,6 +24,7 @@ export class MyNoticesPage {
 		private errorHandle: ErrorHandlerProvider,
 		public alertCtrl: AlertController,
 		public loadingCtrl: LoadingController,
+		private socialSharing: SocialSharing
 	) {
 	}
 
@@ -55,7 +57,7 @@ export class MyNoticesPage {
 			subTitle: 'Once the notice will be deleted you can\'t get them back. Think Again!',
 			buttons: [{
 				text: 'Cancel',
-				handler: data => { }
+				handler: data => { this.loader.dismiss(); }
 			}, {
 				text: 'Delete',
 				handler: data => {
@@ -84,5 +86,24 @@ export class MyNoticesPage {
 		this.loader = this.loadingCtrl.create({
 			content: "Please wait...",
 		});
+	}
+	shareNotice(notice: any = null) {
+		let options = {};
+		if (!notice) {
+			options = {
+				'message': 'Get all the college notices directly to your phone. Download the Notices app from Play Store!',
+			}
+		} else {
+			options = {
+				'message': notice.notice_name + ' - ' + notice.notice_desc + '- Download Notices app to get more updates.',
+			}
+		}
+		this.socialSharing.shareWithOptions(options)
+			.then(res => {
+				console.log(res);
+			})
+			.catch(err => {
+				this.errorHandle.presentToast('An error occured!');
+			})
 	}
 }

@@ -7,6 +7,7 @@ import { ErrorHandlerProvider } from '../../providers/error-handler/error-handle
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 import { CreateNewPage } from '../../pages/create-new/create-new';
 import { DetailsPage } from '../../pages/details/details';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 @Component({
 	selector: 'page-class',
@@ -23,7 +24,8 @@ export class ClassPage {
 		private storage: Storage,
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
-		private api: ApiEndpointsProvider
+		private api: ApiEndpointsProvider,
+		private socialSharing: SocialSharing
 	) {
 		this.storage.get('is_admin')
 			.then(res => {
@@ -58,5 +60,24 @@ export class ClassPage {
 	}
 	datailsPage(notice: any) {
 		this.navCtrl.push(DetailsPage, { data: notice });
+	}
+	shareNotice(notice: any = null) {
+		let options = {};
+		if (!notice) {
+			options = {
+				'message': 'Get all the college notices directly to your phone. Download the Notices app from Play Store!',
+			}
+		} else {
+			options = {
+				'message': notice.notice_name + ' - ' + notice.notice_desc + '- Download Notices app to get more updates.',
+			}
+		}
+		this.socialSharing.shareWithOptions(options)
+			.then(res => {
+				console.log(res);
+			})
+			.catch(err => {
+				this.errorHandle.presentToast('An error occured!');
+			})
 	}
 }
