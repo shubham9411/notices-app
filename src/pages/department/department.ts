@@ -17,6 +17,7 @@ export class DepartmentPage {
 	notices: any;
 	staticMedia: string;
 	title: string = 'Department';
+	is_notices: boolean = true;
 	constructor(
 		public navCtrl: NavController,
 		private storage: Storage,
@@ -39,9 +40,13 @@ export class DepartmentPage {
 		this.allNotices.getDeptNoticesAPI()
 			.subscribe(data => {
 				this.notices = data;
+				this.is_notices = false;
 				if (!refresher == false)
 					refresher.complete();
 			}, error => {
+				if (!this.notices) {
+					this.is_notices = true;
+				}
 				this.errorHandle.errorCtrl(error);
 				if (!refresher == false)
 					refresher.complete();

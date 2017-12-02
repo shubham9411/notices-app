@@ -13,4 +13,17 @@ page-department {
 	.attachment-icon {
 		font-size: 2rem;
 	}
+	.error-image {
+		padding: 5em;
+		padding-bottom: 1em;
+	}
+	.error {
+		background: #eee;
+		.error-msg {
+			font-size: 1.2em;
+		}
+		.spacer{
+			height: 10px;
+		}
+	}
 }

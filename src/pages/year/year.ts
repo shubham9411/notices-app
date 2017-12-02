@@ -17,6 +17,7 @@ export class YearPage {
 	notices: any;
 	staticMedia: string;
 	title: string = 'Year';
+	is_notices: boolean = true;
 	constructor(
 		public navCtrl: NavController,
 		private storage: Storage,
@@ -39,9 +40,13 @@ export class YearPage {
 		this.allNotices.getYearNoticesAPI()
 			.subscribe(data => {
 				this.notices = data;
+				this.is_notices = false;
 				if (!refresher == false)
 					refresher.complete();
 			}, error => {
+				if (!this.notices) {
+					this.is_notices = true;
+				}
 				this.errorHandle.errorCtrl(error);
 				if (!refresher == false)
 					refresher.complete();

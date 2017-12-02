@@ -17,6 +17,7 @@ export class AllPage {
 	notices: any;
 	staticMedia: string;
 	title: string = 'All';
+	is_notices: boolean = true;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -40,10 +41,14 @@ export class AllPage {
 		this.allNotices.getAllNotices()
 			.subscribe(data => {
 				this.notices = data;
+				this.is_notices = false;
 				if (!refresher == false)
 					refresher.complete();
 			}, error => {
 				this.errorHandle.errorCtrl(error);
+				if(!this.notices){
+					this.is_notices = true;
+				}
 				if (!refresher == false)
 					refresher.complete();
 			})
