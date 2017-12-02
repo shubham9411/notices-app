@@ -16,6 +16,7 @@ export class DepartmentPage {
 	is_admin: boolean;
 	notices: any;
 	staticMedia: string;
+	title: string = 'Department';
 	constructor(
 		public navCtrl: NavController,
 		private storage: Storage,

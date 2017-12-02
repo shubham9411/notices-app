@@ -7,6 +7,7 @@ import { AlertController } from 'ionic-angular';
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { MyNoticesPage } from '../../pages/my-notices/my-notices';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 
 @Component({
 	selector: 'page-create-new',
@@ -18,9 +19,10 @@ export class CreateNewPage {
 	formData = new FormData();
 	fileTypes = [];
 	id: number = 0;
-	alertMsg= {
+	loader: any;
+	alertMsg = {
 		successTitle: 'Published',
-		successSubtitle : 'A new notice has been published! Hurrey!'
+		successSubtitle: 'A new notice has been published! Hurrey!'
 	}
 	constructor(
 		public navCtrl: NavController,
@@ -29,6 +31,7 @@ export class CreateNewPage {
 		private api: ApiEndpointsProvider,
 		public alertCtrl: AlertController,
 		private errorHandle: ErrorHandlerProvider,
+		public loadingCtrl: LoadingController,
 	) {
 		let date = new Date;
 		let notice = this.navParams.get('notice');
@@ -94,26 +97,32 @@ export class CreateNewPage {
 		console.log(this.formData);
 		const headers = new Headers({});
 		let options = new RequestOptions({ headers });
-		this.authHttp.post(this.api.getAddNoticesAPI(), this.formData, options)
-			.subscribe(res => {
-				let body = res.json();
-				console.log(body)
-				let alert = this.alertCtrl.create({
-					title: this.alertMsg.successTitle,
-					subTitle: this.alertMsg.successSubtitle,
-					buttons: [{
-						text: 'Ok',
-						handler: data => {
-							console.log('OK clicked');
-							console.log(data);
-							this.navCtrl.setRoot(MyNoticesPage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
-						}
-					}]
-				});
-				alert.present();
-				this.formData = new FormData;
+		this.createLoader();
+		this.loader.present().then(() => {
+			this.authHttp.post(this.api.getAddNoticesAPI(), this.formData, options)
+				.finally(() => {
+					this.loader.dismiss();
+				})
+				.subscribe(res => {
+					let body = res.json();
+					console.log(body)
+					let alert = this.alertCtrl.create({
+						title: this.alertMsg.successTitle,
+						subTitle: this.alertMsg.successSubtitle,
+						buttons: [{
+							text: 'Ok',
+							handler: data => {
+								console.log('OK clicked');
+								console.log(data);
+								this.navCtrl.setRoot(MyNoticesPage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
+							}
+						}]
+					});
+					alert.present();
+					this.formData = new FormData;
 
-			});
+				});
+		})
 	}
 	updated($event) {
 		const files = $event.target.files || $event.srcElement.files;
@@ -160,5 +169,10 @@ export class CreateNewPage {
 		this.createForm['notice_name'] = notice_name;
 		this.createForm['notice_desc'] = notice_desc;
 		console.log(this.createForm);
+	}
+	createLoader() {
+		this.loader = this.loadingCtrl.create({
+			content: "Please wait...",
+		});
 	}
 }

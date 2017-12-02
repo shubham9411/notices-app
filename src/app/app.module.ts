@@ -73,7 +73,9 @@ export function getAuthHttp(http) {
 	],
 	imports: [
 		BrowserModule,
-		IonicModule.forRoot(MyApp),
+		IonicModule.forRoot(MyApp, {
+			tabsHideOnSubPages: true
+		}),
 		HttpModule,
 		IonicStorageModule.forRoot(),
 	],

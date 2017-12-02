@@ -16,6 +16,7 @@ export class ClassPage {
 	is_admin: boolean;
 	notices: any;
 	staticMedia: string;
+	title: string = 'Class';
 	constructor(
 		public navCtrl: NavController,
 		private storage: Storage,

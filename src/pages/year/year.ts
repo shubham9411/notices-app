@@ -16,6 +16,7 @@ export class YearPage {
 	is_admin: boolean;
 	notices: any;
 	staticMedia: string;
+	title: string = 'Year';
 	constructor(
 		public navCtrl: NavController,
 		private storage: Storage,

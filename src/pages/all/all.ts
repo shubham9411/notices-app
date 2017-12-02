@@ -16,6 +16,7 @@ export class AllPage {
 	is_admin: boolean;
 	notices: any;
 	staticMedia: string;
+	title: string = 'All';
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,

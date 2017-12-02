@@ -6,6 +6,7 @@ import { AllNoticesProvider } from '../../providers/all-notices/all-notices';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { CreateNewPage } from '../create-new/create-new';
 import { DetailsPage } from '../details/details';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 
 @Component({
 	selector: 'page-my-notices',
@@ -14,12 +15,14 @@ import { DetailsPage } from '../details/details';
 })
 export class MyNoticesPage {
 	notices: any;
+	loader: any;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
 		public alertCtrl: AlertController,
+		public loadingCtrl: LoadingController,
 	) {
 	}
 
@@ -46,7 +49,7 @@ export class MyNoticesPage {
 	datailsPage(notice: any) {
 		this.navCtrl.push(DetailsPage, { data: notice });
 	}
-	deleteNotice(id){
+	deleteNotice(id) {
 		let alert = this.alertCtrl.create({
 			title: 'Are you sure!',
 			subTitle: 'Once the notice will be deleted you can\'t get them back. Think Again!',
@@ -57,15 +60,29 @@ export class MyNoticesPage {
 				text: 'Delete',
 				handler: data => {
 					this.allNotices.deleteNotice(id)
+						.finally(() => {
+							this.loader.dismiss();
+						})
 						.subscribe(data => {
-							this.notices = data;
-							this.errorHandle.presentToast('Notice has been Deleted!');
+							console.log(data);
+							if (JSON.parse(data['_body']).status == 'success') {
+								this.errorHandle.presentToast('Notice has been Deleted!');
+							}
+							this.getMyNotices();
 						}, error => {
-							this.errorHandle.errorCtrl(error);
+							this.errorHandle.presentToast('Something went wrong!');
 						})
 				}
 			}]
 		});
-		alert.present();
+		this.createLoader();
+		this.loader.present().then(() => {
+			alert.present();
+		})
+	}
+	createLoader() {
+		this.loader = this.loadingCtrl.create({
+			content: "Please wait...",
+		});
 	}
 }

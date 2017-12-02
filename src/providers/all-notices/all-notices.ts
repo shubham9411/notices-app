@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/finally';
 import { Storage } from '@ionic/storage';
 import { Events } from 'ionic-angular';
 import { AuthHttp } from 'angular2-jwt';
@@ -76,6 +77,5 @@ export class AllNoticesProvider {
 
 	deleteNotice(id: number) {
 		return this.authHttp.post(this.api.getDeleteNoticeAPI(), {id: id}, { headers: this.headers })
-			.map(res => res.json());
 	}
 }
