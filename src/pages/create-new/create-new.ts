@@ -20,6 +20,7 @@ export class CreateNewPage {
 	fileTypes = [];
 	id: number = 0;
 	loader: any;
+	next_year: number;
 	alertMsg = {
 		successTitle: 'Published',
 		successSubtitle: 'A new notice has been published! Hurrey!'
@@ -35,6 +36,7 @@ export class CreateNewPage {
 	) {
 		let date = new Date;
 		let notice = this.navParams.get('notice');
+		this.next_year = date.getFullYear() + 1;
 		this.createForm = {
 			notice_name: "",
 			notice_desc: "",
