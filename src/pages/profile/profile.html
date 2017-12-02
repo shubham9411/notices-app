@@ -19,7 +19,7 @@
 </ion-header>
 <ion-content padding>
 	<div class="profile-picture">
-		<img (click)="updateProfile()" alt="Profile Picture" [src]="profilePic" (error)="profilePic='assets/img/placeholder.png'">
+		<img (click)="updateProfile()" alt="Profile Picture" [src]="profilePic" (error)="profilePic='assets/img/user-edit.png'">
 	</div>
 	<form id="profile-form" [formGroup]="profileForm" (ngSubmit)="submitForm()" disabled="true">
 		<ion-list id="profile-list">

@@ -12,6 +12,7 @@ export class ApiEndpointsProvider {
 	private noticeClass: string = this.allNoticesAPI + 'branchyear/';
 	private addNotices: string = this.baseAPI + 'addnotices/';
 	private myNotices: string = this.allNoticesAPI + 'yournotices/';
+	private deleteNotice: string = this.baseAPI + 'deleteNotices/';
 
 
 	constructor() {
@@ -60,5 +61,8 @@ export class ApiEndpointsProvider {
 
 	getMyNotices(): string {
 		return this.myNotices;
+	}
+	getDeleteNoticeAPI(): string {
+		return this.deleteNotice;
 	}
 }

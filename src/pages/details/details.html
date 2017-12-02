@@ -1,47 +1,34 @@
 <ion-header>
-
 	<ion-navbar>
-		<button ion-button menuToggle>
-			<ion-icon name="menu"></ion-icon>
-		</button>
-		<ion-title>My Notices</ion-title>
+		<ion-title>Details</ion-title>
 	</ion-navbar>
-
 </ion-header>
-
 <ion-content>
-	<ion-refresher (ionRefresh)="getMyNotices($event)">
-		<ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
-			></ion-refresher-content>
-	</ion-refresher>
-	<ion-card *ngFor="let notice of notices">
+	<!-- <ion-card> -->
 		<ion-item>
+			<ion-avatar item-start>
+				<img src="assets/img/placeholder.png">
+			</ion-avatar>
 			<ion-row>
 				<ion-col>
-					<p>Publish Date</p>
+					<h2>{{ notice.notice_author }}</h2>
 					<p>{{ notice.notice_publish_date | date:"dd MMM, yyyy"}}</p>
 				</ion-col>
 				<ion-col>
-					<span>
-						<button ion-button clear icon-start class="attachment-icon" (click)="updateNotice(notice)">
-							<ion-icon name="create"></ion-icon>
-						</button>
-					</span>
-					<span>
-						<button ion-button clear icon-start class="attachment-icon" (click)="deleteNotice(notice.id)">
-							<ion-icon name="trash"></ion-icon>
-						</button>
-					</span>
+					<button ion-button clear icon-start float-right *ngIf="notice.notice_file" class="attachment-icon">
+						<ion-icon name="attach"></ion-icon>
+					</button>
 				</ion-col>
 			</ion-row>
 		</ion-item>
-		<ion-card-content (click)="datailsPage(notice)">
+		<ion-card-content>
 			<ion-card-title>
 				{{notice.notice_name}}
 			</ion-card-title>
 			<p>
 				{{notice.notice_desc}}
 			</p>
+			<img [src]="staticMedia + notice.notice_file" />
 		</ion-card-content>
 		<ion-row>
 			<ion-col>
@@ -62,5 +49,5 @@
 				</ion-note>
 			</ion-col>
 		</ion-row>
-	</ion-card>
+	<!-- </ion-card> -->
 </ion-content>

@@ -2,16 +2,18 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
+import { JwtHelper } from 'angular2-jwt';
 
 import { SignupProvider } from '../../providers/signup/signup';
 import { ThanksSignupPage } from '../../pages/thanks-signup/thanks-signup';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { LoginPage } from '../../pages/login/login';
+import { Events } from 'ionic-angular/util/events';
 
 @Component({
 	selector: 'page-signup',
 	templateUrl: 'signup.html',
-	providers: [SignupProvider, ErrorHandlerProvider]
+	providers: [SignupProvider, ErrorHandlerProvider, JwtHelper]
 })
 export class SignupPage {
 
@@ -23,7 +25,9 @@ export class SignupPage {
 		private signup: SignupProvider,
 		private formBuilder: FormBuilder,
 		private errorHandle: ErrorHandlerProvider,
-		public storage: Storage
+		public storage: Storage,
+		private jwtHelper: JwtHelper,
+		private events: Events
 	) {
 		this.pushPage = LoginPage;
 		this.signupForm = this.formBuilder.group({
@@ -77,17 +81,20 @@ export class SignupPage {
 		this.signup.postSignupCred(this.signupForm.value)
 			.subscribe((data) => {
 				console.log(data)
+				let decodeToken = this.jwtHelper.decodeToken(data.token);
+				console.log(decodeToken);
+				this.storage.set('is_admin', decodeToken.is_admin);
 				this.storage.set('token', data.token);
 				this.storage.set('username', data.username);
 				this.storage.set('email', data.email);
-				this.storage.set('profileData', data);
+				this.storage.set('profileData', data)
+					.then(res => this.events.publish('user:signup',data));
 				this.errorHandle.presentToast('Welcome to the Notices!');
 				this.navCtrl.push(ThanksSignupPage);
 			},
 			(err) => {
 				this.errorHandle.errorCtrl(err);
-			}
-			)
+			})
 	}
 
 }

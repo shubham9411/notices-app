@@ -23,6 +23,12 @@ import { ThanksSignupPage } from '../pages/thanks-signup/thanks-signup';
 import { ProfilePage } from '../pages/profile/profile';
 import { CreateNewPage } from '../pages/create-new/create-new';
 import { MyNoticesPage } from '../pages/my-notices/my-notices';
+import { TabsPage } from '../pages/tabs/tabs';
+import { AllPage } from '../pages/all/all';
+import { YearPage } from '../pages/year/year';
+import { DepartmentPage } from '../pages/department/department';
+import { ClassPage } from '../pages/class/class';
+import { DetailsPage } from '../pages/details/details';
 
 import { AllNoticesProvider } from '../providers/all-notices/all-notices';
 import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
@@ -57,11 +63,19 @@ export function getAuthHttp(http) {
 		ThanksSignupPage,
 		ProfilePage,
 		CreateNewPage,
-		MyNoticesPage
+		MyNoticesPage,
+		TabsPage,
+		AllPage,
+		YearPage,
+		DepartmentPage,
+		ClassPage,
+		DetailsPage
 	],
 	imports: [
 		BrowserModule,
-		IonicModule.forRoot(MyApp),
+		IonicModule.forRoot(MyApp, {
+			tabsHideOnSubPages: true
+		}),
 		HttpModule,
 		IonicStorageModule.forRoot(),
 	],
@@ -76,7 +90,13 @@ export function getAuthHttp(http) {
 		ThanksSignupPage,
 		ProfilePage,
 		CreateNewPage,
-		MyNoticesPage
+		MyNoticesPage,
+		TabsPage,
+		AllPage,
+		YearPage,
+		DepartmentPage,
+		ClassPage,
+		DetailsPage
 	],
 	providers: [
 		StatusBar,

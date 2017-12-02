@@ -5,9 +5,9 @@ import { Storage } from '@ionic/storage';
 import { JwtHelper } from 'angular2-jwt';
 
 import { LoginProvider } from '../../providers/login/login';
-import { HomePage } from '../../pages/home/home';
 import { SignupPage } from '../../pages/signup/signup';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
+import { TabsPage } from '../tabs/tabs';
 
 @Component({
 	selector: 'page-login',
@@ -65,7 +65,7 @@ export class LoginPage {
 					this.storage.set('email', data.email)
 						.then(res => this.events.publish('user:login'));
 					this.errorHandle.presentToast('Welcome back!');
-					this.navCtrl.setRoot(HomePage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' });
+					this.navCtrl.setRoot(TabsPage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' });
 				},
 				(err) => {
 					this.errorHandle.errorCtrl(err);

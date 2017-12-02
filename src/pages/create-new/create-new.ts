@@ -7,6 +7,7 @@ import { AlertController } from 'ionic-angular';
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { MyNoticesPage } from '../../pages/my-notices/my-notices';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 
 @Component({
 	selector: 'page-create-new',
@@ -16,6 +17,13 @@ export class CreateNewPage {
 	createForm = {};
 	file: string;
 	formData = new FormData();
+	fileTypes = [];
+	id: number = 0;
+	loader: any;
+	alertMsg = {
+		successTitle: 'Published',
+		successSubtitle: 'A new notice has been published! Hurrey!'
+	}
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -23,14 +31,40 @@ export class CreateNewPage {
 		private api: ApiEndpointsProvider,
 		public alertCtrl: AlertController,
 		private errorHandle: ErrorHandlerProvider,
+		public loadingCtrl: LoadingController,
 	) {
 		let date = new Date;
+		let notice = this.navParams.get('notice');
 		this.createForm = {
 			notice_name: "",
 			notice_desc: "",
 			choices: "all",
 			valid_till: date.toISOString().split('T')[0],
 		}
+		console.log(notice);
+		if (notice) {
+			this.createForm = notice;
+			this.id = notice.id;
+			if (!this.createForm['notice_file']) {
+				delete this.createForm['notice_file'];
+			}
+			this.alertMsg = {
+				successTitle: 'Updated',
+				successSubtitle: 'Your notice has been Updated! Hurrey!'
+			};
+		}
+		this.fileTypes = [
+			'image/jpeg',
+			'image/jpg',
+			'image/png',
+			'application/pdf',
+			'application/msword',
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			'application/vnd.ms-excel',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+			'application/vnd.ms-powerpoint',
+			'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+		]
 	}
 
 	ionViewDidLoad() {
@@ -58,35 +92,51 @@ export class CreateNewPage {
 			else
 				this.formData.append(key, this.createForm[key]);
 		}
+		this.formData.append('id', this.id.toString());
 		console.log(this.createForm);
 		console.log(this.formData);
 		const headers = new Headers({});
 		let options = new RequestOptions({ headers });
-		this.authHttp.post(this.api.getAddNoticesAPI(), this.formData, options)
-			.subscribe(res => {
-				let body = res.json();
-				console.log(body)
-				let alert = this.alertCtrl.create({
-					title: 'Published',
-					subTitle: 'A new notice has been published! Hurrey!',
-					buttons: [{
-						text: 'Ok',
-						handler: data => {
-							console.log('OK clicked');
-							console.log(data);
-							this.navCtrl.setRoot(MyNoticesPage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
-						}
-					}]
-				});
-				alert.present();
-				this.formData = new FormData;
+		this.createLoader();
+		this.loader.present().then(() => {
+			this.authHttp.post(this.api.getAddNoticesAPI(), this.formData, options)
+				.finally(() => {
+					this.loader.dismiss();
+				})
+				.subscribe(res => {
+					let body = res.json();
+					console.log(body)
+					let alert = this.alertCtrl.create({
+						title: this.alertMsg.successTitle,
+						subTitle: this.alertMsg.successSubtitle,
+						buttons: [{
+							text: 'Ok',
+							handler: data => {
+								console.log('OK clicked');
+								console.log(data);
+								this.navCtrl.setRoot(MyNoticesPage, {}, { animate: true, animation: 'ios-transition', direction: 'forward' })
+							}
+						}]
+					});
+					alert.present();
+					this.formData = new FormData;
 
-			});
+				});
+		})
 	}
 	updated($event) {
 		const files = $event.target.files || $event.srcElement.files;
 		const file = files[0];
-		this.formData.append('notice_file', file);
+		let ifFile = this.fileTypes.filter((val) => {
+			if (file && file.type)
+				return val == file.type
+		})
+		if (!ifFile.length) {
+			$event.target.value = '';
+			this.errorHandle.presentToast('This file type is not allowed!')
+		} else {
+			this.formData.append('notice_file', file);
+		}
 	}
 	updateNoticeFor() {
 		let choice = this.createForm['choices'];
@@ -119,5 +169,10 @@ export class CreateNewPage {
 		this.createForm['notice_name'] = notice_name;
 		this.createForm['notice_desc'] = notice_desc;
 		console.log(this.createForm);
+	}
+	createLoader() {
+		this.loader = this.loadingCtrl.create({
+			content: "Please wait...",
+		});
 	}
 }

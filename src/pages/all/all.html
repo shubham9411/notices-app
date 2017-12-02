@@ -1,37 +1,49 @@
 <ion-header>
-
 	<ion-navbar>
 		<button ion-button menuToggle>
 			<ion-icon name="menu"></ion-icon>
 		</button>
-		<ion-title>My Notices</ion-title>
+		<ion-title>{{title}}</ion-title>
 	</ion-navbar>
-
 </ion-header>
-
 <ion-content>
-	<ion-refresher (ionRefresh)="getMyNotices($event)">
+	<ion-fab right bottom #fab>
+		<button ion-fab color="secondary">
+			<ion-icon name="add"></ion-icon>
+		</button>
+		<ion-fab-list side="top">
+			<button ion-fab (click)='addNewNotice(fab)' *ngIf="is_admin">
+				<ion-icon name="create"></ion-icon>
+				<ion-label>Create new</ion-label>
+			</button>
+			<button ion-fab>
+				<ion-icon name="paper-plane"></ion-icon>
+				<ion-label>Send feedback</ion-label>
+			</button>
+			<button ion-fab>
+				<ion-icon name="share"></ion-icon>
+				<ion-label>Share App</ion-label>
+			</button>
+		</ion-fab-list>
+	</ion-fab>
+	<ion-refresher (ionRefresh)="getNotices($event)">
 		<ion-refresher-content pullingText="Pull to refresh" refreshingText="Fetching...">
 			></ion-refresher-content>
 	</ion-refresher>
 	<ion-card *ngFor="let notice of notices">
 		<ion-item>
+			<ion-avatar item-start>
+				<img src="assets/img/placeholder.png">
+			</ion-avatar>
 			<ion-row>
 				<ion-col>
-					<p>Publish Date</p>
+					<h2>{{ notice.notice_author }}</h2>
 					<p>{{ notice.notice_publish_date | date:"dd MMM, yyyy"}}</p>
 				</ion-col>
 				<ion-col>
-					<span>
-						<button ion-button clear icon-start class="attachment-icon" (click)="updateNotice(notice)">
-							<ion-icon name="create"></ion-icon>
-						</button>
-					</span>
-					<span>
-						<button ion-button clear icon-start class="attachment-icon" (click)="deleteNotice(notice.id)">
-							<ion-icon name="trash"></ion-icon>
-						</button>
-					</span>
+					<button ion-button clear icon-start float-right *ngIf="notice.notice_file" class="attachment-icon">
+						<ion-icon name="attach"></ion-icon>
+					</button>
 				</ion-col>
 			</ion-row>
 		</ion-item>
