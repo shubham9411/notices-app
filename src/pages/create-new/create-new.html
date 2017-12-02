@@ -56,7 +56,7 @@
 		</ion-item>
 		<ion-item>
 			<ion-label>Valid till</ion-label>
-			<ion-datetime displayFormat="MMM DD YYYY" name="valid_till" min="{{createForm.valid_till}}" [(ngModel)]="createForm.valid_till"></ion-datetime>
+			<ion-datetime displayFormat="MMM DD YYYY" name="valid_till" min="{{createForm.valid_till}}" [max]="next_year" [(ngModel)]="createForm.valid_till"></ion-datetime>
 		</ion-item>
 		<div class="spacer"></div>
 		<button id="createNew-submit" ion-button type="submit" color="vibrent" block round>
