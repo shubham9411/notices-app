@@ -83,7 +83,7 @@ export class ProfilePage {
 			this.profileForm.get('year').disable();
 			this.profileForm.get('branch').disable();
 		}
-		this.error.presentToast('Now you can edit profile :)')
+		this.error.presentToast('Now you can edit profile :)');
 	}
 	disableFields() {
 		this.showEdit = true;

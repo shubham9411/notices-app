@@ -18,7 +18,7 @@
 		</ion-item>
 		<ion-item id="createNew-textarea-head">
 			<ion-label floating>Description</ion-label>
-			<ion-textarea [(ngModel)]="createForm.notice_desc" name="notice_desc"></ion-textarea>
+			<ion-textarea [(ngModel)]="createForm.notice_desc" name="notice_desc" autosize></ion-textarea>
 		</ion-item>
 		<ion-item>
 			<input type="file" [(ngModel)]="createForm.notice_file" name="notice_file" (change)="updated($event);">

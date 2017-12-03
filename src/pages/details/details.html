@@ -4,10 +4,9 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<!-- <ion-card> -->
 		<ion-item>
 			<ion-avatar item-start>
-				<img src="assets/img/placeholder.png">
+				<img [src]="staticMedia + notice.author_image" (error)="img.src = 'assets/img/placeholder.png'" #img>
 			</ion-avatar>
 			<ion-row>
 				<ion-col>
@@ -49,5 +48,4 @@
 				</ion-note>
 			</ion-col>
 		</ion-row>
-	<!-- </ion-card> -->
 </ion-content>

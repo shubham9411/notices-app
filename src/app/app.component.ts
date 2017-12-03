@@ -56,7 +56,7 @@ export class MyApp {
 		splashScreen: SplashScreen,
 		private error: ErrorHandlerProvider,
 		private profile: ProfileProvider,
-		private api: ApiEndpointsProvider
+		private api: ApiEndpointsProvider,
 	) {
 		platform.ready().then(() => {
 			// Okay, so the platform is ready and our plugins are available.
@@ -72,7 +72,11 @@ export class MyApp {
 					this.nav.pop();
 					console.log('pop')
 				} else {
-					if (this.nav.getActive() && this.nav.getActive().name !== 'TabsPage' && this.nav.getActive().name !== 'LoginPage') {
+					if (this.nav.getActive() && this.nav.getActive().component !== TabsPage && this.nav.getActive().component !== LoginPage) {
+						let view = this.nav.getActive();
+						console.log(view.component.name);
+						console.log(view.component);
+						console.log(view.component.pageName);
 						this.nav.setRoot(TabsPage, {}, { animate: true })
 						console.log('set tabspage')
 						console.log(this.nav.getActive)

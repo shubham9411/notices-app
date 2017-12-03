@@ -40,6 +40,7 @@ import { Storage } from '@ionic/storage';
 import { ProfileCaptureProvider } from '../providers/profile-capture/profile-capture';
 import { UploadFilesProvider } from '../providers/upload-files/upload-files';
 
+import { DirectivesModule } from "../directives/directives.module";
 let storage = new Storage({});
 
 export function getAuthHttp(http) {
@@ -77,6 +78,7 @@ export function getAuthHttp(http) {
 		}),
 		HttpModule,
 		IonicStorageModule.forRoot(),
+		DirectivesModule
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
