@@ -80,6 +80,7 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
     <engine name="browser" spec="5.0.1" />
+    <engine name="android" spec="^6.3.0" />
     <plugin name="cordova-plugin-compat" spec="^1.2.0" />
     <plugin name="cordova-plugin-camera" spec="^3.0.0" />
     <plugin name="cordova-plugin-crop" spec="^0.4.0" />

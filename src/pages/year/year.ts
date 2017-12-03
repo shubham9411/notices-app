@@ -42,7 +42,8 @@ export class YearPage {
 		this.allNotices.getYearNoticesAPI()
 			.subscribe(data => {
 				this.notices = data;
-				this.is_notices = false;
+				if (data.length > 0)
+					this.is_notices = false;
 				if (!refresher == false)
 					refresher.complete();
 			}, error => {

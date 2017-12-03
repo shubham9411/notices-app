@@ -12,7 +12,7 @@
 			<ion-row>
 				<ion-col>
 					<h2>{{ notice.notice_author }}</h2>
-					<p>{{ notice.notice_publish_date | date:"dd MMM, yyyy"}}</p>
+					<p>{{ notice.notice_publish_date | date:"MMM d, y, h:mm a"}}</p>
 				</ion-col>
 				<ion-col>
 					<button ion-button clear icon-start float-right *ngIf="notice.notice_file" class="attachment-icon">

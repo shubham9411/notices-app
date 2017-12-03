@@ -62,16 +62,22 @@ export class MyApp {
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.
 			statusBar.styleDefault();
+			statusBar.backgroundColorByHexString('#488aff');
 			this.menu.swipeEnable(false);
 			platform.registerBackButtonAction(() => {
 				if (this.menu.isOpen()) {
-					this.menu.close()
+					this.menu.close();
+					console.log('isopen')
 				} else if (this.nav.canGoBack()) {
 					this.nav.pop();
+					console.log('pop')
 				} else {
-					if (this.nav.getActive() && this.nav.getActive().name !== 'TabsPage') {
+					if (this.nav.getActive() && this.nav.getActive().name !== 'TabsPage' && this.nav.getActive().name !== 'LoginPage') {
 						this.nav.setRoot(TabsPage, {}, { animate: true })
+						console.log('set tabspage')
+						console.log(this.nav.getActive)
 					} else if (!this.warnedExit) {
+						console.log('3 second ki warning')
 						this.warnedExit = true;
 						this.error.presentToast('Press back again to exit.');
 						setTimeout(() => {
