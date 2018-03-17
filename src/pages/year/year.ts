@@ -8,6 +8,7 @@ import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoint
 import { CreateNewPage } from '../../pages/create-new/create-new';
 import { DetailsPage } from '../details/details';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { BackButtonProvider } from '../../providers/back-button/back-button';
 
 @Component({
 	selector: 'page-year',
@@ -25,7 +26,8 @@ export class YearPage {
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
 		private api: ApiEndpointsProvider,
-		private socialSharing: SocialSharing
+		private socialSharing: SocialSharing,
+		public backButton: BackButtonProvider
 	) {
 		this.storage.get('is_admin')
 			.then(res => {
@@ -37,6 +39,12 @@ export class YearPage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad YearPage');
+	}
+	ionViewDidEnter() {
+		this.backButton.publishOn();
+	}
+	ionViewWillLeave() {
+		this.backButton.publishOff();
 	}
 	getNotices(refresher = null) {
 		this.allNotices.getYearNoticesAPI()
@@ -60,7 +68,8 @@ export class YearPage {
 		this.navCtrl.push(CreateNewPage);
 	}
 	datailsPage(notice: any) {
-		this.navCtrl.push(DetailsPage, { data: notice });
+		// this.navCtrl.push(DetailsPage, { data: notice });
+		this.backButton.push(DetailsPage, { data: notice })
 	}
 	shareNotice(notice: any = null) {
 		let options = {};

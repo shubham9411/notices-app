@@ -8,6 +8,7 @@ import { ErrorHandlerProvider } from '../../providers/error-handler/error-handle
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 import { CreateNewPage } from '../../pages/create-new/create-new';
 import { DetailsPage } from '../../pages/details/details';
+import { BackButtonProvider } from '../../providers/back-button/back-button';
 
 @Component({
 	selector: 'page-all',
@@ -26,7 +27,8 @@ export class AllPage {
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
 		private api: ApiEndpointsProvider,
-		private socialSharing: SocialSharing
+		private socialSharing: SocialSharing,
+		public backButton: BackButtonProvider
 	) {
 		this.storage.get('is_admin')
 			.then(res => {
@@ -38,6 +40,12 @@ export class AllPage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad AllPage');
+	}
+	ionViewDidEnter() {
+		this.backButton.publishOn();
+	}
+	ionViewWillLeave() {
+		this.backButton.publishOff();
 	}
 	getNotices(refresher = null) {
 		this.allNotices.getAllNotices()
@@ -61,7 +69,8 @@ export class AllPage {
 		this.navCtrl.push(CreateNewPage);
 	}
 	datailsPage(notice: any) {
-		this.navCtrl.push(DetailsPage, { data: notice });
+		// this.navCtrl.push(DetailsPage, { data: notice });
+		this.backButton.push(DetailsPage, { data: notice })
 	}
 	shareNotice(notice: any = null) {
 		let options = {};

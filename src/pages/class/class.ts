@@ -8,6 +8,7 @@ import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoint
 import { CreateNewPage } from '../../pages/create-new/create-new';
 import { DetailsPage } from '../../pages/details/details';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { BackButtonProvider } from '../../providers/back-button/back-button';
 
 @Component({
 	selector: 'page-class',
@@ -25,7 +26,8 @@ export class ClassPage {
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
 		private api: ApiEndpointsProvider,
-		private socialSharing: SocialSharing
+		private socialSharing: SocialSharing,
+		public backButton: BackButtonProvider
 	) {
 		this.storage.get('is_admin')
 			.then(res => {
@@ -37,6 +39,12 @@ export class ClassPage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad ClassPage');
+	}
+	ionViewDidEnter() {
+		this.backButton.publishOn();
+	}
+	ionViewWillLeave() {
+		this.backButton.publishOff();
 	}
 	getNotices(refresher = null) {
 		this.allNotices.getClassNoticesAPI()
@@ -60,7 +68,8 @@ export class ClassPage {
 		this.navCtrl.push(CreateNewPage);
 	}
 	datailsPage(notice: any) {
-		this.navCtrl.push(DetailsPage, { data: notice });
+		// this.navCtrl.push(DetailsPage, { data: notice });
+		this.backButton.push(DetailsPage, { data: notice })
 	}
 	shareNotice(notice: any = null) {
 		let options = {};

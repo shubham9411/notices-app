@@ -47,6 +47,7 @@ export class MyApp {
 	warnedExit: boolean = false;
 	full_name: string;
 	avatar: string = 'assets/img/placeholder.png';
+	isBack: boolean = false;
 	constructor(
 		platform: Platform,
 		statusBar: StatusBar,
@@ -72,15 +73,9 @@ export class MyApp {
 					this.nav.pop();
 					console.log('pop')
 				} else {
-					if (this.nav.getActive() && this.nav.getActive().component !== TabsPage && this.nav.getActive().component !== LoginPage) {
-						let view = this.nav.getActive();
-						console.log(view.component.name);
-						console.log(view.component);
-						console.log(view.component.pageName);
+					if (this.isBack) {
 						this.nav.setRoot(TabsPage, {}, { animate: true })
-						console.log('set tabspage')
-						console.log(this.nav.getActive)
-					} else if (!this.warnedExit) {
+					}else if (!this.warnedExit) {
 						console.log('3 second ki warning')
 						this.warnedExit = true;
 						this.error.presentToast('Press back again to exit.');
@@ -123,6 +118,14 @@ export class MyApp {
 			});
 			events.subscribe('user:signup', (data) => {
 				this.userSignup(data);
+			});
+			events.subscribe('backButton:off', () => {
+				this.isBack = true;
+				console.log(this.isBack,'this.isBack')
+			});
+			events.subscribe('backButton:on', () => {
+				this.isBack = false;
+				console.log(this.isBack, 'this.isBack')
 			});
 		});
 	}

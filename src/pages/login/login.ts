@@ -8,6 +8,7 @@ import { LoginProvider } from '../../providers/login/login';
 import { SignupPage } from '../../pages/signup/signup';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { TabsPage } from '../tabs/tabs';
+import { BackButtonProvider } from '../../providers/back-button/back-button';
 
 @Component({
 	selector: 'page-login',
@@ -15,7 +16,6 @@ import { TabsPage } from '../tabs/tabs';
 	providers: [LoginProvider, ErrorHandlerProvider, JwtHelper]
 })
 export class LoginPage {
-
 	private loginForm: FormGroup;
 	pushPage: any;
 	loader: any;
@@ -28,12 +28,19 @@ export class LoginPage {
 		private events: Events,
 		private jwtHelper: JwtHelper,
 		public loadingCtrl: LoadingController,
+		public backButton: BackButtonProvider
 	) {
 		this.pushPage = SignupPage;
 		this.loginForm = this.formBuilder.group({
 			username: ['', [Validators.required, Validators.minLength(2)]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
 		});
+	}
+	ionViewDidEnter() {
+		this.backButton.publishOn();
+	}
+	ionViewWillLeave() {
+		this.backButton.publishOff();
 	}
 	submitForm() {
 		console.log(this.loginForm.value)

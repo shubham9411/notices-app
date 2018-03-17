@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 @Injectable()
 export class ApiEndpointsProvider {
-	private staticMedia: string = 'http://54.202.193.221:8080';
-	private baseAPI: string = 'http://54.202.193.221:8080/api/v1/';
+	private staticMedia: string = 'http://192.168.43.146:8000';
+	private baseAPI: string = 'http://192.168.43.146:8000/api/v1/';
 	private authLoginAPI: string = this.baseAPI + 'auth/login/';
 	private authRegisterAPI: string = this.baseAPI + 'auth/register/';
 	private allNoticesAPI: string = this.baseAPI + 'notices/';
