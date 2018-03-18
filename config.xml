@@ -91,6 +91,9 @@
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.2.1" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
+    <plugin name="com.synconset.imagepicker" spec="~2.1.9">
+        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="Select image from gallery for your profile picture" />
+    </plugin>
     <engine name="browser" spec="5.0.1" />
     <engine name="android" spec="^6.3.0" />
 </widget>

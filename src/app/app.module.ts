@@ -10,6 +10,7 @@ import { Camera } from '@ionic-native/camera';
 import { Crop } from '@ionic-native/crop';
 import { Transfer } from '@ionic-native/transfer';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 import { MyApp } from './app.component';
 
@@ -117,7 +118,8 @@ export function getAuthHttp(http) {
 		Transfer,
 		UploadFilesProvider,
 		SocialSharing,
-		BackButtonProvider
+		BackButtonProvider,
+		ImagePicker
 	]
 })
 export class AppModule { }
