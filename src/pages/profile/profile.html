@@ -7,7 +7,7 @@
 		<ion-title>Profile</ion-title>
 		<ion-buttons end>
 			<button ion-button icon-only color="light" (click)="editFields()" *ngIf="showEdit">
-				<ion-icon name="create"></ion-icon>
+				Edit
 			</button>
 			<button id="profile-submit" ion-button btn color="positive" *ngIf="!showEdit" form="profile-form" [disabled]="!profileForm.valid">
 				Submit

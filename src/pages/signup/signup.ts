@@ -9,6 +9,7 @@ import { ThanksSignupPage } from '../../pages/thanks-signup/thanks-signup';
 import { ErrorHandlerProvider } from '../../providers/error-handler/error-handler';
 import { LoginPage } from '../../pages/login/login';
 import { Events } from 'ionic-angular/util/events';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 
 @Component({
 	selector: 'page-signup',
@@ -19,7 +20,7 @@ export class SignupPage {
 
 	private signupForm: FormGroup;
 	pushPage: any;
-
+	loader: any;
 	constructor(
 		public navCtrl: NavController,
 		private signup: SignupProvider,
@@ -27,7 +28,8 @@ export class SignupPage {
 		private errorHandle: ErrorHandlerProvider,
 		public storage: Storage,
 		private jwtHelper: JwtHelper,
-		private events: Events
+		private events: Events,
+		public loadingCtrl: LoadingController
 	) {
 		this.pushPage = LoginPage;
 		this.signupForm = this.formBuilder.group({
@@ -43,15 +45,15 @@ export class SignupPage {
 	submitForm() {
 		console.log(this.signupForm.value)
 		if (!this.signupForm.get('fullname').valid) {
-			this.errorHandle.presentToast('Name must have 4 characters!');
+			this.errorHandle.presentToast('Name must have atleast 4 characters!');
 			return;
 		}
 		if (!this.signupForm.get('username').valid) {
-			this.errorHandle.presentToast('Username must have 2 characters!');
+			this.errorHandle.presentToast('Username must have atleast 2 characters!');
 			return;
 		}
 		if (!this.signupForm.get('phonenumber').valid) {
-			this.errorHandle.presentToast('Phone Number must have 10 digits!');
+			this.errorHandle.presentToast('Phone Number must have atleast 10 digits!');
 			return;
 		}
 		if (!this.signupForm.value.email) {
@@ -67,7 +69,7 @@ export class SignupPage {
 			return;
 		}
 		if (!this.signupForm.get('password').valid) {
-			this.errorHandle.presentToast('Password must contain 6 characters.');
+			this.errorHandle.presentToast('Password must have atleast 6 characters');
 			return;
 		}
 		if (this.signupForm.value.password != this.signupForm.value.confirm_password) {
@@ -78,7 +80,12 @@ export class SignupPage {
 			this.errorHandle.presentToast('');
 			return;
 		}
+		this.createLoader();
+		this.loader.present().then(() => {
 		this.signup.postSignupCred(this.signupForm.value)
+			.finally(() => {
+				this.loader.dismiss();
+			})
 			.subscribe((data) => {
 				console.log(data)
 				let decodeToken = this.jwtHelper.decodeToken(data.token);
@@ -95,6 +102,12 @@ export class SignupPage {
 			(err) => {
 				this.errorHandle.errorCtrl(err);
 			})
+		})
+	}
+	createLoader() {
+		this.loader = this.loadingCtrl.create({
+			content: "Please wait...",
+		});
 	}
 
 }

@@ -17,6 +17,7 @@ export class TabsPage {
 	classRoot = ClassPage
 
 
-	constructor(public navCtrl: NavController) { }
-
+	constructor(
+		public navCtrl: NavController,
+	) { }
 }

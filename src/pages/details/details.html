@@ -4,15 +4,14 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<!-- <ion-card> -->
 		<ion-item>
 			<ion-avatar item-start>
-				<img src="assets/img/placeholder.png">
+				<img [src]="staticMedia + notice.author_image" (error)="img.src = 'assets/img/placeholder.png'" #img>
 			</ion-avatar>
 			<ion-row>
 				<ion-col>
 					<h2>{{ notice.notice_author }}</h2>
-					<p>{{ notice.notice_publish_date | date:"dd MMM, yyyy"}}</p>
+					<p>{{ notice.notice_publish_date | date:"MMM d, y, h:mm a"}}</p>
 				</ion-col>
 				<ion-col>
 					<button ion-button clear icon-start float-right *ngIf="notice.notice_file" class="attachment-icon">
@@ -49,5 +48,4 @@
 				</ion-note>
 			</ion-col>
 		</ion-row>
-	<!-- </ion-card> -->
 </ion-content>

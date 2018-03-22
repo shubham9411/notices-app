@@ -31,7 +31,7 @@
 			></ion-refresher-content>
 	</ion-refresher>
 	<ion-item no-lines class="error" text-center text-wrap *ngIf="is_notices">
-		<img src="assets/img/error.png" class="error-image"/>
+		<img src="assets/img/error.png" class="error-image" />
 		<h1>No Notices yet!</h1>
 		<p class="error-msg">Check your internet connection.</p>
 		<p class="error-msg">And make sure you've filled your profile perfectly.</p>
@@ -43,12 +43,12 @@
 	<ion-card *ngFor="let notice of notices">
 		<ion-item>
 			<ion-avatar item-start>
-				<img src="assets/img/placeholder.png">
+				<img [src]="staticMedia + notice.author_image" (error)="img.src = 'assets/img/placeholder.png'" #img>
 			</ion-avatar>
 			<ion-row>
 				<ion-col>
 					<h2>{{ notice.notice_author }}</h2>
-					<p>{{ notice.notice_publish_date | date:"dd MMM, yyyy"}}</p>
+					<p>{{ notice.notice_publish_date | date:"MMM d, y, h:mm a"}}</p>
 				</ion-col>
 				<ion-col>
 					<button ion-button clear icon-start float-right *ngIf="notice.notice_file" class="attachment-icon">

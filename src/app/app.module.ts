@@ -10,6 +10,7 @@ import { Camera } from '@ionic-native/camera';
 import { Crop } from '@ionic-native/crop';
 import { Transfer } from '@ionic-native/transfer';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 import { MyApp } from './app.component';
 
@@ -40,6 +41,7 @@ import { Storage } from '@ionic/storage';
 import { ProfileCaptureProvider } from '../providers/profile-capture/profile-capture';
 import { UploadFilesProvider } from '../providers/upload-files/upload-files';
 
+import { DirectivesModule } from "../directives/directives.module";
 let storage = new Storage({});
 
 export function getAuthHttp(http) {
@@ -77,6 +79,7 @@ export function getAuthHttp(http) {
 		}),
 		HttpModule,
 		IonicStorageModule.forRoot(),
+		DirectivesModule
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -113,7 +116,8 @@ export function getAuthHttp(http) {
 		Crop,
 		Transfer,
 		UploadFilesProvider,
-		SocialSharing
+		SocialSharing,
+		ImagePicker
 	]
 })
 export class AppModule { }

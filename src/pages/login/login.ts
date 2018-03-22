@@ -15,7 +15,6 @@ import { TabsPage } from '../tabs/tabs';
 	providers: [LoginProvider, ErrorHandlerProvider, JwtHelper]
 })
 export class LoginPage {
-
 	private loginForm: FormGroup;
 	pushPage: any;
 	loader: any;

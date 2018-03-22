@@ -83,7 +83,7 @@ export class ProfilePage {
 			this.profileForm.get('year').disable();
 			this.profileForm.get('branch').disable();
 		}
-		this.error.presentToast('Now you can edit profile :)')
+		this.error.presentToast('Now you can edit profile :)');
 	}
 	disableFields() {
 		this.showEdit = true;
@@ -110,8 +110,15 @@ export class ProfilePage {
 					handler: () => {
 						this.profile.getMedia('album')
 							.then(res => {
+								if(res === 'error'){
+									throw "Somthing went wrong!";
+								}
 								this.profilePic = res;
 								this.upload(res);
+							})
+							.catch(err=>{
+								console.log('err: ',err);
+								this.error.presentToast('Something went wrong!');
 							});
 					}
 				}

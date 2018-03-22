@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, FabContainer } from 'ionic-angular';
+import { NavController, NavParams, FabContainer, App } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { SocialSharing } from '@ionic-native/social-sharing';
 
@@ -26,7 +26,8 @@ export class AllPage {
 		private allNotices: AllNoticesProvider,
 		private errorHandle: ErrorHandlerProvider,
 		private api: ApiEndpointsProvider,
-		private socialSharing: SocialSharing
+		private socialSharing: SocialSharing,
+		private app: App
 	) {
 		this.storage.get('is_admin')
 			.then(res => {
@@ -43,7 +44,8 @@ export class AllPage {
 		this.allNotices.getAllNotices()
 			.subscribe(data => {
 				this.notices = data;
-				this.is_notices = false;
+				if(data.length > 0)
+					this.is_notices = false;
 				if (!refresher == false)
 					refresher.complete();
 			}, error => {
@@ -60,7 +62,13 @@ export class AllPage {
 		this.navCtrl.push(CreateNewPage);
 	}
 	datailsPage(notice: any) {
-		this.navCtrl.push(DetailsPage, { data: notice });
+		this.push(DetailsPage, { data: notice });
+	}
+	push(page: any, data: {}) {
+		let navs = this.app.getRootNavs();
+		if (navs && navs.length > 0) {
+			navs[0].push(page, data);
+		}
 	}
 	shareNotice(notice: any = null) {
 		let options = {};
