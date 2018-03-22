@@ -119,7 +119,8 @@ export function getAuthHttp(http) {
 		UploadFilesProvider,
 		SocialSharing,
 		BackButtonProvider,
-		ImagePicker
+		ImagePicker,
+    	BackButtonProvider
 	]
 })
 export class AppModule { }

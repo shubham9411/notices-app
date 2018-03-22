@@ -65,29 +65,6 @@ export class MyApp {
 			statusBar.styleDefault();
 			statusBar.backgroundColorByHexString('#488aff');
 			this.menu.swipeEnable(false);
-			platform.registerBackButtonAction(() => {
-				if (this.menu.isOpen()) {
-					this.menu.close();
-					console.log('isopen')
-				} else if (this.nav.canGoBack()) {
-					this.nav.pop();
-					console.log('pop')
-				} else {
-					if (this.isBack) {
-						this.nav.setRoot(TabsPage, {}, { animate: true })
-					}else if (!this.warnedExit) {
-						console.log('3 second ki warning')
-						this.warnedExit = true;
-						this.error.presentToast('Press back again to exit.');
-						setTimeout(() => {
-							this.warnedExit = false;
-							console.log('3 sec poorse hue')
-						}, 3000)
-					} else {
-						platform.exitApp();
-					}
-				}
-			});
 			this.storage.get('hasSeenTutorial')
 				.then((hasSeenTutorial) => {
 					console.log(hasSeenTutorial);
@@ -118,14 +95,6 @@ export class MyApp {
 			});
 			events.subscribe('user:signup', (data) => {
 				this.userSignup(data);
-			});
-			events.subscribe('backButton:off', () => {
-				this.isBack = true;
-				console.log(this.isBack,'this.isBack')
-			});
-			events.subscribe('backButton:on', () => {
-				this.isBack = false;
-				console.log(this.isBack, 'this.isBack')
 			});
 		});
 	}
