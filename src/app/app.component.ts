@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Events, Platform, Nav, MenuController } from 'ionic-angular';
+import { IonicApp, Events, Platform, Nav, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -15,6 +15,10 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { ErrorHandlerProvider } from '../providers/error-handler/error-handler';
 import { ProfileProvider } from '../providers/profile/profile';
 import { ApiEndpointsProvider } from '../providers/api-endpoints/api-endpoints';
+import { AllPage } from '../pages/all/all';
+import { DepartmentPage } from '../pages/department/department';
+import { ClassPage } from '../pages/class/class';
+import { YearPage } from '../pages/year/year';
 
 export interface PageInterface {
 	title: string;
@@ -58,6 +62,7 @@ export class MyApp {
 		private error: ErrorHandlerProvider,
 		private profile: ProfileProvider,
 		private api: ApiEndpointsProvider,
+		private ionicApp: IonicApp
 	) {
 		platform.ready().then(() => {
 			// Okay, so the platform is ready and our plugins are available.
@@ -86,6 +91,53 @@ export class MyApp {
 						this.rootPage = LoginPage;
 					}
 				});
+			var lastTimeBackPress = 0;
+			var timePeriodToExit = 3000;
+			platform.registerBackButtonAction(() => {
+				let view = this.nav.getActive();
+				let activePortal = this.ionicApp._loadingPortal.getActive() ||
+					this.ionicApp._modalPortal.getActive() ||
+					// this.ionicApp._toastPortal.getActive() ||
+					this.ionicApp._overlayPortal.getActive();
+				if (activePortal) {
+					activePortal.dismiss();
+					return;
+				} else if (this.menu.isOpen()) {
+					this.menu.close();
+					return;
+				} else if (view.instance instanceof LoginPage || view.instance instanceof TabsPage || view.instance instanceof AllPage || view.instance instanceof DepartmentPage || view.instance instanceof ClassPage || view.instance instanceof YearPage) {
+					if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
+						platform.exitApp();
+					} else {
+						this.error.presentToast('Press back again to exit.');
+						lastTimeBackPress = new Date().getTime();
+					}
+				} else {
+					this.appPages.forEach((val) => {
+						if (val.name !== 'TabsPage' && view.instance instanceof val.component) {
+							this.nav.setRoot(TabsPage)
+								.catch((err: any) => {
+									console.log(`Didn't set nav root: ${err}`);
+								})
+								.then((val)=>{
+									return;
+								});
+						}
+					});
+					this.adminPages.forEach((val) => {
+						if (view.instance instanceof val.component) {
+							this.nav.setRoot(TabsPage)
+								.catch((err: any) => {
+									console.log(`Didn't set nav root: ${err}`);
+								})
+								.then((val) => {
+									return;
+								});
+						}
+					});
+					this.nav.pop({});
+				}
+			});
 			splashScreen.hide();
 			events.subscribe('user:login', () => {
 				this.updateProfileChange();
@@ -102,7 +154,7 @@ export class MyApp {
 		if (page.component == LoginPage) {
 			this.menu.swipeEnable(false);
 			this.storage.clear();
-			this.storage.set('hasSeenTutorial',true);
+			this.storage.set('hasSeenTutorial', true);
 			this.error.presentToast('You have successfully logged out!');
 		}
 		this.nav.setRoot(page.component).catch((err: any) => {

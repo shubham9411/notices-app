@@ -42,7 +42,6 @@ import { ProfileCaptureProvider } from '../providers/profile-capture/profile-cap
 import { UploadFilesProvider } from '../providers/upload-files/upload-files';
 
 import { DirectivesModule } from "../directives/directives.module";
-import { BackButtonProvider } from '../providers/back-button/back-button';
 let storage = new Storage({});
 
 export function getAuthHttp(http) {
@@ -118,9 +117,7 @@ export function getAuthHttp(http) {
 		Transfer,
 		UploadFilesProvider,
 		SocialSharing,
-		BackButtonProvider,
-		ImagePicker,
-    	BackButtonProvider
+		ImagePicker
 	]
 })
 export class AppModule { }

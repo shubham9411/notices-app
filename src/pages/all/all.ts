@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, FabContainer } from 'ionic-angular';
+import { NavController, NavParams, FabContainer, App } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { SocialSharing } from '@ionic-native/social-sharing';
 
@@ -8,7 +8,6 @@ import { ErrorHandlerProvider } from '../../providers/error-handler/error-handle
 import { ApiEndpointsProvider } from '../../providers/api-endpoints/api-endpoints';
 import { CreateNewPage } from '../../pages/create-new/create-new';
 import { DetailsPage } from '../../pages/details/details';
-import { BackButtonProvider } from '../../providers/back-button/back-button';
 
 @Component({
 	selector: 'page-all',
@@ -28,7 +27,7 @@ export class AllPage {
 		private errorHandle: ErrorHandlerProvider,
 		private api: ApiEndpointsProvider,
 		private socialSharing: SocialSharing,
-		public backButton: BackButtonProvider
+		private app: App
 	) {
 		this.storage.get('is_admin')
 			.then(res => {
@@ -40,12 +39,6 @@ export class AllPage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad AllPage');
-	}
-	ionViewDidEnter() {
-		this.backButton.publishOn();
-	}
-	ionViewWillLeave() {
-		this.backButton.publishOff();
 	}
 	getNotices(refresher = null) {
 		this.allNotices.getAllNotices()
@@ -69,8 +62,13 @@ export class AllPage {
 		this.navCtrl.push(CreateNewPage);
 	}
 	datailsPage(notice: any) {
-		// this.navCtrl.push(DetailsPage, { data: notice });
-		this.backButton.push(DetailsPage, { data: notice })
+		this.push(DetailsPage, { data: notice });
+	}
+	push(page: any, data: {}) {
+		let navs = this.app.getRootNavs();
+		if (navs && navs.length > 0) {
+			navs[0].push(page, data);
+		}
 	}
 	shareNotice(notice: any = null) {
 		let options = {};
